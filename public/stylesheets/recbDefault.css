@@ -1,0 +1,301 @@
+body{
+	text-align:center; 
+	margin:0 auto; 
+	margin-top:0px;
+	font-size:12px;
+	padding-bottom:10px;
+	color:#000000;
+	font-family: '微软雅黑'! important;
+	background-color:#000000;
+}
+
+a:link{text-decoration:none;font-weight:normal;font-size:12px;color:#000000;}
+a:visited{text-decoration:none;font-weight:normal;font-size:12px;color:#000000;}
+a:hover{text-decoration:none;font-weight:normal;font-size:12px;color:#000000;}
+a:active{text-decoration:none;font-weight:normal;font-size:12px;color:#000000;}
+
+.skyDiv{
+	float:left;
+	margin:0px;
+	overflow:hidden;
+	width:1260px;
+}
+
+.skyTopMenu{
+	overflow:hidden;
+	width:1280px;
+	height:95px;
+	background:url("../images/recb/topBg.png");
+}
+.skyTopMenuA{
+	overflow:hidden;
+	width:1280px;
+	height:60px;
+}
+.skyTopMenuB{
+	float:left;
+	margin-left:0px;
+	overflow:hidden;
+	width:1280px;
+	height:35px;
+}
+.skyTopMenuBLeftA{
+	float:left;
+	margin-left:0px;
+	overflow:hidden;
+	width:450px;
+	height:35px;
+}
+.skyTopMenuBLeftB{
+	float:left;
+	margin-left:0px;
+	overflow:hidden;
+	height:35px;
+}
+
+.skyTopMenuBLeftBA{
+	float:left;
+	margin-left:0px;
+	overflow:hidden;
+	text-align:center;
+	width:130px;
+	height:35px;
+}
+.skyTopMenuBLeftBA2{
+	float:left;
+	margin-left:0px;
+	overflow:hidden;
+	text-align:center;
+	width:150px;
+	height:35px;
+}
+.skyTopMenuTxt{
+color:#ffffff;
+font-size:15px;
+font-weight:bold;
+}
+
+.skyTopMenuTxtNow{
+color:#4ec0e1;
+font-size:15px;
+font-weight:bold;
+}
+
+.skyTopAd{
+	float:left;
+	margin:0px;
+	overflow:hidden;
+	width:1280px;
+	height:375px;
+	background:url("../images/recb/adBg.png");
+}
+
+
+.skyMidBg{
+	float:left;
+	margin:0px;
+	overflow:hidden;
+	width:1280px;
+	height:590px;
+  background:url("../images/recb/indexMidBg1.png");
+}
+
+.skyMidA{
+	float:left;
+	margin-left:0px;
+	margin-top:0px;
+	overflow:hidden;
+	width:1280px;
+	height:150px;
+}
+
+.skyMidB{
+	float:left;
+	margin-left:0px;
+	margin-top:0px;
+	overflow:hidden;
+	width:1280px;
+	height:200px;
+}
+
+.skyMidBA{
+	float:left;
+	margin-left:0px;
+	overflow:hidden;
+	width:150px;
+	height:200px;
+}
+.skyMidBB{
+	float:left;
+	margin-left:0px;
+	overflow:hidden;
+	height:200px;
+}
+
+.skyMidBBa{
+	float:left;
+	margin-left:8px;
+	overflow:hidden;
+	text-align:center;
+	width:230px;
+	height:200px;
+}
+
+
+
+.skyBottomDiv{
+	float:left;
+	margin:0px;
+	overflow:hidden;
+	width:1280px;
+	height:50px;
+}
+
+.skyBottomText{
+color:#dddddd;
+font-size:12px;
+}
+
+
+.skyBottomTextTb{
+color:#66cccc;
+font-size:12px;
+}
+
+
+
+
+
+
+.skyComMidBg{
+	float:left;
+	margin:0px;
+	overflow:hidden;
+	width:1280px;
+	height:930px;
+}
+
+.skyComMidA{
+	float:left;
+	margin-left:0px;
+	margin-top:0px;
+	overflow:hidden;
+	width:150px;
+	height:930px;
+}
+
+.skyComMidB{
+	float:left;
+	margin-left:0px;
+	margin-top:0px;
+	overflow:hidden;
+	width:1000px;
+	height:930px;
+}
+
+
+.skyKnowMidA{
+	float:left;
+	margin:0px;
+	overflow:hidden;
+	width:1280px;
+	height:50px;
+}
+
+.skyKnowMidB{
+	float:left;
+	margin:0px;
+	overflow:hidden;
+	width:1280px;
+	height:920px;
+}
+
+.skyKnowMidBA{
+	float:left;
+	margin:0px;
+	overflow:hidden;
+	width:1120px;
+	height:920px;
+}
+
+.skyAboutMidA{
+	float:left;
+	margin:0px;
+	overflow:hidden;
+	width:1280px;
+	height:50px;
+}
+
+.skyAboutMidB{
+	float:left;
+	margin:0px;
+	overflow:hidden;
+	width:1280px;
+	height:918px;
+}
+
+.skyAboutMidB1{
+	float:left;
+	margin:0px;
+	overflow:hidden;
+	width:1280px;
+	height:178px;
+}
+
+.skyAboutMidB2{
+	float:left;
+	margin:0px;
+	overflow:hidden;
+	width:1280px;
+	height:94px;
+	background:url("../images/recb/about2.png");
+}
+
+.skyAboutMidB21{
+	float:right;
+	text-align:left;
+	padding-top:5px;
+	margin:0px;
+	overflow:hidden;
+	width:745px;
+	height:89px;
+}
+
+.skyAboutMidB21Text{
+color:#dddddd;
+font-size:16px;
+font-weight:bold;
+}
+
+.skyAboutMidB3{
+	float:left;
+	margin:0px;
+	overflow:hidden;
+	width:1280px;
+	height:672px;
+}
+
+
+.skyProMidA{
+	float:left;
+	margin:0px;
+	overflow:hidden;
+	width:1280px;
+	height:20px;
+}
+
+.skyProMidB{
+	float:left;
+	margin:0px;
+	overflow:hidden;
+	width:1280px;
+	height:460px;
+}
+
+.skyProMidC{
+	float:left;
+	margin:0px;
+	overflow:hidden;
+	width:1280px;
+	height:466px;
+}

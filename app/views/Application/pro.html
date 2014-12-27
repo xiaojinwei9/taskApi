@@ -1,0 +1,602 @@
+#{extends 'recbMain.html' /}
+#{set title:'RECB' /}
+
+<style>
+/*base*/
+ul,
+li {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+.clearfix:before,
+.clearfix:after {
+	content: " ";
+	display: table;
+}
+.clearfix:after {
+	clear: both;
+}
+.clearfix {
+ *zoom: 1;
+}
+/*main*/
+.imgContainer {
+	width: 940px;
+	margin: 0px auto;
+	padding: 0px;
+}
+.imgUl {
+	position: relative;
+	width:2500px;
+}
+.box {
+	width: 900px;
+	margin-left: 30px;
+	overflow: hidden;
+}
+.detailImg,
+.smallImg {
+  margin-top:0px;
+	position: relative;
+}
+/*detailImg*/
+#detailImg-box {
+	min-height: 320px;
+}
+.detailImg-boxB{
+	float:left;
+	margin:0px;
+	overflow:hidden;
+}
+.detailImg {
+	maing-left:0px;
+	text-align: left;
+	background:url("@{'/public/images/recb/image/proShowBg.png'}");
+	background-repeat:no-repeat;
+}
+
+.detailImg img {
+	max-width: 610px;
+}
+.detailImg p {
+	text-align: left;
+	color: #999;
+}
+#detailImg-pre,
+#detailImg-next {
+	position: absolute;
+	width: 30px;
+	height: 46px;
+	top: 50%;
+	background: url("@{'/public/images/recb/image/page_button.gif'}") 0 0 no-repeat;
+	cursor: pointer;
+	text-indent:-9999px;
+}
+#detailImg-pre {
+	left: 0;
+	background-position: -35px 0;
+}
+#detailImg-next {
+	right: 0;
+	background-position: -99px 0;
+}
+#detailImg-pre:hover {
+	background-position: -35px -47px;
+}
+#detailImg-next:hover {
+	background-position: -99px -47px;
+}
+/*smallImg*/
+#smallImg-box {
+	height: 90px;
+}
+.smallImg li {
+	float: left;
+	width: 110px;
+}
+.smallImg li a {
+	display: block;
+	width: 100px;
+	height: 90px;
+	border: 1px solid #fff;
+	overflow: hidden;
+	vertical-align: middle;
+	margin: 1px auto;
+}
+.smallImg img {
+	width: 100px;
+}
+.smallImg li a:hover,
+.smallImg .cur a {
+	border-color: #F45E5E;
+}
+#smallImg-pre,
+#smallImg-next {
+	position: absolute;
+	top: 0;
+	height: 90px;
+	width: 28px;
+	margin: 0;
+	background: url("@{'/public/images/recb/image/album-arrow.png'}") 0 0 no-repeat;
+	cursor: pointer;
+}
+#smallImg-pre {
+	left: 0;
+}
+#smallImg-next {
+	right: 0;
+	background-position: 0 -94px;
+}
+#smallImg-pre:hover {
+	background-position: -28px 0;
+}
+#smallImg-next:hover {
+	background-position: -28px -94px;
+}
+</style>
+
+<script src="@{'/public/javascripts/jquery-1.10.1.min.js'}" type="text/javascript" charset="${_response_encoding}">
+</script>
+
+			<div class="skyProMidA">
+			</div>
+			
+			<div class="skyProMidB">
+<!--start -->					
+<div class="imgContainer">
+	<!--大图-->
+	<div class="detailImg" > 
+		<div id="detailImg-box" class="box"> </div>
+	</div>
+	<!--小图-->
+	<div class="smallImg"> 
+		<a id="smallImg-pre"></a>
+		<div id="smallImg-box" class="box">
+			<ul id="smallImg-ul" class="imgUl">
+			</ul>
+		</div>
+		<a id="smallImg-next"></a> 
+	</div>
+</div>
+<script>
+$(function(){
+	var i=0,//大图编号
+		len=img.length,//img数组的长度
+		cur=0;//当前图片编号
+		j=8,//默认显示小图个数
+		page=0,//小图的页码
+		$s_next=$('#smallImg-next'),//小图下一页
+		$s_pre=$('#smallImg-pre'),//小图上一页
+		box=$('#smallImg-box').width(),//显示的长度
+		$ul=$('#smallImg-ul'),//小图外层
+		$imgLi=$ul.find('li'),//小图li
+		html=_html='';//存放载入的代码		
+	$('#detailImg-box').append('<img alt=\"'+img[0].alt+'\" src=\"'+img[i].src+'\"><p>'+img[i].title+'</p>');
+	//大图	
+	$('#detailImg-next').click(function(){
+		++i;
+		detailImg_click($s_next,i,len);
+	})
+	$('#detailImg-pre').click(function(){
+		--i;
+		detailImg_click($s_pre,i,len);
+	})
+	//小图
+	for(var k=0;k<j;k++){
+		var _k=k%len;
+		s_html(_k);
+		html+=h;
+	}
+	$ul.append(html);
+	$('.smallImg_1').addClass('cur');	
+	//小图下一页
+	$('#smallImg-next').click(function(){
+		if(!$ul.is(':animated')){
+			page++;
+			var a=page*j,_a,c;
+			for(var k=0;k<j;k++,a++){
+				smallImg_click(a,_a,len,i);
+				_html+=h;
+			}
+			$ul.append(_html);
+			$ul.css({'left':0,'right':'auto'});
+			$ul.animate({left:-box},1600,function(){
+				$ul.find('li:lt('+j+')').detach();
+				$ul.css('left',0);
+				_html='';
+			});//动画执行后,再删除前9个li,将left设回0
+			$('#smallImg-ul li').click(function(){//三处一样，不知道这个要怎么优化？？？
+				var _this=$(this);
+				i=_this.attr('class').replace(/[^0-9]/ig,'')-1;
+				img_info(i);
+				s_a_r(_this,'cur');
+				cur=i;
+			})
+		}
+	})
+	//小图上一页
+	$('#smallImg-pre').click(function(){
+		if(!$ul.is(':animated')){
+			page--;
+			var a=(page-1)*j,_a,c;
+			for(var k=0;k<j;k++,a--){
+				smallImg_click(a,_a,len,i);
+				_html=h+_html;
+			}
+			$ul.prepend(_html).css({'right':box,'left':'auto'});
+			$ul.animate({right:0},1600,function(){
+				$ul.find('li:gt('+(j-1)+')').detach();//删除后9个li,从8开始
+				_html='';
+			});
+			$('#smallImg-ul li').click(function(){
+				var _this=$(this);
+				i=_this.attr('class').replace(/[^0-9]/ig,'')-1;
+				img_info(i);
+				s_a_r(_this,'cur');
+				cur=i;
+			})
+		}
+			
+	})
+	//点击小图
+	$('#smallImg-ul li').click(function(){
+		var _this=$(this);
+		i=_this.attr('class').replace(/[^0-9]/ig,'')-1;
+		img_info(i);
+		s_a_r(_this,'cur');
+		cur=i;
+	})
+})
+
+/*----自定义函数-----------*/
+var img=[
+	{
+		'href':'http://sc.chinaz.com/jiaoben/',
+		'alt':'图片1',
+		'src':"@{'/public/images/recb/image/1_b.jpg'}",
+		'smallSrc':"@{'/public/images/recb/image/1_s.jpg'}",
+		'title':'97佳美 亚洲龙前-4'
+	},{
+		'href':'www.baidu1.com',
+		'alt':'图片2',
+		'src':"@{'/public/images/recb/image/2_b.jpg'}",
+		'smallSrc':"@{'/public/images/recb/image/2_s.jpg'}",
+		'title':'97佳美 亚洲龙前-6'
+	},{
+		'href':'http://sc.chinaz.com/jiaoben/',
+		'alt':'图片3',
+		'src':"@{'/public/images/recb/image/3_b.jpg'}",
+		'smallSrc':"@{'/public/images/recb/image/3_s.jpg'}",
+		'title':'E46前-2'
+	},{
+		'href':'http://sc.chinaz.com/jiaoben/',
+		'alt':'图片4',
+		'src':"@{'/public/images/recb/image/4_b.jpg'}",
+		'smallSrc':"@{'/public/images/recb/image/4_s.jpg'}",
+		'title':'E90前-1'
+	},{
+		'href':'http://sc.chinaz.com/jiaoben/',
+		'alt':'图片5',
+		'src':"@{'/public/images/recb/image/5_b.jpg'}",
+		'smallSrc':"@{'/public/images/recb/image/5_s.jpg'}",
+		'title':'FRV前-1'
+	},{
+		'href':'http://sc.chinaz.com/jiaoben/',
+		'alt':'图片6',
+		'src':"@{'/public/images/recb/image/6_b.jpg'}",
+		'smallSrc':"@{'/public/images/recb/image/6_s.jpg'}",
+		'title':'M5后-6'
+	},{
+		'href':'http://sc.chinaz.com/jiaoben/',
+		'alt':'图片7',
+		'src':"@{'/public/images/recb/image/7_b.jpg'}",
+		'smallSrc':"@{'/public/images/recb/image/7_s.jpg'}",
+		'title':'N31前-1'
+	},{
+		'href':'http://sc.chinaz.com/jiaoben/',
+		'alt':'图片8',
+		'src':"@{'/public/images/recb/image/8_b.jpg'}",
+		'smallSrc':"@{'/public/images/recb/image/8_s.jpg'}",
+		'title':'RE4 H6 前-1'
+	},{
+		'href':'http://sc.chinaz.com/jiaoben/',
+		'alt':'图片9',
+		'src':"@{'/public/images/recb/image/9_b.jpg'}",
+		'smallSrc':"@{'/public/images/recb/image/9_s.jpg'}",
+		'title':'标致206前'
+	},{
+		'href':'http://sc.chinaz.com/jiaoben/',
+		'alt':'图片10',
+		'src':"@{'/public/images/recb/image/10_b.jpg'}",
+		'smallSrc':"@{'/public/images/recb/image/10_s.jpg'}",
+		'title':'标致307后-1'	
+	},{
+		'href':'http://sc.chinaz.com/jiaoben/',
+		'alt':'图片11',
+		'src':"@{'/public/images/recb/image/11_b.jpg'}",
+		'smallSrc':"@{'/public/images/recb/image/11_s.jpg'}",
+		'title':'标致307前-1'
+	},{
+		'href':'www.baidu1.com',
+		'alt':'图片12',
+		'src':"@{'/public/images/recb/image/12_b.jpg'}",
+		'smallSrc':"@{'/public/images/recb/image/12_s.jpg'}",
+		'title':'别克GL8 前'
+	},{
+		'href':'http://sc.chinaz.com/jiaoben/',
+		'alt':'图片13',
+		'src':"@{'/public/images/recb/image/13_b.jpg'}",
+		'smallSrc':"@{'/public/images/recb/image/13_s.jpg'}",
+		'title':'别克君越后-1'
+	},{
+		'href':'http://sc.chinaz.com/jiaoben/',
+		'alt':'图片14',
+		'src':"@{'/public/images/recb/image/14_b.jpg'}",
+		'smallSrc':"@{'/public/images/recb/image/14_s.jpg'}",
+		'title':'飞度前-1'
+	},{
+		'href':'http://sc.chinaz.com/jiaoben/',
+		'alt':'图片15',
+		'src':"@{'/public/images/recb/image/15_b.jpg'}",
+		'smallSrc':"@{'/public/images/recb/image/15_s.jpg'}",
+		'title':'菲亚特前-3'
+	},{
+		'href':'http://sc.chinaz.com/jiaoben/',
+		'alt':'图片16',
+		'src':"@{'/public/images/recb/image/16_b.jpg'}",
+		'smallSrc':"@{'/public/images/recb/image/16_s.jpg'}",
+		'title':'锋范后-1'
+	},{
+		'href':'http://sc.chinaz.com/jiaoben/',
+		'alt':'图片17',
+		'src':"@{'/public/images/recb/image/17_b.jpg'}",
+		'smallSrc':"@{'/public/images/recb/image/17_s.jpg'}",
+		'title':'福克斯M3M5前'
+	},{
+		'href':'http://sc.chinaz.com/jiaoben/',
+		'alt':'图片9',
+		'src':"@{'/public/images/recb/image/18_b.jpg'}",
+		'smallSrc':"@{'/public/images/recb/image/18_s.jpg'}",
+		'title':'福美来 马自达后-3'
+	},{
+		'href':'http://sc.chinaz.com/jiaoben/',
+		'alt':'图片10',
+		'src':"@{'/public/images/recb/image/19_b.jpg'}",
+		'smallSrc':"@{'/public/images/recb/image/19_s.jpg'}",
+		'title':'福特全顺后-3'	
+	},{
+		'href':'http://sc.chinaz.com/jiaoben/',
+		'alt':'图片11',
+		'src':"@{'/public/images/recb/image/20_b.jpg'}",
+		'smallSrc':"@{'/public/images/recb/image/20_s.jpg'}",
+		'title':'广本2.4后-4'
+	},{
+		'href':'www.baidu1.com',
+		'alt':'图片12',
+		'src':"@{'/public/images/recb/image/21_b.jpg'}",
+		'smallSrc':"@{'/public/images/recb/image/21_s.jpg'}",
+		'title':'哈飞赛马前-1'
+	},{
+		'href':'http://sc.chinaz.com/jiaoben/',
+		'alt':'图片13',
+		'src':"@{'/public/images/recb/image/22_b.jpg'}",
+		'smallSrc':"@{'/public/images/recb/image/22_s.jpg'}",
+		'title':'汉兰达4驱后减震-0'
+	},{
+		'href':'http://sc.chinaz.com/jiaoben/',
+		'alt':'图片14',
+		'src':"@{'/public/images/recb/image/23_b.jpg'}",
+		'smallSrc':"@{'/public/images/recb/image/23_s.jpg'}",
+		'title':'佳美美版2.4 后-6'
+	},{
+		'href':'http://sc.chinaz.com/jiaoben/',
+		'alt':'图片15',
+		'src':"@{'/public/images/recb/image/24_b.jpg'}",
+		'smallSrc':"@{'/public/images/recb/image/24_s.jpg'}",
+		'title':'嘉年华前-2'
+	},{
+		'href':'http://sc.chinaz.com/jiaoben/',
+		'alt':'图片16',
+		'src':"@{'/public/images/recb/image/25_b.jpg'}",
+		'smallSrc':"@{'/public/images/recb/image/25_s.jpg'}",
+		'title':'卡罗拉后-4'
+	},{
+		'href':'http://sc.chinaz.com/jiaoben/',
+		'alt':'图片9',
+		'src':"@{'/public/images/recb/image/26_b.jpg'}",
+		'smallSrc':"@{'/public/images/recb/image/26_s.jpg'}",
+		'title':'卡罗拉前-1'
+	},{
+		'href':'http://sc.chinaz.com/jiaoben/',
+		'alt':'图片10',
+		'src':"@{'/public/images/recb/image/27_b.jpg'}",
+		'smallSrc':"@{'/public/images/recb/image/27_s.jpg'}",
+		'title':'E60前-1'	
+	},{
+		'href':'http://sc.chinaz.com/jiaoben/',
+		'alt':'图片11',
+		'src':"@{'/public/images/recb/image/28_b.jpg'}",
+		'smallSrc':"@{'/public/images/recb/image/28_s.jpg'}",
+		'title':'凯越前-'
+	},{
+		'href':'www.baidu1.com',
+		'alt':'图片12',
+		'src':"@{'/public/images/recb/image/29_b.jpg'}",
+		'smallSrc':"@{'/public/images/recb/image/29_s.jpg'}",
+		'title':'科帕奇前-7'
+	},{
+		'href':'http://sc.chinaz.com/jiaoben/',
+		'alt':'图片13',
+		'src':"@{'/public/images/recb/image/30_b.jpg'}",
+		'smallSrc':"@{'/public/images/recb/image/30_s.jpg'}",
+		'title':'乐风前-1'
+	},{
+		'href':'http://sc.chinaz.com/jiaoben/',
+		'alt':'图片14',
+		'src':"@{'/public/images/recb/image/31_b.jpg'}",
+		'smallSrc':"@{'/public/images/recb/image/31_s.jpg'}",
+		'title':'菱帅后-1'
+	},{
+		'href':'http://sc.chinaz.com/jiaoben/',
+		'alt':'图片15',
+		'src':"@{'/public/images/recb/image/32_b.jpg'}",
+		'smallSrc':"@{'/public/images/recb/image/32_s.jpg'}",
+		'title':'蒙迪欧前-4'
+	},{
+		'href':'http://sc.chinaz.com/jiaoben/',
+		'alt':'图片16',
+		'src':"@{'/public/images/recb/image/33_b.jpg'}",
+		'smallSrc':"@{'/public/images/recb/image/33_s.jpg'}",
+		'title':'起亚普莱特后-'
+	},{
+		'href':'http://sc.chinaz.com/jiaoben/',
+		'alt':'图片9',
+		'src':"@{'/public/images/recb/image/34_b.jpg'}",
+		'smallSrc':"@{'/public/images/recb/image/34_s.jpg'}",
+		'title':'荣威350前-'
+	},{
+		'href':'http://sc.chinaz.com/jiaoben/',
+		'alt':'图片10',
+		'src':"@{'/public/images/recb/image/35_b.jpg'}",
+		'smallSrc':"@{'/public/images/recb/image/35_s.jpg'}",
+		'title':'荣威550 750前-1'	
+	},{
+		'href':'http://sc.chinaz.com/jiaoben/',
+		'alt':'图片11',
+		'src':"@{'/public/images/recb/image/36_b.jpg'}",
+		'smallSrc':"@{'/public/images/recb/image/36_s.jpg'}",
+		'title':'赛欧前-'
+	},{
+		'href':'www.baidu1.com',
+		'alt':'图片12',
+		'src':"@{'/public/images/recb/image/37_b.jpg'}",
+		'smallSrc':"@{'/public/images/recb/image/37_s.jpg'}",
+		'title':'三菱帕杰罗V73前'
+	},{
+		'href':'http://sc.chinaz.com/jiaoben/',
+		'alt':'图片13',
+		'src':"@{'/public/images/recb/image/38_b.jpg'}",
+		'smallSrc':"@{'/public/images/recb/image/38_s.jpg'}",
+		'title':'筒式主图'
+	},{
+		'href':'http://sc.chinaz.com/jiaoben/',
+		'alt':'图片14',
+		'src':"@{'/public/images/recb/image/39_b.jpg'}",
+		'smallSrc':"@{'/public/images/recb/image/39_s.jpg'}",
+		'title':'托盘主图'
+	},{
+		'href':'http://sc.chinaz.com/jiaoben/',
+		'alt':'图片15',
+		'src':"@{'/public/images/recb/image/40_b.jpg'}",
+		'smallSrc':"@{'/public/images/recb/image/40_s.jpg'}",
+		'title':'沃尔沃S80后-1'
+	},{
+		'href':'http://sc.chinaz.com/jiaoben/',
+		'alt':'图片16',
+		'src':"@{'/public/images/recb/image/41_b.jpg'}",
+		'smallSrc':"@{'/public/images/recb/image/41_s.jpg'}",
+		'title':'五菱之光后-3'
+	},{
+		'href':'http://sc.chinaz.com/jiaoben/',
+		'alt':'图片9',
+		'src':"@{'/public/images/recb/image/42_b.jpg'}",
+		'smallSrc':"@{'/public/images/recb/image/42_s.jpg'}",
+		'title':'五菱之光前减震-5'
+	},{
+		'href':'http://sc.chinaz.com/jiaoben/',
+		'alt':'图片10',
+		'src':"@{'/public/images/recb/image/43_b.jpg'}",
+		'smallSrc':"@{'/public/images/recb/image/43_s.jpg'}",
+		'title':'五菱之光前减震-13'	
+	},{
+		'href':'http://sc.chinaz.com/jiaoben/',
+		'alt':'图片11',
+		'src':"@{'/public/images/recb/image/44_b.jpg'}",
+		'smallSrc':"@{'/public/images/recb/image/44_s.jpg'}",
+		'title':'小托盘-'
+	},{
+		'href':'www.baidu1.com',
+		'alt':'图片12',
+		'src':"@{'/public/images/recb/image/45_b.jpg'}",
+		'smallSrc':"@{'/public/images/recb/image/45_s.jpg'}",
+		'title':'新皇冠前-3'
+	},{
+		'href':'http://sc.chinaz.com/jiaoben/',
+		'alt':'图片13',
+		'src':"@{'/public/images/recb/image/46_b.jpg'}",
+		'smallSrc':"@{'/public/images/recb/image/46_s.jpg'}",
+		'title':'新佳乐前-3'
+	},{
+		'href':'http://sc.chinaz.com/jiaoben/',
+		'alt':'图片14',
+		'src':"@{'/public/images/recb/image/47_b.jpg'}",
+		'smallSrc':"@{'/public/images/recb/image/47_s.jpg'}",
+		'title':'新欧蓝德前-4'
+	},{
+		'href':'http://sc.chinaz.com/jiaoben/',
+		'alt':'图片15',
+		'src':"@{'/public/images/recb/image/48_b.jpg'}",
+		'smallSrc':"@{'/public/images/recb/image/48_s.jpg'}",
+		'title':'长城H5前-2'
+	},{
+		'href':'http://sc.chinaz.com/jiaoben/',
+		'alt':'图片16',
+		'src':"@{'/public/images/recb/image/49_b.jpg'}",
+		'smallSrc':"@{'/public/images/recb/image/49_s.jpg'}",
+		'title':'沃尔沃S80后-1'
+	}
+]
+//大图图片信息
+function img_info(i){
+	var href=img[i].href,
+		alt=img[i].alt,
+		src=img[i].src,
+		title=img[i].title,
+		$main=$('#detailImg-box');
+	$main.find('a').attr({'href':href,'class':'detailImg_'+(i+1)});
+	$main.find('img').attr({'alt':alt,'src':src});
+	$main.find('p').text(title);
+}
+function s_a_r(o,c){
+	o.addClass(c).siblings().removeClass(c);	
+}
+//大图左右点击
+function i_cur(i,len){
+	i=i%len;
+	if(i<0){
+		i=len+i;
+	}
+	return i;	
+}
+function detailImg_click($pn,i,len){
+	i_cur(i,len);
+	img_info(i);
+	var imgCur=$('.smallImg_'+(i+1));
+	if(!imgCur.html()){
+		$pn.click();
+	} 
+	s_a_r($('.smallImg_'+(i+1)),'cur');//小图选中
+}
+//小图左右点击
+function smallImg_click(a,_a,len,i){
+	_a=a;
+	_a=a%len;
+	if(_a<0){
+		_a+=len;
+	}
+	c=_a==i?'cur':'';
+	s_html(_a,c);
+}
+function s_html(_a,c){
+	return h='<li class=\"smallImg_'+(_a+1)+' '+c+'\"><a><img alt=\"'+img[_a].alt+'\" src=\"'+img[_a].smallSrc+'\"></a></li>';
+}
+
+
+</script>
+<!--end-->					
+			</div>
+			
+			<div class="skyProMidC">
+						<img src="@{'/public/images/recb/proBottom1.png'}" border="0">
+			</div>

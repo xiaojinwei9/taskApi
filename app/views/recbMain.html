@@ -1,0 +1,45 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<title>#{get 'title' /}</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta http-equiv="Cache-Control" content="no-store"/>
+		<meta http-equiv="Pragma" content="no-cache"/>
+		 #{get 'moreStyles' /}
+		<link rel="stylesheet" media="screen" href="@{'/public/stylesheets/recbDefault.css'}">
+		 #{get 'moreScripts' /}
+	</head>
+    <body>
+    <div class="skyDiv">
+   			<div class="skyTopMenu">
+				<div class="skyTopMenuA">
+				</div>
+				<div class="skyTopMenuB">
+						<div class="skyTopMenuBLeftA">
+						</div>
+						<div class="skyTopMenuBLeftB">
+								<div class="skyTopMenuBLeftBA">
+									 <a href="/"><font class="skyTopMenuTxtNow">首页</font></a>
+								</div>
+								<div class="skyTopMenuBLeftBA">
+									 <a href="/Application/com"><font class="skyTopMenuTxt">企业信息</font></a>
+								</div>
+								<div class="skyTopMenuBLeftBA2">
+									 <a href="/Application/pro"><font class="skyTopMenuTxt">全部产品展示</font></a>
+								</div>
+								<div class="skyTopMenuBLeftBA">
+									 <a href="/Application/know"><font class="skyTopMenuTxt">行业小知识</font></a>
+								</div>
+								<div class="skyTopMenuBLeftBA">
+									 <a href="/Application/about"><font class="skyTopMenuTxt">联系我们</font></a>
+								</div>
+						</div>
+				</div>
+			</div>
+        	#{doLayout /}
+        	<div class="skyBottomDiv">
+			<font class="skyBottomText">©2014&nbsp;&nbsp;www.recb.com.cn&nbsp;&nbsp;</font><font class="skyBottomTextTb">点击进入>></font><a href="http://recb.tmall.com/index.htm?spm=a1z10.1.w5002-8156636925.7.lDUUF3" target="_blank"><font class="skyBottomTextTb">RECB淘宝店</font></a>
+			</div>
+    </div>
+    </body>
+</html>
