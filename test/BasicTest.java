@@ -1,7 +1,9 @@
-import org.junit.*;
-import java.util.*;
-import play.test.*;
-import models.*;
+import models.TestTb;
+
+import org.junit.Test;
+
+import play.Logger;
+import play.test.UnitTest;
 
 public class BasicTest extends UnitTest {
 
@@ -10,4 +12,11 @@ public class BasicTest extends UnitTest {
         assertEquals(2, 1 + 1);
     }
 
+    @Test
+    public void test(){
+    	Logger.info("testStart");
+    	TestTb testTb=new TestTb(1L,"xiao");
+    	testTb.save();
+    	Logger.info("testEnd");
+    }
 }
