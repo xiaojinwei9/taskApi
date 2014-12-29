@@ -2,6 +2,7 @@ import models.TestTb;
 
 import org.junit.Test;
 
+import controllers.TestApi;
 import play.Logger;
 import play.test.UnitTest;
 
@@ -18,5 +19,9 @@ public class BasicTest extends UnitTest {
     	TestTb testTb=new TestTb(1L,"xiao");
     	testTb.save();
     	Logger.info("testEnd");
+    }
+    @Test
+    public void testApi(){
+    	TestApi.add("100", "userName");
     }
 }
