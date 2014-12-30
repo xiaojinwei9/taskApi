@@ -3,7 +3,7 @@ package utils;
 public class Cons {
 
 	public static final String token_key="token";
-	public static final String sys_key="sys";
+	public static final String sys_key="sysId";
 	public static final String op_code="code";
 	public static final String op_msg="msg";
 	
