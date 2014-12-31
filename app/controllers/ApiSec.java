@@ -26,6 +26,7 @@ public class ApiSec extends BasicController {
 			if(StrUtils.isEmpty(privateKey)||StrUtils.isEmpty(paramsMap.get(Cons.token_key))){
 				status=2;
 			}
+			paramsMap.put("privateKey", privateKey.privateKey);//privateKey加入加密参数
 			Object[] paramsKeys = paramsMap.keySet().toArray();
 			Arrays.sort(paramsKeys);//升序
 			String tokenPre = "";
@@ -34,12 +35,11 @@ public class ApiSec extends BasicController {
 					Logger.info("checkToken-paramsKeys>" + paramsKeys[i] + ">"
 							+ paramsMap.get(paramsKeys[i]));
 					 String value=paramsMap.get(paramsKeys[i]);
-					 tokenPre +=value;
-					 params.allSimple().put(paramsKeys[i]+"", StrUtils.unescape(value));
-					 params.data.put(paramsKeys[i]+"",new String[]{StrUtils.unescape(value)});
+					 tokenPre +=value+",";
+					 params.data.put(paramsKeys[i]+"",new String[]{StrUtils.unescape(value)});//unescape参数值
 				}
 			}
-			tokenPre+=privateKey.privateKey;
+			tokenPre=tokenPre.substring(0, tokenPre.length()-1);
 			Logger.info("checkToken-tokenPre:" + tokenPre);
 			String md5Token=StrUtils.md5(tokenPre);
 			String tokenParam=paramsMap.get(Cons.token_key)+"";
