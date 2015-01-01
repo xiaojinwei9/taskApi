@@ -36,7 +36,9 @@ public class ApiSec extends BasicController {
 							+ paramsMap.get(paramsKeys[i]));
 					 String value=paramsMap.get(paramsKeys[i]);
 					 tokenPre +=value+",";
-					 params.data.put(paramsKeys[i]+"",new String[]{StrUtils.unescape(value)});//unescape参数值
+					 if(!"privateKey".equals(paramsKeys[i])){
+						 params.data.put(paramsKeys[i]+"",new String[]{StrUtils.unescape(value)});//unescape参数值
+					 }
 				}
 			}
 			tokenPre=tokenPre.substring(0, tokenPre.length()-1);
