@@ -16,7 +16,7 @@ public class TaskGroups extends BasicController {
 
 	public static void add(String name,String userId){
 		Map<String,Object> result=new HashMap<String,Object>();
-		if(!(StrUtils.isNotEmpty(userId)&&StrUtils.isNumeric(userId)&&StrUtils.isNotEmpty(name)&&StrUtils.isNotEmpty(name))){
+		if(!(StrUtils.isNotEmpty(userId)&&StrUtils.isNumeric(userId)&&StrUtils.isNotEmpty(name))){
 			SysTools.setResultParamsErr(result);
 			renderJSON(result);
 		}

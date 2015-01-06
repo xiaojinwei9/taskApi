@@ -52,7 +52,7 @@ public class BasicTest extends UnitTest {
     }
     @Test
     public void testTask(){
-    	Task t=new Task("任务AA","xxxx.jpg",new Date(),new Date(),1,1,1);
+    	Task t=new Task("任务AA","xxxx.jpg",new Date(),new Date(),1,1,1,1);
     	t.save();
     }
     @Test
