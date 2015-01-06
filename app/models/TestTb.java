@@ -10,6 +10,7 @@ import play.db.jpa.Model;
 public class TestTb extends Model{
  public Long userId;
  public String userName;
+ 
  public TestTb(Long userId,String userName){
 	 this.userId=userId;
 	 this.userName=userName;

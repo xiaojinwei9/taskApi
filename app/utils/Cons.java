@@ -15,4 +15,10 @@ public class Cons {
 	
 	public static final String params_err="200";
 	public static final String params_err_msg="参数错误";
+	
+	public static final String login_err="201";
+	public static final String login_err_msg="帐号或密码有误码";
+	
+	public static final String user_add_err="202";
+	public static final String user_add_err_msg="帐号已存在,添加失败";
 }
