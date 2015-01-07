@@ -94,4 +94,42 @@ public class TaskLogs extends BasicController {
 		renderJSON(result);
 	}
 	
+	
+	public static void listFiles(String taskId){
+		Map<String,Object> result=new HashMap<String,Object>();
+		if(!(StrUtils.isNotEmpty(taskId)&&StrUtils.isNumeric(taskId))){
+			SysTools.setResultParamsErr(result);
+			renderJSON(result);
+		}
+		List<HashMap<String,Object>> list=new ArrayList<HashMap<String,Object>>();
+		List<TaskLog> taskLogs=TaskLog.find("available=1 and taskId=? order by id desc", Integer.valueOf(taskId)).fetch();
+		if(taskLogs!=null&&taskLogs.size()>0){
+			Logger.info("taskLogs.size:"+taskLogs.size());
+			for(TaskLog tl:taskLogs){
+				if(StrUtils.isNotEmpty(tl.files)){
+					Logger.info("tl.files:"+tl.files);
+					String[] fileArr=tl.files.split("\\|");
+					for(int i=0;i<fileArr.length;i++){
+						String file=fileArr[i];
+						Logger.info("tl.file:"+file);
+						if(StrUtils.isNotEmpty(file)&&file.indexOf("-")!=-1){
+							String[] fileOneArr=file.split("-");
+							//Logger.info("fileOneArr:"+fileOneArr);
+							if(fileOneArr.length==2){
+								HashMap<String,Object> fileMap=new HashMap<String,Object>();
+								fileMap.put("name", fileOneArr[0]);
+								fileMap.put("url", fileOneArr[1]);
+								fileMap.put("time", tl.time);
+								fileMap.put("userId", tl.userId);
+								list.add(fileMap);
+							}
+						}
+					}
+				}
+			}
+		}
+		result.put("list", list);
+		SysTools.setResultOpSec(result);
+		renderJSON(result);
+	}
 }
