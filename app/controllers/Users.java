@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import models.TaskGroup;
 import models.User;
 import play.mvc.With;
 import utils.StrUtils;
@@ -96,15 +95,37 @@ public class Users extends BasicController {
 			SysTools.setResultParamsErr(result);
 			renderJSON(result);
 		}
-		List<User> users=new ArrayList<User>();
-		if("0".equals(id)){
-			users=User.find("available=1 order by id desc").fetch();
-		}else{
-			User u=User.findById(Long.valueOf(id));
-			users.add(u);
-		}
+		User u=User.findById(Long.valueOf(id));
 		SysTools.setResultOpSec(result);
-		result.put("users", users);
+		result.put("user", u);
+		renderJSON(result);
+	}
+	
+	public static void list(String groupId,String page,String length){
+		Map<String,Object> result=new HashMap<String,Object>();
+		if(!(StrUtils.isNotEmpty(page)&&StrUtils.isNumeric(page)&&StrUtils.isNotEmpty(length)&&StrUtils.isNumeric(length))){
+			SysTools.setResultParamsErr(result);
+			renderJSON(result);
+		}
+		Long total=0L;
+		List list=new ArrayList<User>();
+		if(StrUtils.isEmpty(groupId)){
+			list=User.find("available=1 order by id asc").fetch(Integer.valueOf(page), Integer.valueOf(length));
+			if(list!=null&&list.size()>0){
+				total=User.count("available=1");
+			}
+		}else{
+			groupId=","+groupId+",";
+			list=User.find("available=1 and taskGroupIds like ? order by id asc","%"+groupId+"%").fetch(Integer.valueOf(page), Integer.valueOf(length));
+			if(list!=null&&list.size()>0){
+				total=User.count("available=1 and taskGroupIds like ?","%"+groupId+"%");
+			}
+		}
+		result.put("list", list);
+		result.put("page", page);
+		result.put("length", length);
+		result.put("total", total);
+		SysTools.setResultOpSec(result);
 		renderJSON(result);
 	}
 	

@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import models.TaskGroup;
+import models.User;
 import play.mvc.With;
 import utils.StrUtils;
 import utils.SysTools;
@@ -47,15 +48,28 @@ public class TaskGroups extends BasicController {
 			SysTools.setResultParamsErr(result);
 			renderJSON(result);
 		}
-		List<TaskGroup> taskGroups=new ArrayList<TaskGroup>();
-		if("0".equals(id)){
-			taskGroups=TaskGroup.find("available=1 order by id desc").fetch();
-		}else{
-			TaskGroup tg=TaskGroup.findById(Long.valueOf(id));
-			taskGroups.add(tg);
-		}
+		TaskGroup tg=TaskGroup.findById(Long.valueOf(id));
 		SysTools.setResultOpSec(result);
-		result.put("taskGroups", taskGroups);
+		result.put("taskGroup", tg);
+		renderJSON(result);
+	}
+	
+	public static void list(String page,String length){
+		Map<String,Object> result=new HashMap<String,Object>();
+		if(!(StrUtils.isNotEmpty(page)&&StrUtils.isNumeric(page)&&StrUtils.isNotEmpty(length)&&StrUtils.isNumeric(length))){
+			SysTools.setResultParamsErr(result);
+			renderJSON(result);
+		}
+		Long total=0L;
+		List list=TaskGroup.find("available=1 order by id desc").fetch(Integer.valueOf(page), Integer.valueOf(length));
+			if(list!=null&&list.size()>0){
+				total=TaskGroup.count("available=1");
+			}
+		result.put("list", list);
+		result.put("page", page);
+		result.put("length", length);
+		result.put("total", total);
+		SysTools.setResultOpSec(result);
 		renderJSON(result);
 	}
 	
