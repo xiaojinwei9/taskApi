@@ -47,12 +47,12 @@ public class BasicTest extends UnitTest {
     }
     @Test
     public void testTaskGroup(){
-    	TaskGroup tg=new TaskGroup("xx项目部",new Date(),2, 1);
+    	TaskGroup tg=new TaskGroup("xx项目部","http://www.xxx.com/sss.jpg",new Date(),2, 1);
     	tg.save();
     }
     @Test
     public void testTask(){
-    	Task t=new Task("任务AA","xxxx.jpg",new Date(),new Date(),1,1,1,1);
+    	Task t=new Task("任务AA","xxxx.jpg",new Date(),new Date(),1,"des",1,1,1);
     	t.save();
     }
     @Test

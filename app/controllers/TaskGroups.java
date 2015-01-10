@@ -15,26 +15,31 @@ import utils.SysTools;
 @With(ApiSec.class)
 public class TaskGroups extends BasicController {
 
-	public static void add(String name,String userId){
+	public static void add(String name,String image,String userId){
 		Map<String,Object> result=new HashMap<String,Object>();
 		if(!(StrUtils.isNotEmpty(userId)&&StrUtils.isNumeric(userId)&&StrUtils.isNotEmpty(name))){
 			SysTools.setResultParamsErr(result);
 			renderJSON(result);
 		}
-		TaskGroup tg=new TaskGroup(name,new Date(),Integer.valueOf(userId), 1);
+		TaskGroup tg=new TaskGroup(name,image,new Date(),Integer.valueOf(userId), 1);
     	tg.save();
 		SysTools.setResultOpSec(result);
 		result.put("TaskGroup", tg);
 		renderJSON(result);
 	}
-	public static void update(String id,String name,String userId){
+	public static void update(String id,String name,String image,String userId){
 		Map<String,Object> result=new HashMap<String,Object>();
-		if(!(StrUtils.isNotEmpty(id)&&StrUtils.isNumeric(id)&&StrUtils.isNotEmpty(userId)&&StrUtils.isNumeric(userId)&&StrUtils.isNotEmpty(name)&&StrUtils.isNotEmpty(name))){
+		if(!(StrUtils.isNotEmpty(id)&&StrUtils.isNumeric(id)&&StrUtils.isNotEmpty(userId)&&StrUtils.isNumeric(userId))){
 			SysTools.setResultParamsErr(result);
 			renderJSON(result);
 		}
 		TaskGroup tg=TaskGroup.findById(Long.valueOf(id));
-		tg.name=name;
+		if(StrUtils.isNotEmpty(name)){
+			tg.name=name;
+		}
+		if(StrUtils.isNotEmpty(image)){
+			tg.image=image;
+		}
 		tg.time=new Date();
 		tg.userId=Integer.valueOf(userId);
 		tg.save();
@@ -54,17 +59,30 @@ public class TaskGroups extends BasicController {
 		renderJSON(result);
 	}
 	
-	public static void list(String page,String length){
+	public static void list(String userId,String page,String length){
 		Map<String,Object> result=new HashMap<String,Object>();
 		if(!(StrUtils.isNotEmpty(page)&&StrUtils.isNumeric(page)&&StrUtils.isNotEmpty(length)&&StrUtils.isNumeric(length))){
 			SysTools.setResultParamsErr(result);
 			renderJSON(result);
 		}
 		Long total=0L;
-		List list=TaskGroup.find("available=1 order by id desc").fetch(Integer.valueOf(page), Integer.valueOf(length));
-			if(list!=null&&list.size()>0){
-				total=TaskGroup.count("available=1");
+		List<TaskGroup> list=new ArrayList<TaskGroup>();
+		if(StrUtils.isEmpty(userId)){
+			list=TaskGroup.find("available=1 order by id desc").fetch(Integer.valueOf(page), Integer.valueOf(length));
+				if(list!=null&&list.size()>0){
+					total=TaskGroup.count("available=1");
+				}
+		}else{
+			String groupIds="0";
+			User user=User.findById(Long.valueOf(userId));
+			if(StrUtils.isNotEmpty(user.taskGroupIds)&&user.taskGroupIds.length()>2){
+				groupIds=user.taskGroupIds.substring(1, user.taskGroupIds.length()-1);
 			}
+			list=TaskGroup.find("available=1 and id in ("+groupIds+") order by id desc").fetch(Integer.valueOf(page), Integer.valueOf(length));
+			if(list!=null&&list.size()>0){
+				total=TaskGroup.count("available=1 and id in ("+groupIds+")");
+			}
+		}
 		result.put("list", list);
 		result.put("page", page);
 		result.put("length", length);

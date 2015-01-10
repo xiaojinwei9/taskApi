@@ -17,7 +17,7 @@ public class User extends Model{
 	public String email;
 	public String phone;
 	public String image;//全路径http://www.xxx.com/xxx/xxx.jpg
-	public Integer type;//1:管理员,2:一般用户
+	public Integer type;//1:管理员,2:内部员工(可属多个任务组),3:一般用户(只属一个任务组)
 	public String taskGroupIds;//所属任务组ID:1,2,3(一个成员可属于多个项目组)
 	@Lob
 	public String des;//备注

@@ -16,19 +16,19 @@ import utils.SysTools;
 
 @With(ApiSec.class)
 public class Tasks extends BasicController {
-	public static void add(String name,String image,String taskGroupId,String status,String userId){
+	public static void add(String name,String image,String des,String taskGroupId,String status,String userId){
 		Map<String,Object> result=new HashMap<String,Object>();
 		if(!(StrUtils.isNotEmpty(userId)&&StrUtils.isNumeric(userId)&&StrUtils.isNotEmpty(name)&&StrUtils.isNotEmpty(taskGroupId)&&StrUtils.isNumeric(taskGroupId)&&StrUtils.isNotEmpty(status)&&StrUtils.isNumeric(status))){
 			SysTools.setResultParamsErr(result);
 			renderJSON(result);
 		}
-		Task task=new Task(name, image, new Date(), new Date(), Integer.valueOf(status), Integer.valueOf(taskGroupId),Integer.valueOf(userId),1);
+		Task task=new Task(name, image, new Date(), new Date(), Integer.valueOf(status),des, Integer.valueOf(taskGroupId),Integer.valueOf(userId),1);
 		task.save();
 		SysTools.setResultOpSec(result);
 		result.put("task", task);
 		renderJSON(result);
 	}
-	public static void update(String id,String name,String image,String taskGroupId,String status,String userId){
+	public static void update(String id,String name,String image,String des,String taskGroupId,String status,String userId){
 		Map<String,Object> result=new HashMap<String,Object>();
 		if(!(StrUtils.isNotEmpty(userId)&&StrUtils.isNumeric(userId)&&StrUtils.isNotEmpty(id)&&StrUtils.isNumeric(id))){
 			SysTools.setResultParamsErr(result);
@@ -42,6 +42,9 @@ public class Tasks extends BasicController {
 			}
 			if(StrUtils.isNotEmpty(image)){
 				task.image=image;
+			}
+			if(StrUtils.isNotEmpty(des)){
+				task.des=des;
 			}
 			if(StrUtils.isNotEmpty(taskGroupId)&&StrUtils.isNumeric(taskGroupId)){
 				task.taskGroupId=Integer.valueOf(taskGroupId);
