@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+   <head>
+       <title>#{get 'title' /}</title>
+       <meta charset="${_response_encoding}">
+       <link rel="stylesheet" media="screen" href="@{'/public/stylesheets/admin.css'}">
+       #{get 'moreStyles' /}
+       <link rel="shortcut icon" type="image/png" href="@{'/public/images/favicon.png'}">
+       <script src="@{'/public/javascripts/jquery/jquery-1.7.2.min.js'}" type="text/javascript" charset="${_response_encoding}"></script>
+       <script src="@{'/public/javascripts/sky-common-1.1.js'}" type="text/javascript" charset="${_response_encoding}"></script>
+       #{get 'moreScripts' /}
+   </head>
+   <body>
+   <div class="skyConAdminTop">
+	   <div class="skyConAdminTopText">
+	   		管理员后台
+	   </div>
+   </div>
+   <div class="skyCon">
+	 		 	<div class="skyConLeft">
+		 	<div class="skyConLeftMenu">
+		 		<ul>
+			 		<li>
+			 			<a href="/SysAdmin/taskGroups">客户管理</a>
+			 		</li>
+			 		<li>
+			 			<a href="/SysAdmin/users">用户管理</a>
+			 		</li>
+			 		<li>
+			 			<a href="/login/logout">退出</a>
+			 		</li>
+		 		</ul>
+		 	</div>
+	 	</div>
+	 	<div class="skyConRight">
+	 		<div class="skyConRightCon">
+	      		#{doLayout /}
+	 		</div>
+	 		<div class="skyConRightCopy">
+	 		<!-- 	@copy 180sky.com -->
+	 		</div>
+	 	</div>
+  	</div>
+   </body>
+</html>

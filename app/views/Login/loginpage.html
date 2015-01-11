@@ -1,0 +1,43 @@
+<title>登录</title>
+ <script src="@{'/public/javascripts/jquery/jquery-1.7.2.min.js'}" type="text/javascript" charset="${_response_encoding}"></script>
+登录
+<input type="text" name="mobile" id="mobile"><br>
+<input type="password" name="password" id="password"><br>
+<a href="#" onclick="javascript:login();">提交</a>
+<div id="msg"></div>
+
+<script>
+function login(){
+	var flag=true;
+	var mobile=$("#mobile").val();
+	var password=$("#password").val();
+	if(mobile==''||password==''){
+		$("#msg").html("请输入用户,密码!");
+		flag=false;
+	}
+	if(flag){
+		$("#msg").html("正在登录...");
+		$.ajax({
+			type:'POST',
+			url:'/login/login?nd='+new Date().getTime(),
+			data:{'mobile':mobile,'password':password}, //发送数据
+			error:function(err){
+				//console.log(err);
+			},
+			success:function(result){
+				//console.log(result);
+				if(result.code==100){
+					$("#msg").html("登录成功,正在跳转...");
+					if(result.user.type==1){
+						window.location.href='/SysAdmin/index';
+					}else{
+						window.location.href='/UserAdmin/index';
+					}
+				}else{
+					$("#msg").html(result.msg);
+				}
+			}
+		});
+	}
+}
+</script>

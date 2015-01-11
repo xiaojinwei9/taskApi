@@ -1,0 +1,127 @@
+#{extends 'SysAdminMain.html' /}
+#{set title:'网站后台'/}
+<script>
+$(document).ready(function(e) {
+	getDatas(1,3);
+});
+function getDatas(page,length){
+	$.ajax({
+		type:'POST',
+		url:'/SysAdmin/usersJson?page='+page+'&length='+length+'&nd='+new Date().getTime(),
+		error:function(err){
+			//console.log(err);
+		},
+		success:function(result){
+			//console.log(result);
+			var list=result.list;
+			var listStr='<table border="1"><tr><td>用户</td><td>类型</td><td>登录名</td><td>邮箱</td><td>电话</td><td width="200">所属客户</td><td>操作</td></tr>';
+			for(var i=0;i<list.length;i++){
+				console.log(list[i]);
+				var user=list[i];
+				var row='';
+				if(user.name){
+					row+='<td>'+user.name+'</td>';
+				}else{
+					row+='<td></td>';
+				}
+				row+='<td>'+getType(user.type)+'</td>';
+				row+='<td>'+user.mobile+'</td>';
+				if(user.email){
+					row+='<td>'+user.email+'</td>';
+				}else{
+					row+='<td></td>';
+				}
+				if(user.phone){
+					row+='<td>'+user.phone+'</td>';
+				}else{
+					row+='<td></td>';
+				}
+				row+='<td><div id="taskGroup'+user.id+'"></div></td>';
+				row+='<td>';
+				row+='<a href="/SysAdmin/user?id='+user.id+'">编辑</a>&nbsp;';
+				row+='<a href="#" onclick="javascript:del('+user.id+');">删除</a>&nbsp;';
+				row+='</td>';
+				listStr+='<tr>'+row+'</tr>';
+				//数据处理
+				if(user.taskGroupIds){
+					getTaskGroupByUserId(user.id);
+				}
+			}
+			listStr+='</table>';
+			$("#list").html(listStr);
+			//
+			var total=result.total;
+			var length=result.length;
+			var page=result.page;
+			var pages='记录数:'+total+'&nbsp;分页:';
+			//console.log(total/length);
+			for(var i=1;i<total/length+1;i++){
+				if(i!=page){
+					pages+='<a href="#" onclick="javascript:getDatas('+i+','+length+');">'+i+'</a>&nbsp;';
+				}else{
+					pages+='['+i+']';
+				}
+			}
+			$("#pages").html(pages);
+		}
+	});
+}
+
+function getType(type){
+	var re='';
+	if(type==1){
+		re='管理员';
+	}else if(type==2){
+		re='内部员工';
+	}else if(type==3){
+		re='一般用户';
+	}
+	return re;
+}
+
+function getTaskGroupByUserId(userId){
+	$.ajax({
+		type:'POST',
+		url:'/SysAdmin/taskGroupsByUserIdJson?userId='+userId+'&nd='+new Date().getTime(),
+		error:function(err){
+			//console.log(err);
+		},
+		success:function(result){
+			console.log('groups:',result);
+			var taskGroups='';
+			var list=result.list;
+			for(var i=0;i<list.length;i++){
+				console.log(list[i]);
+				var taskGroup=list[i];
+				console.log('name:'+taskGroup.name);
+				taskGroups+=taskGroup.name+',';
+			}
+			$("#taskGroup"+userId).html(taskGroups);
+		}
+	});
+}
+
+function del(id){
+	console.log('del:',id);
+	$.ajax({
+		type:'POST',
+		url:'/SysAdmin/userDelJson?id='+id+'&nd='+new Date().getTime(),
+		error:function(err){
+			//console.log(err);
+		},
+		success:function(result){
+			alert(result.msg);
+			getDatas(1,3);
+		}
+	});
+}
+
+</script>
+<div id="add">
+<a href="/SysAdmin/user?id=0">添加</a>
+</div>
+<div id="list">
+</div>
+<div id="pages">
+</div>
+

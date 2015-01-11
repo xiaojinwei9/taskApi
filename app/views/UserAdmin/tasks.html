@@ -1,0 +1,67 @@
+#{extends 'SysAdminMain.html' /}
+#{set title:'网站后台'/}
+<script>
+var status=${status};
+console.log(status);
+$(document).ready(function(e) {
+	getDatas(status,1,3);
+});
+function getDatas(status,page,length){
+	$.ajax({
+		type:'POST',
+		url:'/UserAdmin/tasksJson?status='+status+'&page='+page+'&length='+length+'&nd='+new Date().getTime(),
+		error:function(err){
+			//console.log(err);
+		},
+		success:function(result){
+			//console.log(result);
+			var list=result.list;
+			var listStr='<table border="1">';
+			for(var i=0;i<list.length;i++){
+				console.log(list[i]);
+				var task=list[i];
+				var row='';
+				if(task.image){
+					row+='<td>'+task.image+'</td>';
+				}else{
+					row+='<td>-</td>';
+				}
+				if(task.name){
+					row+='<td>'+task.name+'</td>';
+				}else{
+					row+='<td>-</td>';
+				}
+				row+='<td>';
+				row+='<a href="/UserAdmin/task?id='+task.id+'">查看进度</a>';
+				row+='</td>';
+				listStr+='<tr>'+row+'</tr>';
+			}
+			listStr+='</table>';
+			$("#list").html(listStr);
+			//
+			var total=result.total;
+			var length=result.length;
+			var page=result.page;
+			var pages='记录数:'+total+'&nbsp;分页:';
+			//console.log(total/length);
+			for(var i=1;i<total/length+1;i++){
+				if(i!=page){
+					pages+='<a href="#" onclick="javascript:getDatas('+status+','+i+','+length+');">'+i+'</a>&nbsp;';
+				}else{
+					pages+='['+i+']';
+				}
+			}
+			$("#pages").html(pages);
+		}
+	});
+}
+
+</script>
+<div id="add">
+<a href="/SysAdmin/user?id=0">添加</a>
+</div>
+<div id="list">
+</div>
+<div id="pages">
+</div>
+

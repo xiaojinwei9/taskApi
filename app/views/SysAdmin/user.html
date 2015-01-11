@@ -1,0 +1,134 @@
+#{extends 'SysAdminMain.html' /}
+#{set title:'网站后台'/}
+<script>
+var id=${id};
+console.log('id:',id);
+$(document).ready(function(e) {
+	if(id!=0){
+		getData(id);
+	}
+	allTaskGroupsJson();
+});
+function getData(page,length){
+	$.ajax({
+		type:'POST',
+		url:'/SysAdmin/userJson?id='+id+'&nd='+new Date().getTime(),
+		error:function(err){
+			//console.log(err);
+		},
+		success:function(result){
+			console.log(result);
+			var user=result.user;
+			$("#name").val(user.name);
+			$("#mobile").val(user.mobile);
+			$("#type").val(user.type);
+			$("#email").val(user.email);
+			$("#phone").val(user.phone);
+			$("#image").val(user.image);
+			$("#taskGroupIds").val(user.taskGroupIds);
+			$("#des").val(user.des);
+		}
+	});
+}
+
+
+function getTaskGroupByUserId(userId){
+	$.ajax({
+		type:'POST',
+		url:'/SysAdmin/taskGroupsByUserIdJson?userId='+userId+'&nd='+new Date().getTime(),
+		error:function(err){
+			//console.log(err);
+		},
+		success:function(result){
+			console.log('groups:',result);
+			var taskGroups='';
+			var list=result.list;
+			for(var i=0;i<list.length;i++){
+				console.log(list[i]);
+				var taskGroup=list[i];
+				console.log('nameOne:'+taskGroup.name);
+				 $("#taskGroup"+taskGroup.id).attr("checked",true);
+				//taskGroups+=taskGroup.name+',';
+			}
+		}
+	});
+}
+function allTaskGroupsJson(){
+	$.ajax({
+		type:'POST',
+		url:'/SysAdmin/allTaskGroupsJson?nd='+new Date().getTime(),
+		error:function(err){
+			//console.log(err);
+		},
+		success:function(result){
+			console.log('groups:',result);
+			var taskGroups='';
+			var list=result.list;
+			for(var i=0;i<list.length;i++){
+				console.log(list[i]);
+				var taskGroup=list[i];
+				console.log('name:'+taskGroup.name);
+				taskGroups+='<input type="checkbox" name="taskGroup" id="taskGroup'+taskGroup.id+'" value="'+taskGroup.id+'">'+taskGroup.name;
+			}
+			$("#taskGroupCon").html(taskGroups);
+			if(id!=0){
+				getTaskGroupByUserId(id);
+			}
+		}
+	});
+}
+
+//////////
+function save(){
+	console.log('save,id:',id);
+	var mobile=$("#mobile").val();
+	var password=$("#password").val();
+	var type=$("#type").val();
+	var name=$("#name").val();
+	var email=$("#email").val();
+	var phone=$("#phone").val();
+	var image=$("#image").val();
+	var des=$("#des").val();
+	var taskGroupIds=getTaskGroupIds();
+	console.log('ids:',taskGroupIds);
+	
+	$.ajax({
+		type:"POST",
+		url:'/SysAdmin/userSaveJson?nd='+new Date().getTime(),
+		data:{'id':id,'mobile':mobile,'password':password,'type':type,'name':name,'email':email,'phone':phone,'image':image,'des':des,'taskGroupIds':taskGroupIds},
+		success:function(result){
+			//console.log(result);
+			document.getElementById('tips').innerHTML=result.msg;
+		}
+	});
+}
+
+function getTaskGroupIds(){    
+	  var obj=document.getElementsByName('taskGroup');  //选择所有name="'test'"的对象，返回数组    
+	  //取到对象数组后，我们来循环检测它是不是被选中    
+	  var s=',';    
+	  for(var i=0; i<obj.length; i++){    
+	    if(obj[i].checked) s+=obj[i].value+',';  //如果选中，将value添加到变量s中    
+	  }    
+	 return s;
+}
+</script>
+
+<table border="1">
+<tr><td>姓名:</td><td><input type="text" name="name" id="name"></td></tr>
+<tr><td>手机号码:</td><td><input type="text" name="mobile" id="mobile"></td></tr>
+<tr><td>密码:</td><td><input type="text" name="password" id="password">(不修改，请留空)</td></tr>
+<tr><td>类型:</td><td><select name="type" id="type">
+						<option value="3">一般员工</option>
+						<option value="2">内部员工</option>
+						<option value="1">管理员</option>
+					</select></td></tr>
+<tr><td>邮箱:</td><td><input type="text" name="email" id="email"></td></tr>
+<tr><td>电话:</td><td><input type="text" name="phone" id="phone"></td></tr>
+<tr><td>头像:</td><td><input type="text" name="image" id="image"></td></tr>
+<tr><td>所属客户:</td><td><input type="text" name="taskGroupIds" id="taskGroupIds"><div id="taskGroupCon"></div></td></tr>
+<tr><td>备注:</td><td><input type="text" name="des" id="des"></td></tr>
+<tr><td colspan="2"><a href="#" onclick="javascript:save();">保存</a>&nbsp;<a href="/SysAdmin/users">返回</a>&nbsp;<div id="tips"></div></td></tr>
+</table>
+
+

@@ -1,0 +1,76 @@
+#{extends 'SysAdminMain.html' /}
+#{set title:'网站后台'/}
+<script>
+$(document).ready(function(e) {
+	getDatas(1,3);
+});
+function getDatas(page,length){
+	$.ajax({
+		type:'POST',
+		url:'/SysAdmin/taskGroupsJson?page='+page+'&length='+length+'&nd='+new Date().getTime(),
+		error:function(err){
+			//console.log(err);
+		},
+		success:function(result){
+			//console.log(result);
+			var list=result.list;
+			var listStr='<table border="1"><tr><td>客户</td><td>操作</td></tr>';
+			for(var i=0;i<list.length;i++){
+				console.log(list[i]);
+				var taskGroup=list[i];
+				var row='';
+				if(taskGroup.name){
+					row+='<td>'+taskGroup.name+'</td>';
+				}else{
+					row+='<td></td>';
+				}
+				row+='<td>';
+				row+='<a href="/SysAdmin/taskGroup?id='+taskGroup.id+'">编辑</a>&nbsp;';
+				row+='<a href="#" onclick="javascript:del('+taskGroup.id+');">删除</a>&nbsp;';
+				row+='</td>';
+				listStr+='<tr>'+row+'</tr>';
+			}
+			listStr+='</table>';
+			$("#list").html(listStr);
+			//
+			var total=result.total;
+			var length=result.length;
+			var page=result.page;
+			var pages='记录数:'+total+'&nbsp;分页:';
+			//console.log(total/length);
+			for(var i=1;i<total/length+1;i++){
+				if(i!=page){
+					pages+='<a href="#" onclick="javascript:getDatas('+i+','+length+');">'+i+'</a>&nbsp;';
+				}else{
+					pages+='['+i+']';
+				}
+			}
+			$("#pages").html(pages);
+		}
+	});
+}
+
+function del(id){
+	console.log('del:',id);
+	$.ajax({
+		type:'POST',
+		url:'/SysAdmin/taskGroupDelJson?id='+id+'&nd='+new Date().getTime(),
+		error:function(err){
+			//console.log(err);
+		},
+		success:function(result){
+			alert(result.msg);
+			getDatas(1,3);
+		}
+	});
+}
+
+</script>
+<div id="add">
+<a href="/SysAdmin/user?id=0">添加</a>
+</div>
+<div id="list">
+</div>
+<div id="pages">
+</div>
+
