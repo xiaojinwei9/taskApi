@@ -9,7 +9,8 @@ $(document).ready(function(e) {
 	}
 	allTaskGroupsJson();
 });
-function getData(page,length){
+
+function getData(id){
 	$.ajax({
 		type:'POST',
 		url:'/SysAdmin/userJson?id='+id+'&nd='+new Date().getTime(),
@@ -114,20 +115,20 @@ function getTaskGroupIds(){
 }
 </script>
 
-<table border="1">
-<tr><td>姓名:</td><td><input type="text" name="name" id="name"></td></tr>
-<tr><td>手机号码:</td><td><input type="text" name="mobile" id="mobile"></td></tr>
-<tr><td>密码:</td><td><input type="text" name="password" id="password">(不修改，请留空)</td></tr>
-<tr><td>类型:</td><td><select name="type" id="type">
+<table class="borderClass">
+<tr><td class="borderClass">姓名:</td><td><input type="text" name="name" id="name"></td></tr>
+<tr><td class="borderClass">手机号码:</td><td ><input type="text" name="mobile" id="mobile"></td></tr>
+<tr><td class="borderClass">密码:</td><td><input type="text" name="password" id="password">(不修改，请留空)</td></tr>
+<tr><td class="borderClass">类型:</td><td><select name="type" id="type">
 						<option value="3">一般员工</option>
 						<option value="2">内部员工</option>
 						<option value="1">管理员</option>
 					</select></td></tr>
-<tr><td>邮箱:</td><td><input type="text" name="email" id="email"></td></tr>
-<tr><td>电话:</td><td><input type="text" name="phone" id="phone"></td></tr>
-<tr><td>头像:</td><td><input type="text" name="image" id="image"></td></tr>
-<tr><td>所属客户:</td><td><input type="text" name="taskGroupIds" id="taskGroupIds"><div id="taskGroupCon"></div></td></tr>
-<tr><td>备注:</td><td><input type="text" name="des" id="des"></td></tr>
+<tr><td class="borderClass">邮箱:</td><td><input type="text" name="email" id="email"></td></tr>
+<tr><td class="borderClass">电话:</td><td><input type="text" name="phone" id="phone"></td></tr>
+<tr><td class="borderClass">头像:</td><td><input type="text" name="image" id="image"></td></tr>
+<tr><td class="borderClass">所属客户:</td><td><div id="taskGroupCon"></div></td></tr>
+<tr><td class="borderClass">备注:</td><td><input type="text" name="des" id="des"></td></tr>
 <tr><td colspan="2"><a href="#" onclick="javascript:save();">保存</a>&nbsp;<a href="/SysAdmin/users">返回</a>&nbsp;<div id="tips"></div></td></tr>
 </table>
 

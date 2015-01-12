@@ -33,6 +33,7 @@ public class Login extends BasicClientController {
 			session.put("userId", userObj.get("id")+"");
     		session.put("userType", userObj.get("type")+"");
     		session.put("userName", userObj.get("name")+"");
+    		session.put("userTaskGroupIds", userObj.get("taskGroupIds")+"");
 		}
 		renderJSON(jsonStr);
 	}

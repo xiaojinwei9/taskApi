@@ -35,6 +35,9 @@ public class BasicClientController extends Controller {
 		if(session.get("userName")!=null){
 			userInfo.put("userName", session.get("userName")+"");
 		}
+		if(session.get("userTaskGroupIds")!=null){
+			userInfo.put("userTaskGroupIds", session.get("userTaskGroupIds")+"");
+		}
 		return userInfo;
 	}
 	
@@ -94,7 +97,7 @@ public class BasicClientController extends Controller {
 			URL url = new URL(urlStr);
 			Logger.info("newUrlEnd:"+urlStr);
 			conn = (HttpURLConnection) url.openConnection();
-			conn.setConnectTimeout(5000);
+			conn.setConnectTimeout(10000);
 			conn.setReadTimeout(30000);
 			conn.setDoOutput(true);//向服务器写入数据
 			conn.setDoInput(true);//从服务器获取数据

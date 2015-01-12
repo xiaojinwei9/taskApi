@@ -1,0 +1,98 @@
+#{extends 'UserAdminMain.html' /}
+#{set title:'网站后台'/}
+<script>
+var id=${id};
+console.log('id:',id);
+$(document).ready(function(e) {
+	allTaskGroupsJson();
+});
+function getData(id){
+	$.ajax({
+		type:'POST',
+		url:'/UserAdmin/taskJson?id='+id+'&nd='+new Date().getTime(),
+		error:function(err){
+			//console.log(err);
+		},
+		success:function(result){
+			console.log(result);
+			var task=result.task;
+			$("#name").val(task.image);
+			$("#taskGroupId").val(task.taskGroupId);
+			$("#status").val(task.status);
+			$("#image").val(task.image);
+			$("#des").val(task.des);
+		}
+	});
+}
+
+
+//////////
+function save(){
+	console.log('save,id:',id);
+	var name=$("#name").val();
+	var taskGroupId=$("#taskGroupId").val();
+	var status=$("#status").val();
+	var image=$("#image").val();
+	var des=$("#des").val();
+	$.ajax({
+		type:"POST",
+		url:'/UserAdmin/taskSaveJson?nd='+new Date().getTime(),
+		data:{'id':id,'name':name,'image':image,'taskGroupId':taskGroupId,'status':status,'des':des},
+		success:function(result){
+			//console.log(result);
+			document.getElementById('tips').innerHTML=result.msg;
+		}
+	});
+}
+
+
+
+function allTaskGroupsJson(){
+	$.ajax({
+		type:'POST',
+		url:'/SysAdmin/allTaskGroupsJson?nd='+new Date().getTime(),
+		error:function(err){
+			//console.log(err);
+		},
+		success:function(result){
+			console.log('groups:',result);
+			var taskGroups='<select id="taskGroupId">';
+			var list=result.list;
+			for(var i=0;i<list.length;i++){
+				console.log(list[i]);
+				var taskGroup=list[i];
+				console.log('name:'+taskGroup.name);
+				taskGroups+='<option value="'+taskGroup.id+'">'+taskGroup.name+'</option>';
+			}
+			taskGroups+='</select>';
+			$("#taskGroupCon").html(taskGroups);
+			console.log('id2:'+id);
+			if(id!=0){
+				getData(id);
+			}
+		}
+	});
+}
+
+function goBack(){
+	var status=$("#status").val();
+	window.location.href='/UserAdmin/tasks?status='+status;
+}
+</script>
+
+<table class="borderClass">
+<tr><td class="borderClass">客户:</td><td><div id="taskGroupCon"></div></td></tr>
+<tr><td class="borderClass">任务名称:</td><td><input type="text" name="name" id="name"></td></tr>
+<tr><td class="borderClass">状态:</td><td><select id="status">
+<option value="1">待初稿</option>
+<option value="2">待审核</option>
+<option value="3">待确稿</option>
+<option value="4">待评价</option>
+<option value="5">已完成</option>
+</select></td></tr>
+<tr><td class="borderClass">图片:</td><td><input type="text" name="image" id="image"></td></tr>
+<tr><td class="borderClass">描述:</td><td><input type="text" name="des" id="des"></td></tr>
+<tr><td colspan="2"><a href="#" onclick="javascript:save();">保存</a>&nbsp;<a href="#" onclick="javascript:goBack();">返回</a>&nbsp;<div id="tips"></div></td></tr>
+</table>
+
+

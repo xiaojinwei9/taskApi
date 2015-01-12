@@ -14,30 +14,30 @@ function getDatas(page,length){
 		success:function(result){
 			//console.log(result);
 			var list=result.list;
-			var listStr='<table border="1"><tr><td>用户</td><td>类型</td><td>登录名</td><td>邮箱</td><td>电话</td><td width="200">所属客户</td><td>操作</td></tr>';
+			var listStr='<table class="borderClass"><tr><td class="borderClass">用户</td><td class="borderClass">类型</td><td class="borderClass">登录名</td><td class="borderClass">邮箱</td><td class="borderClass">电话</td><td width="200" class="borderClass">所属客户</td><td class="borderClass">操作</td></tr>';
 			for(var i=0;i<list.length;i++){
 				console.log(list[i]);
 				var user=list[i];
 				var row='';
 				if(user.name){
-					row+='<td>'+user.name+'</td>';
+					row+='<td class="borderClass">'+user.name+'</td>';
 				}else{
-					row+='<td></td>';
+					row+='<td class="borderClass"></td>';
 				}
-				row+='<td>'+getType(user.type)+'</td>';
-				row+='<td>'+user.mobile+'</td>';
+				row+='<td class="borderClass">'+getType(user.type)+'</td>';
+				row+='<td class="borderClass">'+user.mobile+'</td>';
 				if(user.email){
-					row+='<td>'+user.email+'</td>';
+					row+='<td class="borderClass">'+user.email+'</td>';
 				}else{
-					row+='<td></td>';
+					row+='<td class="borderClass"></td>';
 				}
 				if(user.phone){
-					row+='<td>'+user.phone+'</td>';
+					row+='<td class="borderClass">'+user.phone+'</td>';
 				}else{
-					row+='<td></td>';
+					row+='<td class="borderClass"></td>';
 				}
-				row+='<td><div id="taskGroup'+user.id+'"></div></td>';
-				row+='<td>';
+				row+='<td class="borderClass"><div id="taskGroup'+user.id+'"></div></td>';
+				row+='<td class="borderClass">';
 				row+='<a href="/SysAdmin/user?id='+user.id+'">编辑</a>&nbsp;';
 				row+='<a href="#" onclick="javascript:del('+user.id+');">删除</a>&nbsp;';
 				row+='</td>';

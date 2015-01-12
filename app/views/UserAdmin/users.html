@@ -1,33 +1,40 @@
-#{extends 'SysAdminMain.html' /}
+#{extends 'UserAdminMain.html' /}
 #{set title:'网站后台'/}
 <script>
 $(document).ready(function(e) {
-	getDatas(1,5);
+	getDatas(1,3);
 });
 function getDatas(page,length){
 	$.ajax({
 		type:'POST',
-		url:'/SysAdmin/taskGroupsJson?page='+page+'&length='+length+'&nd='+new Date().getTime(),
+		url:'/UserAdmin/usersJson?page='+page+'&length='+length+'&nd='+new Date().getTime(),
 		error:function(err){
 			//console.log(err);
 		},
 		success:function(result){
 			//console.log(result);
 			var list=result.list;
-			var listStr='<table class="borderClass"><tr><td class="borderClass">客户</td><td class="borderClass">操作</td></tr>';
+			var listStr='<table class="borderClass"><tr><td class="borderClass">用户</td><td class="borderClass">手机</td><td class="borderClass">邮箱</td><td class="borderClass">电话</td></tr>';
 			for(var i=0;i<list.length;i++){
 				console.log(list[i]);
-				var taskGroup=list[i];
+				var user=list[i];
 				var row='';
-				if(taskGroup.name){
-					row+='<td class="borderClass">'+taskGroup.name+'</td>';
+				if(user.name){
+					row+='<td class="borderClass">'+user.name+'</td>';
 				}else{
 					row+='<td class="borderClass"></td>';
 				}
-				row+='<td class="borderClass">';
-				row+='<a href="/SysAdmin/taskGroup?id='+taskGroup.id+'">编辑</a>&nbsp;';
-				row+='<a href="#" onclick="javascript:del('+taskGroup.id+');">删除</a>&nbsp;';
-				row+='</td>';
+				row+='<td class="borderClass">'+user.mobile+'</td>';
+				if(user.email){
+					row+='<td class="borderClass">'+user.email+'</td>';
+				}else{
+					row+='<td class="borderClass"></td>';
+				}
+				if(user.phone){
+					row+='<td class="borderClass">'+user.phone+'</td>';
+				}else{
+					row+='<td class="borderClass"></td>';
+				}
 				listStr+='<tr>'+row+'</tr>';
 			}
 			listStr+='</table>';
@@ -50,25 +57,7 @@ function getDatas(page,length){
 	});
 }
 
-function del(id){
-	console.log('del:',id);
-	$.ajax({
-		type:'POST',
-		url:'/SysAdmin/taskGroupDelJson?id='+id+'&nd='+new Date().getTime(),
-		error:function(err){
-			//console.log(err);
-		},
-		success:function(result){
-			alert(result.msg);
-			getDatas(1,3);
-		}
-	});
-}
-
 </script>
-<div id="add">
-<a href="/SysAdmin/taskGroup?id=0">添加</a>
-</div>
 <div id="list">
 </div>
 <div id="pages">

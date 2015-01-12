@@ -1,0 +1,62 @@
+#{extends 'UserAdminMain.html' /}
+#{set title:'网站后台'/}
+<script>
+$(document).ready(function(e) {
+		getData();
+});
+
+function getData(){
+	$.ajax({
+		type:'POST',
+		url:'/UserAdmin/userJson?nd='+new Date().getTime(),
+		error:function(err){
+			//console.log(err);
+		},
+		success:function(result){
+			console.log(result);
+			var user=result.user;
+			$("#name").val(user.name);
+			$("#mobile").val(user.mobile);
+			$("#email").val(user.email);
+			$("#phone").val(user.phone);
+			$("#image").val(user.image);
+			$("#des").val(user.des);
+		}
+	});
+}
+
+//////////
+function save(){
+	var mobile=$("#mobile").val();
+	var password=$("#password").val();
+	var name=$("#name").val();
+	var email=$("#email").val();
+	var phone=$("#phone").val();
+	var image=$("#image").val();
+	var des=$("#des").val();
+	
+	$.ajax({
+		type:"POST",
+		url:'/UserAdmin/userSaveJson?nd='+new Date().getTime(),
+		data:{'mobile':mobile,'password':password,'name':name,'email':email,'phone':phone,'image':image,'des':des},
+		success:function(result){
+			//console.log(result);
+			document.getElementById('tips').innerHTML=result.msg;
+		}
+	});
+}
+
+</script>
+
+<table class="borderClass">
+<tr><td class="borderClass">手机号码:</td><td><input type="text" name="mobile" id="mobile" readonly></td></tr>
+<tr><td class="borderClass">姓名:</td><td><input type="text" name="name" id="name"></td></tr>
+<tr><td class="borderClass">密码:</td><td><input type="password" name="password" id="password">(不修改，请留空)</td></tr>
+<tr><td class="borderClass">邮箱:</td><td><input type="text" name="email" id="email"></td></tr>
+<tr><td class="borderClass">电话:</td><td><input type="text" name="phone" id="phone"></td></tr>
+<tr><td class="borderClass">头像:</td><td><input type="text" name="image" id="image"></td></tr>
+<tr><td class="borderClass">备注:</td><td><input type="text" name="des" id="des"></td></tr>
+<tr><td colspan="2"><a href="#" onclick="javascript:save();">保存</a>&nbsp;<div id="tips"></div></td></tr>
+</table>
+
+
