@@ -18,30 +18,23 @@ function getDatas(status,page,length){
 		success:function(result){
 			////console.log(result);
 			var list=result.list;
-			var listStr='<table class="borderClass">';
+			var listStr='<div class="adminListRowTop">';
+			listStr+='<div class="adminListCellTop300">任务名称</div>';
+			listStr+='<div class=adminListCellTopEnd>操作</div>';
+			listStr+='</div>';
 			for(var i=0;i<list.length;i++){
 				//console.log(list[i]);
 				var task=list[i];
 				var row='';
-				if(task.image){
-					row+='<td class="borderClass">'+task.image+'</td>';
-				}else{
-					row+='<td class="borderClass">-</td>';
-				}
-				if(task.name){
-					row+='<td class="borderClass">'+task.name+'</td>';
-				}else{
-					row+='<td class="borderClass">-</td>';
-				}
-				row+='<td class="borderClass">';
+				row+='<div class="adminListCell300">'+task.name+'</div>';
+				row+='<div class="adminListCellEnd">';
 				row+='<a href="/UserAdmin/taskView?id='+task.id+'">查看</a>';
 				if(userType<3){
 					row+='&nbsp;<a href="/UserAdmin/task?id='+task.id+'">编辑</a>';
 				}
-				row+='</td>';
-				listStr+='<tr>'+row+'</tr>';
+				row+='</div>';
+				listStr+='<div class="adminListRow">'+row+'</div>';
 			}
-			listStr+='</table>';
 			$("#list").html(listStr);
 			//
 			var total=result.total;
@@ -51,7 +44,7 @@ function getDatas(status,page,length){
 			////console.log(total/length);
 			for(var i=1;i<total/length+1;i++){
 				if(i!=page){
-					pages+='<a href="#" onclick="javascript:getDatas('+status+','+i+','+length+');">'+i+'</a>&nbsp;';
+					pages+='&nbsp;<a href="#" onclick="javascript:getDatas('+status+','+i+','+length+');">'+i+'</a>&nbsp;';
 				}else{
 					pages+='['+i+']';
 				}
@@ -61,12 +54,18 @@ function getDatas(status,page,length){
 	});
 }
 
+function goAdd(){
+	window.location.href='/UserAdmin/task?id=0';
+}
 </script>
-<div id="add">
-<a href="/UserAdmin/task?id=0">添加</a>
+
+<div id="add" class="adminAddCon">
+<button onclick="javascript:goAdd();" class="adminAddBtn">添加</button>
 </div>
-<div id="list">
+
+<div id="list" class="adminListCon">
 </div>
-<div id="pages">
+
+<div id="pages" class="adminPages">
 </div>
 

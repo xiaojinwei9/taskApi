@@ -56,7 +56,7 @@ function allTaskGroupsJson(){
 		},
 		success:function(result){
 			//console.log('groups:',result);
-			var taskGroups='<select id="taskGroupId">';
+			var taskGroups='<select class="adminInput250X25" id="taskGroupId">';
 			var list=result.list;
 			for(var i=0;i<list.length;i++){
 				//console.log(list[i]);
@@ -79,20 +79,20 @@ function goBack(){
 	window.location.href='/UserAdmin/tasks?status='+status;
 }
 </script>
-
+<br>
 <table class="borderClass">
-<tr><td class="borderClass">客户:</td><td><div id="taskGroupCon"></div></td></tr>
-<tr><td class="borderClass">任务名称:</td><td><input type="text" name="name" id="name"></td></tr>
-<tr><td class="borderClass">状态:</td><td><select id="status">
+<tr><td>客户:</td><td><div id="taskGroupCon"></div></td></tr>
+<tr><td>任务名称:</td><td><input class="adminInput250X20" type="text" name="name" id="name"></td></tr>
+<tr><td>状态:</td><td><select class="adminInput250X25" id="status">
 <option value="1">待初稿</option>
 <option value="2">待审核</option>
 <option value="3">待确稿</option>
 <option value="4">待评价</option>
 <option value="5">已完成</option>
 </select></td></tr>
-<tr><td class="borderClass">图片:</td><td><input type="text" name="image" id="image"></td></tr>
-<tr><td class="borderClass">描述:</td><td><input type="text" name="des" id="des"></td></tr>
-<tr><td colspan="2"><a href="#" onclick="javascript:save();">保存</a>&nbsp;<a href="#" onclick="javascript:goBack();">返回</a>&nbsp;<div id="tips"></div></td></tr>
+<tr><td>图片:</td><td><input class="adminInput250X20"  type="text" name="image" id="image"></td></tr>
+<tr><td>描述:</td><td><input  class="adminInput250X20"  type="text" name="des" id="des"></td></tr>
+<tr><td colspan="2"><button onclick="javascript:save();" class="adminAddBtn">保存</button>&nbsp;&nbsp;<a href="#" onclick="javascript:goBack();">返回</a>&nbsp;&nbsp;<span id="tips"></span></td></tr>
 </table>
 
 

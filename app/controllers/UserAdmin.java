@@ -199,4 +199,17 @@ public class UserAdmin extends BasicClientController {
 		renderJSON(jsonStr);
 	}
 	
+	public static void taskStatusSaveJson(String id,String status){
+		Map<String,Object> result=new HashMap<String,Object>();
+		if(!(StrUtils.isNotEmpty(id))){
+			SysTools.setResultParamsErr(result);
+			renderJSON(GsonUtils.mapToString(result));
+		}
+		Map<String, String> paramsMap = new HashMap<String, String>();
+		paramsMap.put("id", id);
+		paramsMap.put("status", status);
+		String jsonStr=paramsConstruction("/Tasks/updateStatus",paramsMap);
+		renderJSON(jsonStr);
+	}
+	
 }

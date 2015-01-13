@@ -79,6 +79,7 @@ public class Tasks extends BasicController {
 		}
 		Task task=Task.findById(Long.valueOf(id));
 		task.status=Integer.valueOf(status);
+		task.save();
 		SysTools.setResultOpSec(result);
 		result.put("task", task);
 		renderJSON(result);

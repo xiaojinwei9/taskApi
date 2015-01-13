@@ -20,6 +20,7 @@ function getData(id){
 			var task=result.task;
 			$("#name").html(task.name);
 			$("#image").html(task.image);
+			$("#status").val(task.status);
 			$("#des").html(task.des);
 			status=task.status;
 		}
@@ -37,15 +38,15 @@ function getTaskLogsDatas(taskId,page,length){
 		success:function(result){
 			////console.log(result);
 			var list=result.list;
-			var listStr='<table class="borderClass">';
+			var listStr='<table class="borderClass" width="500">';
 			for(var i=0;i<list.length;i++){
 				//console.log(list[i]);
 				var taskLog=list[i];
 				var row='';
 				row+='<tr><td colspan="2" class="borderClass">'+taskLog.cont+'</td>';
-				row+='<td rowspan="2" class="borderClass"><a href="http://www.xxx.xxx/xxx.jpg">初稿.jpg</a><br><a href="http://www.xxx.xxx/xxx.doc">会议记录.doc</a></td></tr>';
+				row+='<td rowspan="2" class="borderClass" width="150"><a href="http://www.xxx.xxx/xxx.jpg">初稿.jpg</a><br><a href="http://www.xxx.xxx/xxx.doc">会议记录.doc</a></td></tr>';
 				row+='<tr><td class="borderClass">'+formatTime(taskLog.time);+'</td>';
-				row+='<td><div id="taskLogName'+taskLog.id+'"></div></td>';
+				row+='<td class="borderClass"><div id="taskLogName'+taskLog.id+'"></div></td>';
 				row+='</tr>';
 				listStr+=row;
 				getUserData(taskLog.id,taskLog.userId);
@@ -111,26 +112,49 @@ function formatTime(cellvalue){
 	return d.format('yy-MM-dd hh:mm:ss');
 }
 
-</script>
+function updateStatus(){
+	var status=$("#status").val();
+	//console.log('id',id,'status,',status);
+	$.ajax({
+		type:"POST",
+		url:'/UserAdmin/taskStatusSaveJson?nd='+new Date().getTime(),
+		data:{'id':id,'status':status},
+		success:function(result){
+			////console.log(result);
+			document.getElementById('statusTips').innerHTML=result.msg;
+		}
+	});
+}
 
-<table class="borderClass">
-<tr><td class="borderClass">任务名称:</td><td><div id="name"></div></td></tr>
-<tr><td class="borderClass">图片:</td><td><div id="image"></div></td></tr>
-<tr><td class="borderClass">描述:</td><td><div id="des"></div></td></tr>
+</script>
+<br>
+<table class="borderClass" width="500">
+<tr><td width="60">任务名称:</td><td><div id="name"></div></td></tr>
+<tr><td>图片:</td><td><div id="image"></div></td></tr>
+<tr><td>描述:</td><td><div id="des"></div></td></tr>
 </table>
-<a href="#">更新状态</a>&nbsp;&nbsp;<a href="#">查看文件</a>&nbsp;&nbsp;
+<a href="#">更新状态</a>&nbsp;&nbsp;<select onchange="updateStatus();" class="adminInput100X22" id="status">
+<option value="1">待初稿</option>
+<option value="2">待审核</option>
+<option value="3">待确稿</option>
+<option value="4">待评价</option>
+<option value="5">已完成</option>
+</select>
+&nbsp;<span id="statusTips"></span>&nbsp;&nbsp;<a href="#">查看文件</a>&nbsp;&nbsp;
+
+<br>
+进度处理:<br>
+<table class="borderClass" width="500">
+<tr><td width="60">处理:</td><td><input class="adminInput250X20" type="text" name="cont" id="cont"></td></tr>
+<tr><td>文件:</td><td><input class="adminInput250X20" type="text" name="files" id="files"></td></tr>
+<tr><td colspan="2"><button onclick="javascript:save();" class="adminAddBtn">保存</button>&nbsp;&nbsp;<a href="#" onclick="javascript:goBack();">返回</a>&nbsp;<span id="tips"></span></td></tr>
+</table>
 <br>
 进度跟踪:<br>
 <div id="list">
 </div>
 <div id="pages">
 </div>
-<br>
-进度处理:<br>
-<table class="borderClass">
-<tr><td class="borderClass">处理:</td><td><input type="text" name="cont" id="cont"></td></tr>
-<tr><td class="borderClass">文件:</td><td><input type="text" name="files" id="files"></td></tr>
-<tr><td colspan="2"><a href="#" onclick="javascript:save();">保存</a>&nbsp;<a href="#" onclick="javascript:goBack();">返回</a>&nbsp;<div id="tips"></div></td></tr>
-</table>
+
 
 

@@ -14,23 +14,21 @@ function getDatas(page,length){
 		success:function(result){
 			////console.log(result);
 			var list=result.list;
-			var listStr='<table class="borderClass"><tr><td class="borderClass">客户</td><td class="borderClass">操作</td></tr>';
+			var listStr='<div class="adminListRowTop">';
+			listStr+='<div class="adminListCellTop300">客户</div>';
+			listStr+='<div class=adminListCellTopEnd>操作</div>';
+			listStr+='</div>';
 			for(var i=0;i<list.length;i++){
 				//console.log(list[i]);
 				var taskGroup=list[i];
 				var row='';
-				if(taskGroup.name){
-					row+='<td class="borderClass">'+taskGroup.name+'</td>';
-				}else{
-					row+='<td class="borderClass"></td>';
-				}
-				row+='<td class="borderClass">';
-				row+='<a href="/SysAdmin/taskGroup?id='+taskGroup.id+'">编辑</a>&nbsp;';
+				row+='<div class="adminListCell300">'+taskGroup.name+'</div>';
+				row+='<div class="adminListCellEnd">';
+				row+='<a href="/SysAdmin/taskGroup?id='+taskGroup.id+'">编辑</a>&nbsp;&nbsp;';
 				row+='<a href="#" onclick="javascript:del('+taskGroup.id+');">删除</a>&nbsp;';
-				row+='</td>';
-				listStr+='<tr>'+row+'</tr>';
+				row+='</div>';
+				listStr+='<div class="adminListRow">'+row+'</div>';
 			}
-			listStr+='</table>';
 			$("#list").html(listStr);
 			//
 			var total=result.total;
@@ -40,7 +38,7 @@ function getDatas(page,length){
 			////console.log(total/length);
 			for(var i=1;i<total/length+1;i++){
 				if(i!=page){
-					pages+='<a href="#" onclick="javascript:getDatas('+i+','+length+');">'+i+'</a>&nbsp;';
+					pages+='&nbsp;<a href="#" onclick="javascript:getDatas('+i+','+length+');">'+i+'</a>&nbsp;';
 				}else{
 					pages+='['+i+']';
 				}
@@ -65,12 +63,17 @@ function del(id){
 	});
 }
 
+function goAdd(){
+	window.location.href='/SysAdmin/taskGroup?id=0';
+}
 </script>
-<div id="add">
-<a href="/SysAdmin/taskGroup?id=0">添加</a>
+<div id="add" class="adminAddCon">
+<button onclick="javascript:goAdd();" class="adminAddBtn">添加</button>
 </div>
-<div id="list">
+
+<div id="list" class="adminListCon">
 </div>
-<div id="pages">
+
+<div id="pages" class="adminPages">
 </div>
 

@@ -2,18 +2,239 @@ body{
 	margin:0;
 	padding:0; 
 	margin-top:0px;
-	font-size:12px;
+	font-size:14px;
 	font-family: '微软雅黑'! important;
 }
 
-a:link{text-decoration:none;font-weight:normal;font-size:12px;color:#000000;}
-a:visited{text-decoration:none;font-weight:normal;font-size:12px;color:#000000;}
-a:hover{text-decoration:none;font-weight:normal;font-size:12px;color:#000000;}
-a:active{text-decoration:none;font-weight:normal;font-size:12px;color:#000000;}
+a:link{text-decoration:none;font-weight:normal;font-size:14px;color:#000000;}
+a:visited{text-decoration:none;font-weight:normal;font-size:14px;color:#000000;}
+a:hover{text-decoration:none;font-weight:normal;font-size:14px;color:#000000;}
+a:active{text-decoration:none;font-weight:normal;font-size:14px;color:#000000;}
 
 .borderClass{
 border:1px #cccccc solid;
 }
+
+/****************/
+
+.loginTop{
+	margin-top:0px;
+	overflow:hidden;
+	width:100%;
+	height:220px;
+	background:url("../images/taskClient/loginTop.jpg");
+}
+
+.loginDiv{
+margin: 0 auto;
+margin-top:10px;
+width: 320px;	
+}
+
+.loginMsg{
+height: 35px;
+width: 320px;
+margin-bottom: 10px;
+font-size: 16px;
+color:red;
+}
+
+.loginMobile{
+height: 35px;
+width: 320px;
+margin-bottom: 20px;
+font-size: 16px;
+}
+.loginPassword{
+height: 35px;
+width: 320px;
+margin-bottom: 10px;
+font-size: 16px;
+}
+
+.loginBtn{
+height: 35px;
+width: 320px;
+margin-bottom: 10px;
+font-size: 16px;
+color: #fff;
+background-color: #03a9f4;
+border-color: #0398db;
+}
+
+.adminAddCon{
+float:left;
+margin-top:10px;
+margin-left:0px;
+overflow:hidden;
+width:900px;
+height:30px;
+}
+.adminPages{
+float:left;
+text-align:left;
+margin-top:10px;
+margin-left:0px;
+overflow:hidden;
+width:900px;
+height:30px;
+}
+
+.adminAddBtn{
+height: 25px;
+width: 50px;
+font-size: 14px;
+color: #000;
+background-color:eeeeee;
+border-color: #eeeeee;
+}
+
+
+
+.adminListCon{
+float:left;
+overflow:hidden;
+margin-top:10px;
+margin-left:0px;
+width:900px;
+}
+.adminListRow{
+float:left;
+overflow:hidden;
+margin-left:0px;
+width:900px;
+overflow:hidden;
+}
+.adminListRowTop{
+float:left;
+overflow:hidden;
+margin-left:0px;
+width:900px;
+font-weight:bold;
+overflow:hidden;
+}
+.adminListCell{
+float:left;
+overflow:hidden;
+margin-left:0px;
+padding-left:3px;
+padding-top:3px;
+padding-bottom:3px;
+border-bottom:1px #dddddd solid;
+border-left:1px #dddddd solid;
+width:100px;
+overflow:hidden;
+}
+.adminListCell300{
+float:left;
+overflow:hidden;
+margin-left:0px;
+padding-left:3px;
+padding-top:3px;
+padding-bottom:3px;
+border-bottom:1px #dddddd solid;
+border-left:1px #dddddd solid;
+width:300px;
+overflow:hidden;
+}
+.adminListCellTop{
+float:left;
+overflow:hidden;
+margin-left:0px;
+padding-left:3px;
+padding-top:3px;
+padding-bottom:3px;
+border-left:1px #dddddd solid;
+border-top:1px #dddddd solid;
+border-bottom:1px #dddddd solid;
+width:100px;
+overflow:hidden;
+}
+.adminListCellTop300{
+float:left;
+overflow:hidden;
+margin-left:0px;
+padding-left:3px;
+padding-top:3px;
+padding-bottom:3px;
+border-left:1px #dddddd solid;
+border-top:1px #dddddd solid;
+border-bottom:1px #dddddd solid;
+width:300px;
+overflow:hidden;
+}
+
+.adminListCellTopEnd{
+float:left;
+overflow:hidden;
+margin-left:0px;
+padding-left:3px;
+padding-top:3px;
+padding-bottom:3px;
+border-left:1px #dddddd solid;
+border-right:1px #dddddd solid;
+border-top:1px #dddddd solid;
+border-bottom:1px #dddddd solid;
+width:100px;
+overflow:hidden;
+}
+.adminListCellEnd{
+float:left;
+overflow:hidden;
+margin-left:0px;
+padding-left:3px;
+padding-top:3px;
+padding-bottom:3px;
+border-bottom:1px #dddddd solid;
+border-left:1px #dddddd solid;
+border-right:1px #dddddd solid;
+width:100px;
+overflow:hidden;
+}
+.adminListCell250{
+float:left;
+overflow:hidden;
+margin-left:0px;
+padding-left:3px;
+padding-top:3px;
+padding-bottom:3px;
+border-bottom:1px #dddddd solid;
+border-left:1px #dddddd solid;
+width:250px;
+overflow:hidden;
+}
+.adminListCellTop250{
+float:left;
+overflow:hidden;
+margin-left:0px;
+padding-left:3px;
+padding-top:3px;
+padding-bottom:3px;
+border-top:1px #dddddd solid;
+border-bottom:1px #dddddd solid;
+border-left:1px #dddddd solid;
+width:250px;
+overflow:hidden;
+}
+
+.adminInput250X20{
+width:250px;
+height:20px;
+border:1px #cccccc solid;
+}
+.adminInput250X25{
+width:250px;
+height:25px;
+border:1px #cccccc solid;
+}
+.adminInput100X22{
+width:100px;
+height:22px;
+border:1px #cccccc solid;
+}
+
+/***************/
+
 .skyConAdminTop{
 	margin: 0 auto;
 	margin-top: 0px;

@@ -1,14 +1,13 @@
-<title>登录</title>
- <script src="@{'/public/javascripts/jquery/jquery-1.7.2.min.js'}" type="text/javascript" charset="${_response_encoding}"></script>
- 
-<br>
-<br><br>
-<center>
-用户名:<input type="text" name="mobile" id="mobile"><br>
-密&nbsp;&nbsp;码:<input type="password" name="password" id="password"><br>
-<a href="#" onclick="javascript:login();">提交</a>
-<div id="msg"></div>
-</center>
+<!DOCTYPE html>
+<html>
+   <head>
+       <title>登录</title>
+       <link rel="stylesheet" media="screen" href="@{'/public/stylesheets/admin.css'}">
+       <link rel="shortcut icon" type="image/png" href="@{'/public/images/favicon.png'}">
+       <script src="@{'/public/javascripts/jquery/jquery-1.7.2.min.js'}" type="text/javascript" charset="${_response_encoding}"></script>
+       <script src="@{'/public/javascripts/sky-common-1.1.js'}" type="text/javascript" charset="${_response_encoding}"></script>
+   </head>
+<body>
 
 <script>
 function login(){
@@ -45,3 +44,15 @@ function login(){
 	}
 }
 </script>
+<div class="loginTop">
+</div>
+<div class="loginDiv">
+<div id="msg" class="loginMsg"></div>
+<input type="text" name="mobile" id="mobile" placeholder="手机号" class="loginMobile">
+<input type="password" name="password" id="password" placeholder="密码" class="loginPassword">
+<button onclick="javascript:login();" class="loginBtn">提交</button>
+</div>
+
+
+   </body>
+</html>
