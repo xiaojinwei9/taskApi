@@ -2,7 +2,7 @@
 #{set title:'网站后台'/}
 <script>
 var id=${id};
-console.log('id:',id);
+//console.log('id:',id);
 $(document).ready(function(e) {
 	if(id!=0){
 		getData(id);
@@ -15,10 +15,10 @@ function getData(id){
 		type:'POST',
 		url:'/SysAdmin/userJson?id='+id+'&nd='+new Date().getTime(),
 		error:function(err){
-			//console.log(err);
+			////console.log(err);
 		},
 		success:function(result){
-			console.log(result);
+			//console.log(result);
 			var user=result.user;
 			$("#name").val(user.name);
 			$("#mobile").val(user.mobile);
@@ -38,16 +38,16 @@ function getTaskGroupByUserId(userId){
 		type:'POST',
 		url:'/SysAdmin/taskGroupsByUserIdJson?userId='+userId+'&nd='+new Date().getTime(),
 		error:function(err){
-			//console.log(err);
+			////console.log(err);
 		},
 		success:function(result){
-			console.log('groups:',result);
+			//console.log('groups:',result);
 			var taskGroups='';
 			var list=result.list;
 			for(var i=0;i<list.length;i++){
-				console.log(list[i]);
+				//console.log(list[i]);
 				var taskGroup=list[i];
-				console.log('nameOne:'+taskGroup.name);
+				//console.log('nameOne:'+taskGroup.name);
 				 $("#taskGroup"+taskGroup.id).attr("checked",true);
 				//taskGroups+=taskGroup.name+',';
 			}
@@ -59,16 +59,16 @@ function allTaskGroupsJson(){
 		type:'POST',
 		url:'/SysAdmin/allTaskGroupsJson?nd='+new Date().getTime(),
 		error:function(err){
-			//console.log(err);
+			////console.log(err);
 		},
 		success:function(result){
-			console.log('groups:',result);
+			//console.log('groups:',result);
 			var taskGroups='';
 			var list=result.list;
 			for(var i=0;i<list.length;i++){
-				console.log(list[i]);
+				//console.log(list[i]);
 				var taskGroup=list[i];
-				console.log('name:'+taskGroup.name);
+				//console.log('name:'+taskGroup.name);
 				taskGroups+='<input type="checkbox" name="taskGroup" id="taskGroup'+taskGroup.id+'" value="'+taskGroup.id+'">'+taskGroup.name;
 			}
 			$("#taskGroupCon").html(taskGroups);
@@ -81,7 +81,7 @@ function allTaskGroupsJson(){
 
 //////////
 function save(){
-	console.log('save,id:',id);
+	//console.log('save,id:',id);
 	var mobile=$("#mobile").val();
 	var password=$("#password").val();
 	var type=$("#type").val();
@@ -91,14 +91,14 @@ function save(){
 	var image=$("#image").val();
 	var des=$("#des").val();
 	var taskGroupIds=getTaskGroupIds();
-	console.log('ids:',taskGroupIds);
+	//console.log('ids:',taskGroupIds);
 	
 	$.ajax({
 		type:"POST",
 		url:'/SysAdmin/userSaveJson?nd='+new Date().getTime(),
 		data:{'id':id,'mobile':mobile,'password':password,'type':type,'name':name,'email':email,'phone':phone,'image':image,'des':des,'taskGroupIds':taskGroupIds},
 		success:function(result){
-			//console.log(result);
+			////console.log(result);
 			document.getElementById('tips').innerHTML=result.msg;
 		}
 	});

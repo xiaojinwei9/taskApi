@@ -2,7 +2,7 @@
 #{set title:'网站后台'/}
 <script>
 var id=${id};
-console.log('id:',id);
+//console.log('id:',id);
 $(document).ready(function(e) {
 	allTaskGroupsJson();
 });
@@ -11,12 +11,12 @@ function getData(id){
 		type:'POST',
 		url:'/UserAdmin/taskJson?id='+id+'&nd='+new Date().getTime(),
 		error:function(err){
-			//console.log(err);
+			////console.log(err);
 		},
 		success:function(result){
-			console.log(result);
+			//console.log(result);
 			var task=result.task;
-			$("#name").val(task.image);
+			$("#name").val(task.name);
 			$("#taskGroupId").val(task.taskGroupId);
 			$("#status").val(task.status);
 			$("#image").val(task.image);
@@ -28,7 +28,7 @@ function getData(id){
 
 //////////
 function save(){
-	console.log('save,id:',id);
+	//console.log('save,id:',id);
 	var name=$("#name").val();
 	var taskGroupId=$("#taskGroupId").val();
 	var status=$("#status").val();
@@ -39,7 +39,7 @@ function save(){
 		url:'/UserAdmin/taskSaveJson?nd='+new Date().getTime(),
 		data:{'id':id,'name':name,'image':image,'taskGroupId':taskGroupId,'status':status,'des':des},
 		success:function(result){
-			//console.log(result);
+			////console.log(result);
 			document.getElementById('tips').innerHTML=result.msg;
 		}
 	});
@@ -52,21 +52,21 @@ function allTaskGroupsJson(){
 		type:'POST',
 		url:'/SysAdmin/allTaskGroupsJson?nd='+new Date().getTime(),
 		error:function(err){
-			//console.log(err);
+			////console.log(err);
 		},
 		success:function(result){
-			console.log('groups:',result);
+			//console.log('groups:',result);
 			var taskGroups='<select id="taskGroupId">';
 			var list=result.list;
 			for(var i=0;i<list.length;i++){
-				console.log(list[i]);
+				//console.log(list[i]);
 				var taskGroup=list[i];
-				console.log('name:'+taskGroup.name);
+				//console.log('name:'+taskGroup.name);
 				taskGroups+='<option value="'+taskGroup.id+'">'+taskGroup.name+'</option>';
 			}
 			taskGroups+='</select>';
 			$("#taskGroupCon").html(taskGroups);
-			console.log('id2:'+id);
+			//console.log('id2:'+id);
 			if(id!=0){
 				getData(id);
 			}

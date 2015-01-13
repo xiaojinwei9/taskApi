@@ -10,10 +10,10 @@ function getData(){
 		type:'POST',
 		url:'/UserAdmin/userJson?nd='+new Date().getTime(),
 		error:function(err){
-			//console.log(err);
+			////console.log(err);
 		},
 		success:function(result){
-			console.log(result);
+			//console.log(result);
 			var user=result.user;
 			$("#name").val(user.name);
 			$("#mobile").val(user.mobile);
@@ -40,7 +40,7 @@ function save(){
 		url:'/UserAdmin/userSaveJson?nd='+new Date().getTime(),
 		data:{'mobile':mobile,'password':password,'name':name,'email':email,'phone':phone,'image':image,'des':des},
 		success:function(result){
-			//console.log(result);
+			////console.log(result);
 			document.getElementById('tips').innerHTML=result.msg;
 		}
 	});

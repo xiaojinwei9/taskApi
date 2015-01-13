@@ -26,10 +26,10 @@ function login(){
 			url:'/login/login?nd='+new Date().getTime(),
 			data:{'mobile':mobile,'password':password}, //发送数据
 			error:function(err){
-				//console.log(err);
+				////console.log(err);
 			},
 			success:function(result){
-				//console.log(result);
+				////console.log(result);
 				if(result.code==100){
 					$("#msg").html("登录成功,正在跳转...");
 					if(result.user.type==1){

@@ -9,14 +9,14 @@ function getDatas(page,length){
 		type:'POST',
 		url:'/SysAdmin/usersJson?page='+page+'&length='+length+'&nd='+new Date().getTime(),
 		error:function(err){
-			//console.log(err);
+			////console.log(err);
 		},
 		success:function(result){
-			//console.log(result);
+			////console.log(result);
 			var list=result.list;
 			var listStr='<table class="borderClass"><tr><td class="borderClass">用户</td><td class="borderClass">类型</td><td class="borderClass">登录名</td><td class="borderClass">邮箱</td><td class="borderClass">电话</td><td width="200" class="borderClass">所属客户</td><td class="borderClass">操作</td></tr>';
 			for(var i=0;i<list.length;i++){
-				console.log(list[i]);
+				//console.log(list[i]);
 				var user=list[i];
 				var row='';
 				if(user.name){
@@ -54,7 +54,7 @@ function getDatas(page,length){
 			var length=result.length;
 			var page=result.page;
 			var pages='记录数:'+total+'&nbsp;分页:';
-			//console.log(total/length);
+			////console.log(total/length);
 			for(var i=1;i<total/length+1;i++){
 				if(i!=page){
 					pages+='<a href="#" onclick="javascript:getDatas('+i+','+length+');">'+i+'</a>&nbsp;';
@@ -84,16 +84,16 @@ function getTaskGroupByUserId(userId){
 		type:'POST',
 		url:'/SysAdmin/taskGroupsByUserIdJson?userId='+userId+'&nd='+new Date().getTime(),
 		error:function(err){
-			//console.log(err);
+			////console.log(err);
 		},
 		success:function(result){
-			console.log('groups:',result);
+			//console.log('groups:',result);
 			var taskGroups='';
 			var list=result.list;
 			for(var i=0;i<list.length;i++){
-				console.log(list[i]);
+				//console.log(list[i]);
 				var taskGroup=list[i];
-				console.log('name:'+taskGroup.name);
+				//console.log('name:'+taskGroup.name);
 				taskGroups+=taskGroup.name+',';
 			}
 			$("#taskGroup"+userId).html(taskGroups);
@@ -102,12 +102,12 @@ function getTaskGroupByUserId(userId){
 }
 
 function del(id){
-	console.log('del:',id);
+	//console.log('del:',id);
 	$.ajax({
 		type:'POST',
 		url:'/SysAdmin/userDelJson?id='+id+'&nd='+new Date().getTime(),
 		error:function(err){
-			//console.log(err);
+			////console.log(err);
 		},
 		success:function(result){
 			alert(result.msg);

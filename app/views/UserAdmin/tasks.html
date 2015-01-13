@@ -3,8 +3,8 @@
 <script>
 var status=${status};
 var userType=${userInfo.userType};
-console.log(status);
-console.log(userType);
+//console.log(status);
+//console.log(userType);
 $(document).ready(function(e) {
 	getDatas(status,1,5);
 });
@@ -13,14 +13,14 @@ function getDatas(status,page,length){
 		type:'POST',
 		url:'/UserAdmin/tasksJson?status='+status+'&page='+page+'&length='+length+'&nd='+new Date().getTime(),
 		error:function(err){
-			//console.log(err);
+			////console.log(err);
 		},
 		success:function(result){
-			//console.log(result);
+			////console.log(result);
 			var list=result.list;
 			var listStr='<table class="borderClass">';
 			for(var i=0;i<list.length;i++){
-				console.log(list[i]);
+				//console.log(list[i]);
 				var task=list[i];
 				var row='';
 				if(task.image){
@@ -48,7 +48,7 @@ function getDatas(status,page,length){
 			var length=result.length;
 			var page=result.page;
 			var pages='记录数:'+total+'&nbsp;分页:';
-			//console.log(total/length);
+			////console.log(total/length);
 			for(var i=1;i<total/length+1;i++){
 				if(i!=page){
 					pages+='<a href="#" onclick="javascript:getDatas('+status+','+i+','+length+');">'+i+'</a>&nbsp;';

@@ -3,7 +3,7 @@
 <script>
 var id=${id};
 var status="1";
-console.log('id:',id);
+//console.log('id:',id);
 $(document).ready(function(e) {
 	getData(id);
 	getTaskLogsDatas(id,1,5);
@@ -13,12 +13,12 @@ function getData(id){
 		type:'POST',
 		url:'/UserAdmin/taskJson?id='+id+'&nd='+new Date().getTime(),
 		error:function(err){
-			//console.log(err);
+			////console.log(err);
 		},
 		success:function(result){
-			console.log(result);
+			//console.log(result);
 			var task=result.task;
-			$("#name").html(task.image);
+			$("#name").html(task.name);
 			$("#image").html(task.image);
 			$("#des").html(task.des);
 			status=task.status;
@@ -32,14 +32,14 @@ function getTaskLogsDatas(taskId,page,length){
 		type:'POST',
 		url:'/UserAdmin/taskLogsJson?taskId='+taskId+'&page='+page+'&length='+length+'&nd='+new Date().getTime(),
 		error:function(err){
-			//console.log(err);
+			////console.log(err);
 		},
 		success:function(result){
-			//console.log(result);
+			////console.log(result);
 			var list=result.list;
 			var listStr='<table class="borderClass">';
 			for(var i=0;i<list.length;i++){
-				console.log(list[i]);
+				//console.log(list[i]);
 				var taskLog=list[i];
 				var row='';
 				row+='<tr><td colspan="2" class="borderClass">'+taskLog.cont+'</td>';
@@ -57,7 +57,7 @@ function getTaskLogsDatas(taskId,page,length){
 			var length=result.length;
 			var page=result.page;
 			var pages='记录数:'+total+'&nbsp;分页:';
-			//console.log(total/length);
+			////console.log(total/length);
 			for(var i=1;i<total/length+1;i++){
 				if(i!=page){
 					pages+='<a href="#" onclick="javascript:getTaskLogsDatas('+id+','+i+','+length+');">'+i+'</a>&nbsp;';
@@ -75,10 +75,10 @@ function getUserData(logId,userId){
 		type:'POST',
 		url:'/SysAdmin/userJson?id='+userId+'&nd='+new Date().getTime(),
 		error:function(err){
-			//console.log(err);
+			////console.log(err);
 		},
 		success:function(result){
-			console.log(result);
+			//console.log(result);
 			var user=result.user;
 			$("#taskLogName"+logId).html(user.name);
 		}
@@ -86,7 +86,7 @@ function getUserData(logId,userId){
 }
 
 function save(){
-	console.log('save,id:',id);
+	//console.log('save,id:',id);
 	var taskId=id;
 	var cont=$("#cont").val();
 	var files=$("#files").val();
@@ -95,7 +95,7 @@ function save(){
 		url:'/UserAdmin/taskLogSaveJson?nd='+new Date().getTime(),
 		data:{'taskId':taskId,'cont':cont,'files':files},
 		success:function(result){
-			//console.log(result);
+			////console.log(result);
 			//document.getElementById('tips').innerHTML=result.msg;
 			window.location.href='/UserAdmin/taskView?id='+id;
 		}
@@ -118,6 +118,7 @@ function formatTime(cellvalue){
 <tr><td class="borderClass">图片:</td><td><div id="image"></div></td></tr>
 <tr><td class="borderClass">描述:</td><td><div id="des"></div></td></tr>
 </table>
+<a href="#">更新状态</a>&nbsp;&nbsp;<a href="#">查看文件</a>&nbsp;&nbsp;
 <br>
 进度跟踪:<br>
 <div id="list">

@@ -9,14 +9,14 @@ function getDatas(page,length){
 		type:'POST',
 		url:'/SysAdmin/taskGroupsJson?page='+page+'&length='+length+'&nd='+new Date().getTime(),
 		error:function(err){
-			//console.log(err);
+			////console.log(err);
 		},
 		success:function(result){
-			//console.log(result);
+			////console.log(result);
 			var list=result.list;
 			var listStr='<table class="borderClass"><tr><td class="borderClass">客户</td><td class="borderClass">操作</td></tr>';
 			for(var i=0;i<list.length;i++){
-				console.log(list[i]);
+				//console.log(list[i]);
 				var taskGroup=list[i];
 				var row='';
 				if(taskGroup.name){
@@ -37,7 +37,7 @@ function getDatas(page,length){
 			var length=result.length;
 			var page=result.page;
 			var pages='记录数:'+total+'&nbsp;分页:';
-			//console.log(total/length);
+			////console.log(total/length);
 			for(var i=1;i<total/length+1;i++){
 				if(i!=page){
 					pages+='<a href="#" onclick="javascript:getDatas('+i+','+length+');">'+i+'</a>&nbsp;';
@@ -51,12 +51,12 @@ function getDatas(page,length){
 }
 
 function del(id){
-	console.log('del:',id);
+	//console.log('del:',id);
 	$.ajax({
 		type:'POST',
 		url:'/SysAdmin/taskGroupDelJson?id='+id+'&nd='+new Date().getTime(),
 		error:function(err){
-			//console.log(err);
+			////console.log(err);
 		},
 		success:function(result){
 			alert(result.msg);
