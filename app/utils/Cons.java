@@ -2,6 +2,7 @@ package utils;
 
 public class Cons {
 
+	public static final String www_url="http://ekyy.vxg202.10000net.cn";
 	public static final String token_key="token";
 	public static final String sys_key="sysId";
 	public static final String op_code="code";

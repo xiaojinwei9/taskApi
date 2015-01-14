@@ -44,7 +44,14 @@ function getTaskLogsDatas(taskId,page,length){
 				var taskLog=list[i];
 				var row='';
 				row+='<tr><td colspan="2" class="borderClass">'+taskLog.cont+'</td>';
-				row+='<td rowspan="2" class="borderClass" width="150"><a href="http://www.xxx.xxx/xxx.jpg">初稿.jpg</a><br><a href="http://www.xxx.xxx/xxx.doc">会议记录.doc</a></td></tr>';
+				var filesStr='';
+				if(taskLog.files!=null&&taskLog.files.indexOf("-")!=-1){
+					var fileArr=taskLog.files.split("-");
+					if(fileArr.length==2){
+						filesStr='<a href="'+fileArr[1]+'" target=_blank">'+fileArr[0]+'</a>';
+					}
+				}
+				row+='<td rowspan="2" class="borderClass" width="150">'+filesStr+'</td></tr>';
 				row+='<tr><td class="borderClass">'+formatTime(taskLog.time);+'</td>';
 				row+='<td class="borderClass"><div id="taskLogName'+taskLog.id+'"></div></td>';
 				row+='</tr>';
@@ -88,7 +95,8 @@ function getUserData(logId,userId){
 
 function save(){
 	//console.log('save,id:',id);
-	var taskId=id;
+	$("formA").submit();
+	/* var taskId=id;
 	var cont=$("#cont").val();
 	var files=$("#files").val();
 	$.ajax({
@@ -100,7 +108,7 @@ function save(){
 			//document.getElementById('tips').innerHTML=result.msg;
 			window.location.href='/UserAdmin/taskView?id='+id;
 		}
-	});
+	}); */
 }
 
 function goBack(){
@@ -144,11 +152,15 @@ function updateStatus(){
 
 <br>
 进度处理:<br>
+<form id="formA" action="/UserAdmin/taskLogSaveJson" method="post" enctype="multipart/form-data">
+<input type="hidden" id="taskId" name="taskId" value="${id}">
 <table class="borderClass" width="500">
 <tr><td width="60">处理:</td><td><input class="adminInput250X20" type="text" name="cont" id="cont"></td></tr>
-<tr><td>文件:</td><td><input class="adminInput250X20" type="text" name="files" id="files"></td></tr>
+<tr><td>文件:</td><td><input class="adminInput250X20" type="file" name="file" id="file"/></td></tr>
 <tr><td colspan="2"><button onclick="javascript:save();" class="adminAddBtn">保存</button>&nbsp;&nbsp;<a href="#" onclick="javascript:goBack();">返回</a>&nbsp;<span id="tips"></span></td></tr>
 </table>
+</form>
+
 <br>
 进度跟踪:<br>
 <div id="list">

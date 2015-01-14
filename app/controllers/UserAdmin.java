@@ -1,10 +1,16 @@
 package controllers;
 
+import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 import play.Logger;
+import play.Play;
 import play.mvc.With;
+import utils.Cons;
 import utils.GsonUtils;
 import utils.StrUtils;
 import utils.SysTools;
@@ -102,12 +108,33 @@ public class UserAdmin extends BasicClientController {
 	}
 	
 	
-	public static void taskLogSaveJson(String taskId,String cont,String files){
+	public static void taskLogSaveJson(String taskId,String cont,File file){
 		Map<String,Object> result=new HashMap<String,Object>();
 		if(!(StrUtils.isNotEmpty(taskId))){
 			SysTools.setResultParamsErr(result);
 			renderJSON(GsonUtils.mapToString(result));
 		}
+		//文件处理
+		String files="";
+		if(file!=null){
+			String fileNameA=file.getName();
+			//生成随机文件名：当前年月日时分秒+五位随机数（为了在实际项目中防止文件同名而进行的处理） 
+			Random r = new Random();
+			int rannum = (int) (r.nextDouble() * (99999 - 10000 + 1)) + 10000; //获取随机数 
+			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss"); //时间格式化的格式 
+			String nowTimeStr = dateFormat.format(new Date()); //当前时间 
+			String fileType=fileNameA.substring(fileNameA.lastIndexOf("."), fileNameA.length());
+			String fileNameB=nowTimeStr+"_"+rannum+fileType;
+			
+			fileNameB="/public/uploads/"+fileNameB;
+			String url=Cons.www_url+fileNameB;
+			String filePath=Play.applicationPath.getAbsoluteFile()+fileNameB;
+			Logger.info("filePath:"+filePath);
+			File uploadFile=new File(filePath);   
+		    play.libs.Files.copy(file,uploadFile);
+		    files=fileNameA+"-"+url;
+		}
+		//文件处理 end
 		Map<String, String> paramsMap = new HashMap<String, String>();
 		Map<String,String> userInfo=getUserInfo();
 		paramsMap.put("userId", userInfo.get("userId")+"");
@@ -116,7 +143,8 @@ public class UserAdmin extends BasicClientController {
 		paramsMap.put("files", files);
 		String jsonStr="";
 		jsonStr=paramsConstruction("/TaskLogs/add",paramsMap);
-		renderJSON(jsonStr);
+		taskView(taskId);
+		//renderJSON(jsonStr);
 	}
 	
 	public static void taskLogsJson(String taskId,String page,String length){
