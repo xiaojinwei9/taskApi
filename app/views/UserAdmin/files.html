@@ -1,0 +1,67 @@
+#{extends 'UserAdminMain.html' /}
+#{set title:'网站后台'/}
+<script>
+var taskId=${taskId};
+$(document).ready(function(e) {
+	getDatas(taskId);
+});
+function getDatas(taskId){
+	$.ajax({
+		type:'POST',
+		url:'/UserAdmin/filesJson?taskId='+taskId+'&nd='+new Date().getTime(),
+		error:function(err){
+			////console.log(err);
+		},
+		success:function(result){
+			////console.log(result);
+			var list=result.list;
+			var listStr='<div class="adminListRow">';
+			listStr+='<div class="adminListCell220">文件名[点击下载]</div>';
+			listStr+='<div class="adminListCell180">上传时间</div>';
+			listStr+='<div class="adminListCell80">上传者</div>';
+			listStr+='</div>';
+			for(var i=0;i<list.length;i++){
+				//console.log(list[i]);
+				var file=list[i];
+				var row='';
+				row+='<div class="adminListCell220"><a href="'+file.url+'" target="_blank">'+file.name+'</a></div>';
+				row+='<div class="adminListCell180">'+formatTime(file.time)+'</div>';
+				row+='<div class="adminListCell80" id="userName'+i+'">...</div>';
+				listStr+='<div class="adminListRow">'+row+'</div>';
+				getUserData(i,file.userId);
+			}
+			$("#list").html(listStr);
+		}
+	});
+}
+
+
+function getUserData(id,userId){
+	$.ajax({
+		type:'POST',
+		url:'/SysAdmin/userJson?id='+userId+'&nd='+new Date().getTime(),
+		error:function(err){
+			////console.log(err);
+		},
+		success:function(result){
+			//console.log(result);
+			var user=result.user;
+			$("#userName"+id).html(user.name);
+		}
+	});
+}
+
+function formatTime(cellvalue){
+	var d=new Date(cellvalue);
+	return d.format('yy-MM-dd hh:mm:ss');
+}
+
+</script>
+<div id="add" class="adminAddCon">
+<div class="adminAddTxt"><a href="/UserAdmin/taskView?id=${taskId}">返回</a></div>
+</div>
+
+<div id="list" class="adminListCon">
+</div>
+
+

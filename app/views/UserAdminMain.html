@@ -21,19 +21,19 @@
 		 	<div class="skyConLeftMenu">
 		 		<ul>
 			 		<li>
-			 			<a href="/UserAdmin/tasks?status=1">待初稿</a>
+			 			<a href="/UserAdmin/tasks?status=1">#{if status=='1'}[#{/if}待初稿#{if status=='1'}]#{/if}</a>
 			 		</li>
 			 		<li>
-			 			<a href="/UserAdmin/tasks?status=2">待审核</a>
+			 			<a href="/UserAdmin/tasks?status=2">#{if status=='2'}[#{/if}待审核#{if status=='2'}]#{/if}</a>
 			 		</li>
 			 		<li>
-			 			<a href="/UserAdmin/tasks?status=3">待确稿</a>
+			 			<a href="/UserAdmin/tasks?status=3">#{if status=='3'}[#{/if}待确稿#{if status=='3'}]#{/if}</a>
 			 		</li>
 			 		<li>
-			 			<a href="/UserAdmin/tasks?status=4">待评价</a>
+			 			<a href="/UserAdmin/tasks?status=4">#{if status=='4'}[#{/if}待评价#{if status=='4'}]#{/if}</a>
 			 		</li>
 			 		<li>
-			 			<a href="/UserAdmin/tasks?status=5">已完成</a>
+			 			<a href="/UserAdmin/tasks?status=5">#{if status=='5'}[#{/if}已完成#{if status=='5'}]#{/if}</a>
 			 		</li>
 			 		<li>
 			 			<a href="/UserAdmin/users">通信录</a>

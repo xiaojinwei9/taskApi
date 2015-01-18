@@ -15,14 +15,14 @@ a:active{text-decoration:none;font-weight:normal;font-size:14px;color:#000000;}
 border:1px #cccccc solid;
 }
 
-/****************/
+/*loginCss***************/
 
 .loginTop{
 	margin-top:0px;
 	overflow:hidden;
 	width:100%;
 	height:220px;
-	background:url("../images/taskClient/loginTop.jpg");
+	background:url("../images/taskClient/loginTop.png");
 }
 
 .loginDiv{
@@ -61,7 +61,81 @@ color: #fff;
 background-color: #03a9f4;
 border-color: #0398db;
 }
+/**adminCss****************/
+.skyConAdminTop{
+	margin: 0 auto;
+	margin-top: 0px;
+	overflow:hidden;
+	height:70px;
+	width:100%;
+	background:url("../images/taskClient/adminTop.png");
+}
 
+.skyConLeftMenu{
+	width:130px;
+	height:500px;
+	padding-top:10px;
+	border-right:1px #cccccc solid;
+	background-color:#efefef;
+}
+.skyConLeftMenu ul {
+	list-style:none;
+	margin:0px;
+	padding:0px;
+} 
+.skyConLeftMenu ul li {
+	line-height:25px;
+} 
+.skyConLeftMenu ul li a{
+	color:#333;
+	font-size: 14px;
+	font-weight:bold;
+}  
+
+.skyConRight{
+	float: left;
+	margin-top:0px;
+	margin-left:0px;
+	width:80%;
+}
+
+.skyConRightCon{
+	float: left;
+	width:100%;
+}
+.skyConRightCopy{
+	float: left;
+	width:100%;
+}
+
+
+.skyConAdminTopText{
+	float:left;
+	margin-left:50px;
+	padding-top:36px;
+	height:70px;
+	width:200px;
+	font-weight:blod;
+	font-size:16px;
+	color:#fff;
+}
+.skyCon{
+	margin: 0 auto;
+	margin-top: 0px;
+	overflow:hidden;
+	width:100%;
+}
+
+.skyConLeft{
+	float: left;
+	margin-left:0px;
+	padding-top:0px;
+	text-align:center;
+	width:150px;
+	height:560px;
+}
+
+/****adminList*********/
 .adminAddCon{
 float:left;
 margin-top:10px;
@@ -70,16 +144,400 @@ overflow:hidden;
 width:900px;
 height:30px;
 }
+.adminAddPng{
+float:left;
+margin-left:0px;
+margin-top:8px;
+overflow:hidden;
+width:16px;
+height:16px;
+background:url("../images/taskClient/add.png");
+}
+.adminViewPic{
+float:left;
+margin-left:0px;
+margin-top:5px;
+overflow:hidden;
+width:16px;
+height:16px;
+}
+.adminEditPic{
+float:left;
+margin-left:10px;
+margin-top:0px;
+overflow:hidden;
+width:16px;
+height:16px;
+}
+.adminTaskGroupCon{
+float:left;
+margin-left:5px;
+margin-top:5px;
+overflow:hidden;
+width:260px;
+height:50px;
+}
+.adminTaskGroupConNone{
+float:left;
+margin-left:5px;
+margin-top:5px;
+overflow:hidden;
+display:none;
+width:260px;
+height:50px;
+}
+.adminAddTxt{
+float:left;
+margin-left:5px;
+margin-top:5px;
+overflow:hidden;
+width:30px;
+height:50px;
+}
+
+
+
+.adminListCon{
+float:left;
+overflow:hidden;
+margin-top:0px;
+margin-left:0px;
+width:900px;
+}
+
+.adminListRow{
+float:left;
+overflow:hidden;
+margin-left:0px;
+margin-top:5px;
+border-bottom:1px #cccccc solid;
+width:500px;
+height:35px;
+}
+.adminListRow700{
+float:left;
+margin-left:0px;
+margin-top:5px;
+border-bottom:1px #cccccc solid;
+width:700px;
+}
+.adminListRow750{
+float:left;
+margin-left:0px;
+margin-top:5px;
+border-bottom:1px #cccccc solid;
+width:750px;
+}
+
+.adminListCell30{
+float:left;
+margin-left:0px;
+overflow:hidden;
+width:30px;
+height:30px;
+background:url("../images/taskClient/t.png");
+}
+.adminListCell30Head{
+float:left;
+margin-left:0px;
+overflow:hidden;
+width:30px;
+height:30px;
+}
+.adminListCell30HeadNo{
+float:left;
+margin-left:0px;
+overflow:hidden;
+width:30px;
+height:30px;
+background:url("../images/taskClient/noHead.png");
+}
+.adminListCell30C{
+float:left;
+margin-left:0px;
+overflow:hidden;
+width:30px;
+height:30px;
+background:url("../images/taskClient/c.png");
+}
+
+.adminListCell370{
+float:left;
+margin-left:0px;
+overflow:hidden;
+padding-left:10px;
+padding-top:5px;
+width:360px;
+height:20px;
+}
+.adminListCell100{
+float:left;
+margin-left:0px;
+padding-left:10px;
+padding-top:5px;
+width:90px;
+}
+.adminListCell150{
+float:left;
+margin-left:0px;
+padding-left:10px;
+padding-top:5px;
+width:140px;
+}
+.adminListCell220{
+float:left;
+margin-left:0px;
+padding-left:10px;
+padding-top:5px;
+width:215px;
+}
+.adminListCell180{
+float:left;
+margin-left:0px;
+padding-left:10px;
+padding-top:5px;
+width:175px;
+}
+.adminListCell120{
+float:left;
+margin-left:0px;
+padding-left:10px;
+padding-top:5px;
+width:115px;
+}
+.adminListCell80{
+float:left;
+margin-left:0px;
+padding-left:10px;
+padding-top:5px;
+width:70px;
+}
+
+.adminListCell250{
+float:left;
+margin-left:0px;
+padding-left:10px;
+padding-top:5px;
+width:240px;
+}
+
 .adminPages{
 float:left;
 text-align:left;
 margin-top:10px;
 margin-left:0px;
-overflow:hidden;
 width:900px;
 height:30px;
 }
 
+.adminPages A{
+BORDER-RIGHT: #aaaadd 1px solid;
+PADDING-RIGHT: 5px;
+BORDER-TOP: #aaaadd 1px solid;
+PADDING-LEFT: 5px;
+PADDING-BOTTOM: 2px;
+MARGIN: 2px;
+BORDER-LEFT: #aaaadd 1px solid;
+COLOR: #000099;
+PADDING-TOP: 2px;
+BORDER-BOTTOM: #aaaadd 1px solid;
+TEXT-DECORATION: none;
+}
+
+.adminPages SPAN.current {
+BORDER-RIGHT: #000099 1px solid;
+PADDING-RIGHT: 5px;
+BORDER-TOP: #000099 1px solid;
+PADDING-LEFT: 5px;
+FONT-WEIGHT: bold;
+PADDING-BOTTOM: 2px;
+MARGIN: 2px;
+BORDER-LEFT: #000099 1px solid;
+COLOR: #fff;
+PADDING-TOP: 2px;
+BORDER-BOTTOM: #000099 1px solid;
+BACKGROUND-COLOR: #000099;
+}
+
+
+/****adminEdit**********/
+.adminEditCon{
+float:left;
+overflow:hidden;
+margin-top:10px;
+margin-left:0px;
+width:900px;
+}
+.adminEditRow{
+float:left;
+overflow:hidden;
+margin-top:10px;
+margin-left:0px;
+width:900px;
+height:30px;
+}
+.adminEditRowH45{
+float:left;
+overflow:hidden;
+margin-top:10px;
+margin-left:0px;
+width:900px;
+height:45px;
+}
+.adminEditRowTaskGroups{
+float:left;
+margin-top:10px;
+margin-left:0px;
+width:900px;
+height:30px;
+}
+.adminEditRowFile{
+float:left;
+overflow:hidden;
+margin-top:0px;
+margin-left:0px;
+width:900px;
+height:30px;
+}
+.adminEditRowFileNone{
+float:left;
+overflow:hidden;
+margin-top:0px;
+margin-left:0px;
+display:none;
+width:900px;
+height:30px;
+}
+.adminEditLable{
+float:left;
+overflow:hidden;
+margin-top:0px;
+margin-left:0px;
+width:70px;
+height:30px;
+}
+.adminEditInput{
+float:left;
+overflow:hidden;
+margin-top:0px;
+margin-left:0px;
+width:500px;
+height:30px;
+}
+.adminEditInputH45{
+float:left;
+overflow:hidden;
+margin-top:0px;
+margin-left:0px;
+width:500px;
+height:45px;
+}
+.adminEditInputTaskGroups{
+float:left;
+margin-top:0px;
+margin-left:0px;
+width:500px;
+height:30px;
+}
+
+/*****adminView*****/
+
+.adminViewCon{
+float:left;
+overflow:hidden;
+margin-top:10px;
+margin-left:0px;
+width:900px;
+}
+.adminViewRow{
+float:left;
+margin-left:0px;
+width:900px;
+}
+.adminViewRowLine{
+float:left;
+margin-left:0px;
+margin-top:5px;
+margin-bottom:5px;
+width:350px;
+height:2px;
+border-bottom:1px #cccccc solid;
+}
+.adminViewName{
+float:left;
+overflow:hidden;
+margin-left:0px;
+width:300px;
+font-weight:bold;
+}
+.adminViewStatus{
+float:left;
+overflow:hidden;
+margin-left:10px;
+width:100px;
+}
+.adminViewTaskLogCont{
+float:left;
+margin-left:0px;
+width:350px;
+}
+.adminViewTaskLogContChangeStatus{
+float:left;
+margin-left:0px;
+width:350px;
+color:red;
+}
+.adminViewTaskLogTime{
+float:left;
+margin-left:0px;
+width:150px;
+color:#aaaaaa;
+}
+.adminViewTaskLogUserName{
+float:left;
+margin-left:0px;
+width:100px;
+}
+.adminViewDes{
+float:left;
+margin-left:0px;
+width:300px;
+}
+
+.adminViewFiles{
+float:left;
+overflow:hidden;
+margin-left:0px;
+width:80px;
+}
+.adminViewUpdateStatusLable{
+float:left;
+overflow:hidden;
+margin-left:0px;
+width:60px;
+}
+.adminViewUpdateStatus{
+float:left;
+overflow:hidden;
+margin-left:0px;
+width:120px;
+}
+.adminViewUpdateStatusNone{
+float:left;
+overflow:hidden;
+display:none;
+margin-left:0px;
+width:120px;
+}
+
+.adminViewUpdateStatusTips{
+float:left;
+overflow:hidden;
+margin-left:0px;
+width:60px;
+}
+
+/*********old***/
 .adminAddBtn{
 height: 25px;
 width: 50px;
@@ -91,20 +549,6 @@ border-color: #eeeeee;
 
 
 
-.adminListCon{
-float:left;
-overflow:hidden;
-margin-top:10px;
-margin-left:0px;
-width:900px;
-}
-.adminListRow{
-float:left;
-overflow:hidden;
-margin-left:0px;
-width:900px;
-overflow:hidden;
-}
 .adminListRowTop{
 float:left;
 overflow:hidden;
@@ -117,26 +561,16 @@ overflow:hidden;
 float:left;
 overflow:hidden;
 margin-left:0px;
+margin-top:10px;
 padding-left:3px;
 padding-top:3px;
 padding-bottom:3px;
 border-bottom:1px #dddddd solid;
-border-left:1px #dddddd solid;
 width:100px;
 overflow:hidden;
 }
-.adminListCell300{
-float:left;
-overflow:hidden;
-margin-left:0px;
-padding-left:3px;
-padding-top:3px;
-padding-bottom:3px;
-border-bottom:1px #dddddd solid;
-border-left:1px #dddddd solid;
-width:300px;
-overflow:hidden;
-}
+
+
 .adminListCellTop{
 float:left;
 overflow:hidden;
@@ -144,7 +578,6 @@ margin-left:0px;
 padding-left:3px;
 padding-top:3px;
 padding-bottom:3px;
-border-left:1px #dddddd solid;
 border-top:1px #dddddd solid;
 border-bottom:1px #dddddd solid;
 width:100px;
@@ -186,23 +619,10 @@ padding-left:3px;
 padding-top:3px;
 padding-bottom:3px;
 border-bottom:1px #dddddd solid;
-border-left:1px #dddddd solid;
-border-right:1px #dddddd solid;
 width:100px;
 overflow:hidden;
 }
-.adminListCell250{
-float:left;
-overflow:hidden;
-margin-left:0px;
-padding-left:3px;
-padding-top:3px;
-padding-bottom:3px;
-border-bottom:1px #dddddd solid;
-border-left:1px #dddddd solid;
-width:250px;
-overflow:hidden;
-}
+
 .adminListCellTop250{
 float:left;
 overflow:hidden;
@@ -233,78 +653,19 @@ height:22px;
 border:1px #cccccc solid;
 }
 
+.addTxtAdd{
+font-size: 20px;
+font-weight:bold;
+color: #000;
+}
+.addTxt{
+font-size: 14px;
+font-weight:bold;
+color: #000;
+}
 /***************/
 
-.skyConAdminTop{
-	margin: 0 auto;
-	margin-top: 0px;
-	overflow:hidden;
-	height:70px;
-	background-color:#3d94e5;
-	width:100%;
-}
 
-.skyConAdminTopText{
-	float:left;
-	padding-top:36px;
-	height:70px;
-	width:110px;
-	font-weight:blod;
-	font-size:16px;
-	color:#fff;
-}
-.skyCon{
-	margin: 0 auto;
-	margin-top: 0px;
-	overflow:hidden;
-	width:100%;
-}
-
-.skyConLeft{
-	float: left;
-	margin-left:0px;
-	padding-top:0px;
-	text-align:center;
-	width:150px;
-	height:560px;
-}
-
-.skyConLeftMenu{
-	width:130px;
-	height:500px;
-	padding-top:10px;
-	border-right:1px #cccccc solid;
-	background-color:#eeeeee;
-}
-.skyConLeftMenu ul {
-	list-style:none;
-	margin:0px;
-	padding:0px;
-} 
-.skyConLeftMenu ul li {
-	line-height:25px;
-} 
-.skyConLeftMenu ul li a{
-	color:#333;
-	font-size: 14px;
-	font-weight:bold;
-}  
-
-.skyConRight{
-	float: left;
-	margin-top:0px;
-	margin-left:0px;
-	width:80%;
-}
-
-.skyConRightCon{
-	float: left;
-	width:100%;
-}
-.skyConRightCopy{
-	float: left;
-	width:100%;
-}
 
 /*************/
 .skySearchPara{

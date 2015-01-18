@@ -19,7 +19,16 @@ function getData(page,length){
 			//console.log(result);
 			var taskGroup=result.taskGroup;
 			$("#name").val(taskGroup.name);
-			$("#image").val(taskGroup.image);
+			if(taskGroup.image!=null&&taskGroup.image.indexOf("-")!=-1){
+				var filesStr='';
+				var fileArr=taskGroup.image.split("-");
+				if(fileArr.length==2){
+					filesStr='<a href="'+fileArr[1]+'" target=_blank">'+fileArr[0]+'</a>';
+				}
+				$("#fileView").html(filesStr);
+				$("#fileView").attr("class","adminEditRowFile");
+			}
+			
 		}
 	});
 }
@@ -27,26 +36,33 @@ function getData(page,length){
 
 //////////
 function save(){
-	//console.log('save,id:',id);
 	var name=$("#name").val();
-	var image=$("#image").val();
-	$.ajax({
-		type:"POST",
-		url:'/SysAdmin/taskGroupSaveJson?nd='+new Date().getTime(),
-		data:{'id':id,'name':name,'image':image},
-		success:function(result){
-			////console.log(result);
-			document.getElementById('tips').innerHTML=result.msg;
-		}
-	});
+	if(name==''){
+		alert('客户名称不能为空!');
+		return false;
+	}else{
+		$("#formA").submit();
+	}
 }
 
 </script>
-<br>
-<table class="borderClass">
-<tr><td>客户:</td><td><input class="adminInput250X20" type="text" name="name" id="name"></td></tr>
-<tr><td>图片:</td><td><input class="adminInput250X20" type="text" name="image" id="image"></td></tr>
-<tr><td colspan="2"><button onclick="javascript:save();" class="adminAddBtn">保存</button>&nbsp;&nbsp;<a href="/SysAdmin/taskGroups">返回</a>&nbsp;&nbsp;<span id="tips"></span></td></tr>
-</table>
+<div class="adminEditCon">
+<form id="formA" action="/SysAdmin/taskGroupSaveJson" method="post" enctype="multipart/form-data">
+<input type="hidden" id="id" name="id" value="${id}">
+	<div class="adminEditRow">
+		<div class="adminEditLable">客户名称:</div>
+		<div class="adminEditInput"><input class="adminInput250X20" type="text" name="name" id="name"></div>
+	</div>
+	<div class="adminEditRow">
+		<div class="adminEditLable">图片:</div>
+		<div class="adminEditInput"><input class="adminInput250X20" type="file" name="file" id="file"/>&nbsp;建议:长300px宽80px</div>
+	</div>
+	<div class="adminEditRowFileNone" id="fileView">
+	</div>
+	<div class="adminEditRow">
+		<a href="#" onclick="javascript:save();">保存</a>&nbsp;&nbsp;&nbsp;<a href="/SysAdmin/taskGroups">返回</a>&nbsp;&nbsp;<span id="tips"></span>
+	</div>
+</form>
+</div>
 
 

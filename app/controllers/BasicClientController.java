@@ -11,18 +11,40 @@ import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Random;
 
 import javax.activation.MimetypesFileTypeMap;
 
 import play.Logger;
+import play.Play;
 import play.mvc.Controller;
+import utils.Cons;
 import utils.StrUtils;
 
 public class BasicClientController extends Controller {
+	
+	public static String getStatusNameById(String id){
+		String statusName="";
+		if("1".equals(id)){
+			statusName="待初稿";
+		}else if("2".equals(id)){
+			statusName="待审核";
+		}else if("3".equals(id)){
+			statusName="待确稿";
+		}else if("4".equals(id)){
+			statusName="待评价";
+		}else if("5".equals(id)){
+			statusName="已完成";
+		}
+		return statusName;
+		
+	}
 	
 	public static Map<String,String> getUserInfo(){
 		Map<String,String> userInfo=new HashMap<String,String>();
@@ -199,5 +221,26 @@ public class BasicClientController extends Controller {
 			}
 		}
 		return res;
+	}
+	
+	public static String saveFile(File file){
+		String fileNameA=file.getName();
+		//生成随机文件名：当前年月日时分秒+五位随机数（为了在实际项目中防止文件同名而进行的处理） 
+		Random r = new Random();
+		int rannum = (int) (r.nextDouble() * (99999 - 10000 + 1)) + 10000; //获取随机数 
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss"); //时间格式化的格式 
+		String nowTimeStr = dateFormat.format(new Date()); //当前时间 
+		String fileType=fileNameA.substring(fileNameA.lastIndexOf("."), fileNameA.length());
+		String fileNameB=nowTimeStr+"_"+rannum+fileType;
+		
+		fileNameB="/public/uploads/"+fileNameB;
+		String url=Cons.www_url_s+fileNameB;
+		String filePath=Play.applicationPath.getAbsoluteFile()+fileNameB;
+		Logger.info("filePath:"+filePath);
+		Logger.info("fileUrl:"+url);
+		File uploadFile=new File(filePath);   
+	    play.libs.Files.copy(file,uploadFile);
+	    String files=fileNameA+"-"+url;
+	    return files;
 	}
 }

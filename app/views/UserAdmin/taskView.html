@@ -19,9 +19,10 @@ function getData(id){
 			//console.log(result);
 			var task=result.task;
 			$("#name").html(task.name);
-			$("#image").html(task.image);
-			$("#status").val(task.status);
 			$("#des").html(task.des);
+			//$("#image").html(task.image);
+			$("#status").val(task.status);
+			$("#statusView").html($("#status").find("option:selected").text());
 			status=task.status;
 		}
 	});
@@ -38,12 +39,21 @@ function getTaskLogsDatas(taskId,page,length){
 		success:function(result){
 			////console.log(result);
 			var list=result.list;
-			var listStr='<table class="borderClass" width="500">';
+			var listStr='';
 			for(var i=0;i<list.length;i++){
 				//console.log(list[i]);
 				var taskLog=list[i];
 				var row='';
-				row+='<tr><td colspan="2" class="borderClass">'+taskLog.cont+'</td>';
+				row+='<div class="adminViewRow">';
+				if(taskLog.cont!=null&&taskLog.cont.indexOf("更改任务状态为:")!=-1){
+					row+='<div class="adminViewTaskLogContChangeStatus">'+taskLog.cont+'</div>';
+				}else{
+					row+='<div class="adminViewTaskLogCont">'+taskLog.cont+'</div>';
+				}
+				row+='</div>';
+				row+='<div class="adminViewRow">';
+				row+='<div class="adminViewTaskLogTime">'+formatTime(taskLog.time)+'</div><div class="adminViewTaskLogUserName" id="taskLogUserName'+taskLog.id+'">...</div>';
+				row+='</div>';
 				var filesStr='';
 				if(taskLog.files!=null&&taskLog.files.indexOf("-")!=-1){
 					var fileArr=taskLog.files.split("-");
@@ -51,14 +61,15 @@ function getTaskLogsDatas(taskId,page,length){
 						filesStr='<a href="'+fileArr[1]+'" target=_blank">'+fileArr[0]+'</a>';
 					}
 				}
-				row+='<td rowspan="2" class="borderClass" width="150">'+filesStr+'</td></tr>';
-				row+='<tr><td class="borderClass">'+formatTime(taskLog.time);+'</td>';
-				row+='<td class="borderClass"><div id="taskLogName'+taskLog.id+'"></div></td>';
-				row+='</tr>';
+				if(filesStr!=''){
+					row+='<div class="adminViewRow">';
+					row+='<div class="adminViewTaskLogCont">附件:'+filesStr+'</div>';
+					row+='</div>';
+				}
+				row+='<div class="adminViewRowLine"></div>';
 				listStr+=row;
 				getUserData(taskLog.id,taskLog.userId);
 			}
-			listStr+='</table>';
 			$("#list").html(listStr);
 			//
 			var total=result.total;
@@ -70,7 +81,7 @@ function getTaskLogsDatas(taskId,page,length){
 				if(i!=page){
 					pages+='<a href="#" onclick="javascript:getTaskLogsDatas('+id+','+i+','+length+');">'+i+'</a>&nbsp;';
 				}else{
-					pages+='['+i+']';
+					pages+='<span class="current">'+i+'</span>';
 				}
 			}
 			$("#pages").html(pages);
@@ -88,14 +99,19 @@ function getUserData(logId,userId){
 		success:function(result){
 			//console.log(result);
 			var user=result.user;
-			$("#taskLogName"+logId).html(user.name);
+			$("#taskLogUserName"+logId).html(user.name);
 		}
 	});
 }
 
 function save(){
 	//console.log('save,id:',id);
-	$("formA").submit();
+	var cont=$("#cont").val();
+	if(cont==''){
+		alert('处理不能为空!');
+		return false;
+	}
+	$("#formA").submit();
 	/* var taskId=id;
 	var cont=$("#cont").val();
 	var files=$("#files").val();
@@ -130,42 +146,67 @@ function updateStatus(){
 		success:function(result){
 			////console.log(result);
 			document.getElementById('statusTips').innerHTML=result.msg;
+			getTaskLogsDatas(id,1,5);
 		}
 	});
 }
 
+function showUpdateStatus(){
+	//console.log('show');
+	$("#adminViewUpdateStatus").attr("class","adminViewUpdateStatus");
+}
 </script>
-<br>
-<table class="borderClass" width="500">
-<tr><td width="60">任务名称:</td><td><div id="name"></div></td></tr>
-<tr><td>图片:</td><td><div id="image"></div></td></tr>
-<tr><td>描述:</td><td><div id="des"></div></td></tr>
-</table>
-<a href="#">更新状态</a>&nbsp;&nbsp;<select onchange="updateStatus();" class="adminInput100X22" id="status">
-<option value="1">待初稿</option>
-<option value="2">待审核</option>
-<option value="3">待确稿</option>
-<option value="4">待评价</option>
-<option value="5">已完成</option>
-</select>
-&nbsp;<span id="statusTips"></span>&nbsp;&nbsp;<a href="#">查看文件</a>&nbsp;&nbsp;
-
-<br>
-进度处理:<br>
-<form id="formA" action="/UserAdmin/taskLogSaveJson" method="post" enctype="multipart/form-data">
-<input type="hidden" id="taskId" name="taskId" value="${id}">
-<table class="borderClass" width="500">
-<tr><td width="60">处理:</td><td><input class="adminInput250X20" type="text" name="cont" id="cont"></td></tr>
-<tr><td>文件:</td><td><input class="adminInput250X20" type="file" name="file" id="file"/></td></tr>
-<tr><td colspan="2"><button onclick="javascript:save();" class="adminAddBtn">保存</button>&nbsp;&nbsp;<a href="#" onclick="javascript:goBack();">返回</a>&nbsp;<span id="tips"></span></td></tr>
-</table>
-</form>
-
-<br>
-进度跟踪:<br>
-<div id="list">
+<div class="adminViewCon">
+	<div class="adminViewRow">
+		<div class="adminViewName" id="name"></div>
+		<div class="adminViewStatus" id="statusView"></div>
+	</div>
+	<div class="adminViewRow">
+		<div class="adminViewDes" id="des"></div>
+	</div>
 </div>
-<div id="pages">
+
+<div class="adminViewCon">
+	<div class="adminViewRow">
+		<div class="adminViewFiles">
+			<a href="/UserAdmin/files?taskId=${id}">查看文件</a>
+		</div>
+		<div class="adminViewUpdateStatusLable">
+			<a href="#" onclick="javascript:showUpdateStatus();">更改状态</a>
+		</div>
+		<div class="adminViewUpdateStatusNone" id="adminViewUpdateStatus">
+			:&nbsp;<select onchange="updateStatus();" class="adminInput100X22" id="status">
+				<option value="1">待初稿</option>
+				<option value="2">待审核</option>
+				<option value="3">待确稿</option>
+				<option value="4">待评价</option>
+				<option value="5">已完成</option>
+			</select>
+		</div>
+		<div class="adminViewUpdateStatusTips" id="statusTips"></div>
+	</div>
+</div>	
+<br>
+
+<div class="adminEditCon">
+	<form id="formA" action="/UserAdmin/taskLogSaveJson" method="post" enctype="multipart/form-data">
+	<input type="hidden" id="taskId" name="taskId" value="${id}">
+		<div class="adminEditRow">
+			<div class="adminEditLable">处理:</div>
+			<input class="adminInput250X20" type="text" name="cont" id="cont">
+		</div>
+		<div class="adminEditRow">
+			<div class="adminEditLable">附件:</div>
+			<div class="adminEditInput"><input class="adminInput250X20" type="file" name="file" id="file"/></div>
+		</div>
+		<div class="adminEditRow">
+			<a href="#" onclick="javascript:save();">保存</a>&nbsp;&nbsp;&nbsp;<a href="#" onclick="javascript:goBack();">返回</a>&nbsp;&nbsp;<span id="tips"></span>
+		</div>
+	</form>
+</div>
+<div class="adminViewCon" id="list">
+</div>
+<div id="pages" class="adminPages">
 </div>
 
 

@@ -3,34 +3,70 @@
 <script>
 var status=${status};
 var userType=${userInfo.userType};
+var userId=${userInfo.userId};
+var taskGroupId=0;
 //console.log(status);
 //console.log(userType);
 $(document).ready(function(e) {
-	getDatas(status,1,5);
+	getDatas(taskGroupId,status,1,7);
+	if(userType==2){
+		allTaskGroupsJson();
+	}
 });
-function getDatas(status,page,length){
+
+
+function allTaskGroupsJson(){
 	$.ajax({
 		type:'POST',
-		url:'/UserAdmin/tasksJson?status='+status+'&page='+page+'&length='+length+'&nd='+new Date().getTime(),
+		url:'/SysAdmin/allTaskGroupsJson?userId='+userId+'&nd='+new Date().getTime(),
+		error:function(err){
+			////console.log(err);
+		},
+		success:function(result){
+			//console.log('groups:',result);
+			var taskGroups='<select onchange="selectByTaskGroupId();" class="adminInput250X25" id="taskGroupId">';
+			taskGroups+='<option value="0">所有客户</option>';
+			var list=result.list;
+			for(var i=0;i<list.length;i++){
+				//console.log(list[i]);
+				var taskGroup=list[i];
+				//console.log('name:'+taskGroup.name);
+				taskGroups+='<option value="'+taskGroup.id+'">'+taskGroup.name+'</option>';
+			}
+			taskGroups+='</select>';
+			$("#adminTaskGroupCon").html(taskGroups);
+			//console.log('id2:'+id);
+		}
+	});
+	$("#adminTaskGroupCon").attr("class","adminTaskGroupCon");
+}
+
+function selectByTaskGroupId(){
+	taskGroupId=$("#taskGroupId").val();
+	getDatas(taskGroupId,status,1,7);
+}
+
+function getDatas(taskGroupId,status,page,length){
+	$.ajax({
+		type:'POST',
+		url:'/UserAdmin/tasksJson?taskGroupId='+taskGroupId+'&status='+status+'&page='+page+'&length='+length+'&nd='+new Date().getTime(),
 		error:function(err){
 			////console.log(err);
 		},
 		success:function(result){
 			////console.log(result);
 			var list=result.list;
-			var listStr='<div class="adminListRowTop">';
-			listStr+='<div class="adminListCellTop300">任务名称</div>';
-			listStr+='<div class=adminListCellTopEnd>操作</div>';
-			listStr+='</div>';
+			var listStr='';
 			for(var i=0;i<list.length;i++){
 				//console.log(list[i]);
 				var task=list[i];
-				var row='';
-				row+='<div class="adminListCell300">'+task.name+'</div>';
-				row+='<div class="adminListCellEnd">';
-				row+='<a href="/UserAdmin/taskView?id='+task.id+'">查看</a>';
-				if(userType<3){
-					row+='&nbsp;<a href="/UserAdmin/task?id='+task.id+'">编辑</a>';
+				var row='<div class="adminListCell30"></div>';
+				row+='<div class="adminListCell370">'+task.name+'</div>';
+				row+='<div class="adminListCell100">';
+				row+='<div class="adminViewPic"><a href="/UserAdmin/taskView?id='+task.id+'" title="查看进度"><img src="/public/images/taskClient/view.png" border="0"></a></div>';
+				if(userId==task.userId){
+					row+='<div class="adminEditPic"><a href="/UserAdmin/task?id='+task.id+'" title="编辑"><img src="/public/images/taskClient/edit.png" border="0"></a></div>';
+					row+='<div class="adminEditPic"><a href="#" onclick="javascript:del('+task.id+');" title="删除"><img src="/public/images/taskClient/del.png" border="0"></a></div>';
 				}
 				row+='</div>';
 				listStr+='<div class="adminListRow">'+row+'</div>';
@@ -40,13 +76,13 @@ function getDatas(status,page,length){
 			var total=result.total;
 			var length=result.length;
 			var page=result.page;
-			var pages='记录数:'+total+'&nbsp;分页:';
+			var pages='记录数:'+total+'&nbsp;';
 			////console.log(total/length);
 			for(var i=1;i<total/length+1;i++){
 				if(i!=page){
-					pages+='&nbsp;<a href="#" onclick="javascript:getDatas('+status+','+i+','+length+');">'+i+'</a>&nbsp;';
+					pages+='&nbsp;<a href="#" onclick="javascript:getDatas('+taskGroupId+','+status+','+i+','+length+');">'+i+'</a>&nbsp;';
 				}else{
-					pages+='['+i+']';
+					pages+='<span class="current">'+i+'</span>';
 				}
 			}
 			$("#pages").html(pages);
@@ -54,13 +90,35 @@ function getDatas(status,page,length){
 	});
 }
 
+
+function del(id){
+	//console.log('del:',id);
+	var conf = confirm("您确定要删除？");
+  	if(conf == true) {
+		$.ajax({
+			type:'POST',
+			url:'/UserAdmin/taskDelJson?id='+id+'&nd='+new Date().getTime(),
+			error:function(err){
+				////console.log(err);
+			},
+			success:function(result){
+				//alert(result.msg);
+				getDatas(taskGroupId,status,1,7)
+			}
+		});
+  	}
+}
+
+
 function goAdd(){
 	window.location.href='/UserAdmin/task?id=0';
 }
 </script>
 
 <div id="add" class="adminAddCon">
-<button onclick="javascript:goAdd();" class="adminAddBtn">添加</button>
+<div id="adminTaskGroupCon" class="adminTaskGroupConNone"></div>
+<div class="adminAddPng"></div>
+<div class="adminAddTxt"><a href="#" onclick="javascript:goAdd();"><font class="addTxt">添加</font></a></div>
 </div>
 
 <div id="list" class="adminListCon">

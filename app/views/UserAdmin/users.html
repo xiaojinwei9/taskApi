@@ -1,34 +1,53 @@
 #{extends 'UserAdminMain.html' /}
 #{set title:'网站后台'/}
 <script>
+var userId=${userInfo.userId};
+var userType=${userInfo.userType};
+var taskGroupId=0;
 $(document).ready(function(e) {
-	getDatas(1,3);
+	getDatas(taskGroupId,1,7);
+	if(userType==2){
+		allTaskGroupsJson();
+	}
 });
-function getDatas(page,length){
+function getDatas(taskGroupId,page,length){
 	$.ajax({
 		type:'POST',
-		url:'/UserAdmin/usersJson?page='+page+'&length='+length+'&nd='+new Date().getTime(),
+		url:'/UserAdmin/usersJson?page='+page+'&length='+length+'&groupId='+taskGroupId+'&nd='+new Date().getTime(),
 		error:function(err){
 			////console.log(err);
 		},
 		success:function(result){
 			////console.log(result);
 			var list=result.list;
-			var listStr='<div class="adminListRowTop">';
-			listStr+='<div class="adminListCellTop">用户</div>';
-			listStr+='<div class="adminListCellTop">手机号</div>';
-			listStr+='<div class="adminListCellTop">邮箱</div>';
-			listStr+='<div class="adminListCellTopEnd">电话</div>';
+			var listStr='<div class="adminListRow700">';
+			listStr+='<div class="adminListCell30HeadNo"></div>';
+			listStr+='<div class="adminListCell100">用户</div>';
+			listStr+='<div class="adminListCell120">手机号</div>';
+			listStr+='<div class="adminListCell180">邮箱</div>';
+			listStr+='<div class="adminListCell120">电话</div>';
+			listStr+='<div class="adminListCell120">备注</div>';
 			listStr+='</div>';
 			for(var i=0;i<list.length;i++){
 				//console.log(list[i]);
 				var user=list[i];
 				var row='';
-				row+='<div class="adminListCell">'+user.name+'</div>';
-				row+='<div class="adminListCell">'+user.mobile+'</div>';
-				row+='<div class="adminListCell">'+user.email+'</div>';
-				row+='<div class="adminListCellEnd">'+user.phone+'</div>';
-				listStr+='<div class="adminListRow">'+row+'</div>';
+				if(user.image!=null&&user.image.indexOf("-")!=-1){
+					var filesStr='';
+					var fileArr=user.image.split("-");
+					if(fileArr.length==2){
+						filesStr='<img src="'+fileArr[1]+'">';
+					}
+					row+='<div class="adminListCell30Head">'+filesStr+'</div>';
+				}else{
+					row+='<div class="adminListCell30HeadNo"></div>';
+				}
+				row+='<div class="adminListCell100">'+user.name+'</div>';
+				row+='<div class="adminListCell120">'+user.mobile+'</div>';
+				row+='<div class="adminListCell180">'+user.email+'</div>';
+				row+='<div class="adminListCell120">'+user.phone+'</div>';
+				row+='<div class="adminListCell120">'+user.des+'</div>';
+				listStr+='<div class="adminListRow700">'+row+'</div>';
 			}
 			$("#list").html(listStr);
 			//
@@ -39,16 +58,54 @@ function getDatas(page,length){
 			////console.log(total/length);
 			for(var i=1;i<total/length+1;i++){
 				if(i!=page){
-					pages+='&nbsp;<a href="#" onclick="javascript:getDatas('+i+','+length+');">'+i+'</a>&nbsp;';
+					pages+='&nbsp;<a href="#" onclick="javascript:getDatas('+taskGroupId+','+i+','+length+');">'+i+'</a>&nbsp;';
 				}else{
-					pages+='['+i+']';
+					pages+='<span class="current">'+i+'</span>';
 				}
 			}
 			$("#pages").html(pages);
 		}
 	});
 }
+
+
+function allTaskGroupsJson(){
+	$.ajax({
+		type:'POST',
+		url:'/SysAdmin/allTaskGroupsJson?userId='+userId+'&nd='+new Date().getTime(),
+		error:function(err){
+			////console.log(err);
+		},
+		success:function(result){
+			//console.log('groups:',result);
+			var taskGroups='<select onchange="selectByTaskGroupId();" class="adminInput250X25" id="taskGroupId">';
+			taskGroups+='<option value="0">所有客户</option>';
+			var list=result.list;
+			for(var i=0;i<list.length;i++){
+				//console.log(list[i]);
+				var taskGroup=list[i];
+				//console.log('name:'+taskGroup.name);
+				taskGroups+='<option value="'+taskGroup.id+'">'+taskGroup.name+'</option>';
+			}
+			taskGroups+='</select>';
+			$("#adminTaskGroupCon").html(taskGroups);
+			//console.log('id2:'+id);
+		}
+	});
+	$("#adminTaskGroupCon").attr("class","adminTaskGroupCon");
+}
+
+function selectByTaskGroupId(){
+	taskGroupId=$("#taskGroupId").val();
+	getDatas(taskGroupId,1,7);
+}
+
 </script>
+
+<div id="add" class="adminAddCon">
+<div id="adminTaskGroupCon" class="adminTaskGroupConNone"></div>
+</div>
+
 <div id="list" class="adminListCon">
 </div>
 

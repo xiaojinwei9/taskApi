@@ -21,7 +21,7 @@ public class Users extends BasicController {
 			renderJSON(result);
 		}
 		password=StrUtils.md5(password);
-		User user=User.find("mobile=? and password=? ", mobile,password).first();
+		User user=User.find("mobile=? and password=? and available=1", mobile,password).first();
 		if(user!=null){
 			SysTools.setResultOpSec(result);
 			result.put("user", user);
@@ -37,7 +37,7 @@ public class Users extends BasicController {
 			SysTools.setResultParamsErr(result);
 			renderJSON(result);
 		}
-		User userTemp=User.find("mobile=?", mobile).first();
+		User userTemp=User.find("mobile=? and available=1", mobile).first();
 		if(userTemp!=null){
 			SysTools.setUserAddErr(result);
 			renderJSON(result);
@@ -55,7 +55,7 @@ public class Users extends BasicController {
 			SysTools.setResultParamsErr(result);
 			renderJSON(result);
 		}
-		User user=User.find("mobile=?", mobile).first();
+		User user=User.find("mobile=? and available=1", mobile).first();
 		if(user!=null){
 			if(StrUtils.isNotEmpty(password)){
 				password=StrUtils.md5(password);

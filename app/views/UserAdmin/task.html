@@ -3,6 +3,7 @@
 <script>
 var id=${id};
 //console.log('id:',id);
+var userId=${userInfo.userId};
 $(document).ready(function(e) {
 	allTaskGroupsJson();
 });
@@ -19,7 +20,7 @@ function getData(id){
 			$("#name").val(task.name);
 			$("#taskGroupId").val(task.taskGroupId);
 			$("#status").val(task.status);
-			$("#image").val(task.image);
+			//$("#image").val(task.image);
 			$("#des").val(task.des);
 		}
 	});
@@ -30,16 +31,24 @@ function getData(id){
 function save(){
 	//console.log('save,id:',id);
 	var name=$("#name").val();
+	if(name==''){
+		alert('任务名称不能为空!');
+		return false;
+	}
 	var taskGroupId=$("#taskGroupId").val();
 	var status=$("#status").val();
-	var image=$("#image").val();
+	var image="";
 	var des=$("#des").val();
 	$.ajax({
 		type:"POST",
 		url:'/UserAdmin/taskSaveJson?nd='+new Date().getTime(),
 		data:{'id':id,'name':name,'image':image,'taskGroupId':taskGroupId,'status':status,'des':des},
 		success:function(result){
-			////console.log(result);
+			//console.log(result);
+			if(result.code==100){
+				id=result.task.id;
+				//console.log('id:',id);
+			}
 			document.getElementById('tips').innerHTML=result.msg;
 		}
 	});
@@ -50,7 +59,7 @@ function save(){
 function allTaskGroupsJson(){
 	$.ajax({
 		type:'POST',
-		url:'/SysAdmin/allTaskGroupsJson?nd='+new Date().getTime(),
+		url:'/SysAdmin/allTaskGroupsJson?userId='+userId+'&nd='+new Date().getTime(),
 		error:function(err){
 			////console.log(err);
 		},
@@ -79,20 +88,31 @@ function goBack(){
 	window.location.href='/UserAdmin/tasks?status='+status;
 }
 </script>
-<br>
-<table class="borderClass">
-<tr><td>客户:</td><td><div id="taskGroupCon"></div></td></tr>
-<tr><td>任务名称:</td><td><input class="adminInput250X20" type="text" name="name" id="name"></td></tr>
-<tr><td>状态:</td><td><select class="adminInput250X25" id="status">
-<option value="1">待初稿</option>
-<option value="2">待审核</option>
-<option value="3">待确稿</option>
-<option value="4">待评价</option>
-<option value="5">已完成</option>
-</select></td></tr>
-<tr><td>图片:</td><td><input class="adminInput250X20"  type="text" name="image" id="image"></td></tr>
-<tr><td>描述:</td><td><input  class="adminInput250X20"  type="text" name="des" id="des"></td></tr>
-<tr><td colspan="2"><button onclick="javascript:save();" class="adminAddBtn">保存</button>&nbsp;&nbsp;<a href="#" onclick="javascript:goBack();">返回</a>&nbsp;&nbsp;<span id="tips"></span></td></tr>
-</table>
-
+<div class="adminEditCon">
+	<div class="adminEditRow">
+	<div class="adminEditLable">客户:</div>
+		<div class="adminEditInput"><div id="taskGroupCon"></div></div>
+	</div>
+	<div class="adminEditRow">
+		<div class="adminEditLable">任务名称:</div>
+		<div class="adminEditInput"><input class="adminInput250X20" type="text" name="name" id="name"></div>
+	</div>
+	<div class="adminEditRow">
+		<div class="adminEditLable">状态:</div>
+		<div class="adminEditInput"><select class="adminInput250X25" id="status">
+		<option value="1">待初稿</option>
+		<option value="2">待审核</option>
+		<option value="3">待确稿</option>
+		<option value="4">待评价</option>
+		<option value="5">已完成</option>
+		</select></div>
+	</div>
+	<div class="adminEditRowH45">
+		<div class="adminEditLable">描述:</div>
+		<div class="adminEditInputH45"><textarea rows="2" cols="32" name="des" id="des"></textarea></div>
+	</div>
+	<div class="adminEditRow">
+	<a href="#" onclick="javascript:save();" >保存</a>&nbsp;&nbsp;<a href="#" onclick="javascript:goBack();">返回</a>&nbsp;&nbsp;<span id="tips"></span>
+	</div>
+</div>
 
