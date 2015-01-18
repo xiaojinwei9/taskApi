@@ -106,7 +106,7 @@ public class SysAdmin extends BasicClientController {
 		render();
 	}
 	
-	public static void usersJson(String page,String length){
+	public static void usersJson(String page,String length,String groupId){
 		Map<String,Object> result=new HashMap<String,Object>();
 		if(!(StrUtils.isNotEmpty(page)&&StrUtils.isNotEmpty(length))){
 			SysTools.setResultParamsErr(result);
@@ -115,6 +115,9 @@ public class SysAdmin extends BasicClientController {
 		Map<String, String> paramsMap = new HashMap<String, String>();
 		paramsMap.put("page", page);
 		paramsMap.put("length", length);
+		if(StrUtils.isNotEmpty(groupId)&&!"0".equals(groupId)){
+			paramsMap.put("groupId", groupId);
+		}
 		String jsonStr=paramsConstruction("/Users/list",paramsMap);
 		renderJSON(jsonStr);
 	}

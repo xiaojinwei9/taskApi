@@ -4,7 +4,24 @@
 var taskId=${taskId};
 $(document).ready(function(e) {
 	getDatas(taskId);
+	getTaskData(taskId);
 });
+
+function getTaskData(id){
+	$.ajax({
+		type:'POST',
+		url:'/UserAdmin/taskJson?id='+id+'&nd='+new Date().getTime(),
+		error:function(err){
+			////console.log(err);
+		},
+		success:function(result){
+			//console.log(result);
+			var task=result.task;
+			$("#taskName").html(task.name);
+		}
+	});
+}
+
 function getDatas(taskId){
 	$.ajax({
 		type:'POST',
@@ -16,7 +33,7 @@ function getDatas(taskId){
 			////console.log(result);
 			var list=result.list;
 			var listStr='<div class="adminListRow">';
-			listStr+='<div class="adminListCell220">文件名[点击下载]</div>';
+			listStr+='<div class="adminListCell220">文件列表[点击下载]</div>';
 			listStr+='<div class="adminListCell180">上传时间</div>';
 			listStr+='<div class="adminListCell80">上传者</div>';
 			listStr+='</div>';
@@ -58,6 +75,7 @@ function formatTime(cellvalue){
 
 </script>
 <div id="add" class="adminAddCon">
+<div class="adminTitleTxt" id="taskName"></div>
 <div class="adminAddTxt"><a href="/UserAdmin/taskView?id=${taskId}">返回</a></div>
 </div>
 

@@ -234,7 +234,7 @@ public class BasicClientController extends Controller {
 		String fileNameB=nowTimeStr+"_"+rannum+fileType;
 		
 		fileNameB="/public/uploads/"+fileNameB;
-		String url=Cons.www_url_s+fileNameB;
+		String url=Cons.www_url+fileNameB;
 		String filePath=Play.applicationPath.getAbsoluteFile()+fileNameB;
 		Logger.info("filePath:"+filePath);
 		Logger.info("fileUrl:"+url);

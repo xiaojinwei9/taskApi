@@ -1,13 +1,15 @@
 #{extends 'SysAdminMain.html' /}
 #{set title:'网站后台'/}
 <script>
+var taskGroupId=0;
 $(document).ready(function(e) {
-	getDatas(1,7);
+	getDatas(taskGroupId,1,7);
+	allTaskGroupsJson();
 });
-function getDatas(page,length){
+function getDatas(taskGroupId,page,length){
 	$.ajax({
 		type:'POST',
-		url:'/SysAdmin/usersJson?page='+page+'&length='+length+'&nd='+new Date().getTime(),
+		url:'/SysAdmin/usersJson?page='+page+'&length='+length+'&groupId='+taskGroupId+'&nd='+new Date().getTime(),
 		error:function(err){
 			////console.log(err);
 		},
@@ -60,7 +62,7 @@ function getDatas(page,length){
 			////console.log(total/length);
 			for(var i=1;i<total/length+1;i++){
 				if(i!=page){
-					pages+='&nbsp;<a href="#" onclick="javascript:getDatas('+i+','+length+');">'+i+'</a>&nbsp;';
+					pages+='&nbsp;<a href="#" onclick="javascript:getDatas('+taskGroupId+','+i+','+length+');">'+i+'</a>&nbsp;';
 				}else{
 					pages+='<span class="current">'+i+'</span>';
 				}
@@ -77,7 +79,7 @@ function getType(type){
 	}else if(type==2){
 		re='内部员工';
 	}else if(type==3){
-		re='一般用户';
+		re='客户员工';
 	}
 	return re;
 }
@@ -119,11 +121,44 @@ function del(id){
 			},
 			success:function(result){
 				//alert(result.msg);
-				getDatas(1,7);
+				getDatas(taskGroupId,1,7);
 			}
 		});
   	}
 }
+
+
+function allTaskGroupsJson(){
+	$.ajax({
+		type:'POST',
+		url:'/SysAdmin/allTaskGroupsJson?nd='+new Date().getTime(),
+		error:function(err){
+			////console.log(err);
+		},
+		success:function(result){
+			//console.log('groups:',result);
+			var taskGroups='<select onchange="selectByTaskGroupId();" class="adminInput250X25" id="taskGroupId">';
+			taskGroups+='<option value="0">所有客户</option>';
+			var list=result.list;
+			for(var i=0;i<list.length;i++){
+				//console.log(list[i]);
+				var taskGroup=list[i];
+				//console.log('name:'+taskGroup.name);
+				taskGroups+='<option value="'+taskGroup.id+'">'+taskGroup.name+'</option>';
+			}
+			taskGroups+='</select>';
+			$("#adminTaskGroupCon").html(taskGroups);
+			//console.log('id2:'+id);
+		}
+	});
+	$("#adminTaskGroupCon").attr("class","adminTaskGroupCon");
+}
+
+function selectByTaskGroupId(){
+	taskGroupId=$("#taskGroupId").val();
+	getDatas(taskGroupId,1,7);
+}
+
 
 function goAdd(){
 	window.location.href='/SysAdmin/user?id=0';
@@ -131,6 +166,7 @@ function goAdd(){
 </script>
 
 <div id="add" class="adminAddCon">
+<div id="adminTaskGroupCon" class="adminTaskGroupCon"></div>
 <div class="adminAddPng"></div>
 <div class="adminAddTxt"><a href="#" onclick="javascript:goAdd();"><font class="addTxt">添加</font></a></div>
 </div>

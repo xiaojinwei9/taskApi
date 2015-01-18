@@ -113,7 +113,7 @@ function save(){
 		var taskGroupIdsArr=taskGroupIds.split(",");
 		//console.log(taskGroupIdsArr.length);
 		if(taskGroupIdsArr.length>3){
-			alert('一般员工只能关联一个客户!')
+			alert('客户员工只能关联一个客户!')
 		}else{
 			$("#formA").submit();
 		}
@@ -151,7 +151,7 @@ function getTaskGroupIds(){
 	<div class="adminEditRow">
 		<div class="adminEditLable">类型:</div>
 		<div class="adminEditInput"><select class="adminInput250X25"  name="type" id="type">
-						<option value="3">一般员工</option>
+						<option value="3">客户员工</option>
 						<option value="2">内部员工</option>
 						<option value="1">管理员</option>
 					</select></div>
@@ -171,7 +171,7 @@ function getTaskGroupIds(){
 	<div class="adminEditRowFileNone" id="fileView">
 	</div>
 	<div class="adminEditRowTaskGroups">
-		<div class="adminEditLable">所属客户:</div>
+		<div class="adminEditLable">关联客户:</div>
 		<div class="adminEditInputTaskGroups"><div id="taskGroupCon"></div></div>
 	</div>	
 	<div class="adminEditRow">
