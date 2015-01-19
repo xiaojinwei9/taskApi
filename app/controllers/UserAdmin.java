@@ -1,11 +1,15 @@
 package controllers;
 
 import java.io.File;
+import java.lang.reflect.Type;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import play.Logger;
 import play.Play;
@@ -60,8 +64,8 @@ public class UserAdmin extends BasicClientController {
 		render(id,userInfo);
 	}
 	
-	public static void taskView(String id){
-		render(id);
+	public static void taskView(String id,String msg){
+		render(id,msg);
 	}
 	
 	public static void taskJson(String id){
@@ -114,16 +118,23 @@ public class UserAdmin extends BasicClientController {
 	}
 	
 	
-	public static void taskLogSaveJson(String taskId,String cont,File file){
+	public static void taskLogSaveJson(String taskId,String cont,File[] files){
 		Map<String,Object> result=new HashMap<String,Object>();
 		if(!(StrUtils.isNotEmpty(taskId))){
 			SysTools.setResultParamsErr(result);
 			renderJSON(GsonUtils.mapToString(result));
 		}
 		//文件处理
-		String files="";
-		if(file!=null){
-			files=saveFile(file);
+		String filesStr="";
+		Logger.info("files:"+files);
+		if(files!=null&&files.length>0){
+			Logger.info("files.length:"+files.length);
+			for(File file:files){
+				String fileStr=saveFile(file);
+				if(StrUtils.isNotEmpty(fileStr)&&fileStr.indexOf("-")!=-1){
+					filesStr+=fileStr+"|";
+				}
+			}
 		}
 		//文件处理 end
 		Map<String, String> paramsMap = new HashMap<String, String>();
@@ -131,10 +142,14 @@ public class UserAdmin extends BasicClientController {
 		paramsMap.put("userId", userInfo.get("userId")+"");
 		paramsMap.put("taskId", taskId);
 		paramsMap.put("cont", cont);
-		paramsMap.put("files", files);
+		paramsMap.put("files", filesStr);
 		String jsonStr="";
 		jsonStr=paramsConstruction("/TaskLogs/add",paramsMap);
-		taskView(taskId);
+		Gson gson = new Gson();
+    	Type type=(Type) new TypeToken<Map<String, Object>>() {}.getType();   
+    	Map<String,Object> map=gson.fromJson(jsonStr,type);
+    	String msg=map.get("msg")+"";
+		taskView(taskId,msg);
 		//renderJSON(jsonStr);
 	}
 	

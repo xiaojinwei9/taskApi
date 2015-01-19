@@ -3,10 +3,14 @@
 <script>
 var id=${id};
 var status="1";
+var msg='${msg}';
 //console.log('id:',id);
 $(document).ready(function(e) {
 	getData(id);
 	getTaskLogsDatas(id,1,5);
+	if(msg!=null&&msg!=''){
+		$("#tips").html(msg);
+	}
 });
 function getData(id){
 	$.ajax({
@@ -55,12 +59,26 @@ function getTaskLogsDatas(taskId,page,length){
 				row+='<div class="adminViewTaskLogTime">'+formatTime(taskLog.time)+'</div><div class="adminViewTaskLogUserName" id="taskLogUserName'+taskLog.id+'">...</div>';
 				row+='</div>';
 				var filesStr='';
-				if(taskLog.files!=null&&taskLog.files.indexOf("-")!=-1){
-					var fileArr=taskLog.files.split("-");
-					if(fileArr.length==2){
-						filesStr='<a href="'+fileArr[1]+'" target=_blank">'+fileArr[0]+'</a>';
+				if(taskLog.files!=null&&taskLog.files.indexOf("|")!=-1){
+					var filesArr=taskLog.files.split("|");
+					for(var k=0;k<filesArr.length;k++){
+						var fileStr=filesArr[k];
+						if(fileStr.indexOf("-")!=-1){
+							var fileArr=fileStr.split("-");
+							if(fileArr.length==2){
+								filesStr+='<a href="'+fileArr[1]+'" target=_blank">'+fileArr[0]+'</a>&nbsp;&nbsp;';
+							}
+						}
+					}
+				}else{
+					if(taskLog.files!=null&&taskLog.files.indexOf("-")!=-1){
+						var fileArr=taskLog.files.split("-");
+						if(fileArr.length==2){
+							filesStr='<a href="'+fileArr[1]+'" target=_blank">'+fileArr[0]+'</a>';
+						}
 					}
 				}
+				
 				if(filesStr!=''){
 					row+='<div class="adminViewRow">';
 					row+='<div class="adminViewTaskLogCont">附件:'+filesStr+'</div>';
@@ -155,6 +173,22 @@ function showUpdateStatus(){
 	//console.log('show');
 	$("#adminViewUpdateStatus").attr("class","adminViewUpdateStatus");
 }
+
+var addFileCount=0;
+function addFile(){
+	var fileStr='<div class="adminEditRow" id="fileRow'+addFileCount+'">';
+	fileStr+='<div class="adminEditLable"></div>';
+	fileStr+='<div class="adminEditInput"><input class="adminInput250X20" type="file" name="files" id="file'+addFileCount+'"/>&nbsp;&nbsp;<a href="#" onclick="delFile('+addFileCount+');">-删除</a></div>';
+	fileStr+='</div>';
+	var str=$("#fileRows").html();
+	str+=fileStr;
+	$("#fileRows").html(str);
+	addFileCount++;
+}
+function delFile(i){
+	$("#fileRow"+i).html('');
+	$("#fileRow"+i).attr("class","adminEditRowNone");
+}
 </script>
 <div class="adminViewCon">
 	<div class="adminViewRow">
@@ -197,10 +231,12 @@ function showUpdateStatus(){
 		</div>
 		<div class="adminEditRow">
 			<div class="adminEditLable">附件:</div>
-			<div class="adminEditInput"><input class="adminInput250X20" type="file" name="file" id="file"/></div>
+			<div class="adminEditInput"><input class="adminInput250X20" type="file" name="files" id="file"/>&nbsp;&nbsp;<a href="#" onclick="addFile();">+增加</a></div>
+		</div>
+		<div class="adminEditRowFiles" id="fileRows">
 		</div>
 		<div class="adminEditRow">
-			<a href="#" onclick="javascript:save();">保存</a>&nbsp;&nbsp;&nbsp;<a href="#" onclick="javascript:goBack();">返回</a>&nbsp;&nbsp;<span id="tips"></span>
+			<a href="#" onclick="javascript:save();">保存</a>&nbsp;&nbsp;&nbsp;<a href="#" onclick="javascript:goBack();">返回</a>&nbsp;&nbsp;<span class="tips" id="tips"></span>
 		</div>
 	</form>
 </div>
