@@ -31,7 +31,7 @@ public class Users extends BasicController {
 		renderJSON(result);
 	}
 
-	public static void add(String mobile, String password, String name, String email, String phone, String image, String type, String taskGroupIds, String des){
+	public static void add(String mobile, String password, String name, String email, String phone, String image, String type, String taskGroupIds, String des,String isComment){
 		Map<String,Object> result=new HashMap<String,Object>();
 		if(!(StrUtils.isNotEmpty(mobile)&&StrUtils.isNotEmpty(password)&&StrUtils.isNotEmpty(type))){
 			SysTools.setResultParamsErr(result);
@@ -43,13 +43,13 @@ public class Users extends BasicController {
 			renderJSON(result);
 		}
 		password=StrUtils.md5(password);
-		User user=new User(mobile, password, name, email, phone, image, Integer.valueOf(type), taskGroupIds, des, 0, new Date(), 1);
+		User user=new User(mobile, password, name, email, phone, image, Integer.valueOf(type), taskGroupIds, des, 0, new Date(),Integer.valueOf(isComment),1);
 		user.save();
 		SysTools.setResultOpSec(result);
 		result.put("user", user);
 		renderJSON(result);
 	}
-	public static void update(String mobile, String password, String name, String email, String phone, String image, String type, String taskGroupIds, String des){
+	public static void update(String mobile, String password, String name, String email, String phone, String image, String type, String taskGroupIds, String des,String isComment){
 		Map<String,Object> result=new HashMap<String,Object>();
 		if(!(StrUtils.isNotEmpty(mobile))){
 			SysTools.setResultParamsErr(result);
@@ -81,6 +81,9 @@ public class Users extends BasicController {
 			}
 			if(StrUtils.isNotEmpty(des)){
 				user.des=des;
+			}
+			if(StrUtils.isNotEmpty(isComment)){
+				user.isComment=Integer.valueOf(isComment);
 			}
 			user.save();
 			result.put("user", user);

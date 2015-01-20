@@ -23,9 +23,10 @@ public class User extends Model{
 	public String des;//备注
 	public Integer logins;//登录次数
 	public Date lastTime;//最后登录时间
+	public Integer isComment;//0不可评价,1:可评价
 	public Integer available;//1:正常 2:已删除
 	
-	public User(String mobile,String password,String name,String email,String phone,String image,Integer type,String taskGroupIds,String des,Integer logins,Date lastTime,Integer available){
+	public User(String mobile,String password,String name,String email,String phone,String image,Integer type,String taskGroupIds,String des,Integer logins,Date lastTime,Integer isComment,Integer available){
 		this.mobile=mobile;
 		this.password=password;
 		this.name=name;
@@ -38,6 +39,7 @@ public class User extends Model{
 		this.available=available;
 		this.logins=logins;
 		this.lastTime=lastTime;
+		this.isComment=isComment;
 		}
 
 }
