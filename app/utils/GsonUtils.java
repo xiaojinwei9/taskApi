@@ -1,5 +1,6 @@
 package utils;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -14,10 +15,19 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.google.gson.reflect.TypeToken;
 
 public class GsonUtils {
 
 	private static Gson gson = new GsonBuilder().enableComplexMapKeySerialization().create(); 
+	
+	
+	public static Map<String,Object> toMapObj(String json){
+		Gson gson = new Gson();
+    	Type type=(Type) new TypeToken<Map<String, Object>>() {}.getType();   
+    	Map<String,Object> map=gson.fromJson(json,type);
+    	return map;
+	}
 	
 	public static String mapToString(Map<String,Object> map){
 		String res=gson.toJson(map);

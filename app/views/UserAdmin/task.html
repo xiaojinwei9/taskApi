@@ -4,9 +4,29 @@
 var id=${id};
 //console.log('id:',id);
 var userId=${userInfo.userId};
+var taskGroupId=${taskGroupId};
 $(document).ready(function(e) {
-	allTaskGroupsJson();
+	getTaskGroupData(taskGroupId);
+	if(id!='0'){
+		getData(id);
+	}
 });
+
+function getTaskGroupData(id){
+	$.ajax({
+		type:'POST',
+		url:'/SysAdmin/taskGroupJson?id='+id+'&nd='+new Date().getTime(),
+		error:function(err){
+			////console.log(err);
+		},
+		success:function(result){
+			//console.log(result);
+			var taskGroup=result.taskGroup;
+			$("#taskGroupName").html(taskGroup.name);
+		}
+	});
+}
+
 function getData(id){
 	$.ajax({
 		type:'POST',
@@ -18,7 +38,6 @@ function getData(id){
 			//console.log(result);
 			var task=result.task;
 			$("#name").val(task.name);
-			$("#taskGroupId").val(task.taskGroupId);
 			$("#status").val(task.status);
 			//$("#image").val(task.image);
 			$("#des").val(task.des);
@@ -35,7 +54,6 @@ function save(){
 		alert('任务名称不能为空!');
 		return false;
 	}
-	var taskGroupId=$("#taskGroupId").val();
 	var status=$("#status").val();
 	var image="";
 	var des=$("#des").val();
@@ -55,56 +73,27 @@ function save(){
 }
 
 
-
-function allTaskGroupsJson(){
-	$.ajax({
-		type:'POST',
-		url:'/SysAdmin/allTaskGroupsJson?userId='+userId+'&nd='+new Date().getTime(),
-		error:function(err){
-			////console.log(err);
-		},
-		success:function(result){
-			//console.log('groups:',result);
-			var taskGroups='<select class="adminInput250X25" id="taskGroupId">';
-			var list=result.list;
-			for(var i=0;i<list.length;i++){
-				//console.log(list[i]);
-				var taskGroup=list[i];
-				//console.log('name:'+taskGroup.name);
-				taskGroups+='<option value="'+taskGroup.id+'">'+taskGroup.name+'</option>';
-			}
-			taskGroups+='</select>';
-			$("#taskGroupCon").html(taskGroups);
-			//console.log('id2:'+id);
-			if(id!=0){
-				getData(id);
-			}
-		}
-	});
-}
-
 function goBack(){
 	var status=$("#status").val();
-	window.location.href='/UserAdmin/tasks?status='+status;
+	window.location.href='/UserAdmin/tasks?taskGroupId=${taskGroupId}&status='+status;
 }
 </script>
 <div class="adminEditCon">
 	<div class="adminEditRow">
-	<div class="adminEditLable">客户:</div>
-		<div class="adminEditInput"><div id="taskGroupCon"></div></div>
+	<div class="adminEditLable">所属项目:</div>
+		<div class="adminEditInput" id="taskGroupName"></div>
 	</div>
 	<div class="adminEditRow">
 		<div class="adminEditLable">任务名称:</div>
 		<div class="adminEditInput"><input class="adminInput250X20" type="text" name="name" id="name"></div>
 	</div>
-	<div class="adminEditRow">
+	<div class="adminEditRowNone">
 		<div class="adminEditLable">状态:</div>
 		<div class="adminEditInput"><select class="adminInput250X25" id="status">
 		<option value="1">待初稿</option>
 		<option value="2">待审核</option>
 		<option value="3">待确稿</option>
 		<option value="4">待评价</option>
-		<option value="5">已完成</option>
 		</select></div>
 	</div>
 	<div class="adminEditRowH45">
@@ -112,7 +101,7 @@ function goBack(){
 		<div class="adminEditInputH45"><textarea rows="2" cols="32" name="des" id="des"></textarea></div>
 	</div>
 	<div class="adminEditRow">
-	<a href="#" onclick="javascript:save();" >保存</a>&nbsp;&nbsp;<a href="#" onclick="javascript:goBack();">返回</a>&nbsp;&nbsp;<span id="tips"></span>
+	<a href="#" onclick="javascript:save();" >保存</a>&nbsp;&nbsp;<a href="#" onclick="javascript:goBack();">返回</a>&nbsp;&nbsp;<span class="tips" id="tips"></span>
 	</div>
 </div>
 

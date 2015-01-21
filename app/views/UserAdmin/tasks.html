@@ -4,46 +4,28 @@
 var status=${status};
 var userType=${userInfo.userType};
 var userId=${userInfo.userId};
-var taskGroupId=0;
+var taskGroupId=${taskGroupId};
 //console.log(status);
 //console.log(userType);
 $(document).ready(function(e) {
+	getTaskGroupData(taskGroupId);
 	getDatas(taskGroupId,status,1,7);
-	if(userType==2){
-		allTaskGroupsJson();
-	}
 });
 
 
-function allTaskGroupsJson(){
+function getTaskGroupData(id){
 	$.ajax({
 		type:'POST',
-		url:'/SysAdmin/allTaskGroupsJson?userId='+userId+'&nd='+new Date().getTime(),
+		url:'/SysAdmin/taskGroupJson?id='+id+'&nd='+new Date().getTime(),
 		error:function(err){
 			////console.log(err);
 		},
 		success:function(result){
-			//console.log('groups:',result);
-			var taskGroups='<select onchange="selectByTaskGroupId();" class="adminInput250X25" id="taskGroupId">';
-			taskGroups+='<option value="0">所有客户</option>';
-			var list=result.list;
-			for(var i=0;i<list.length;i++){
-				//console.log(list[i]);
-				var taskGroup=list[i];
-				//console.log('name:'+taskGroup.name);
-				taskGroups+='<option value="'+taskGroup.id+'">'+taskGroup.name+'</option>';
-			}
-			taskGroups+='</select>';
-			$("#adminTaskGroupCon").html(taskGroups);
-			//console.log('id2:'+id);
+			//console.log(result);
+			var taskGroup=result.taskGroup;
+			$("#taskGroupName").html('<strong>'+taskGroup.name+'</strong>&nbsp;的任务列表.');
 		}
 	});
-	$("#adminTaskGroupCon").attr("class","adminTaskGroupCon");
-}
-
-function selectByTaskGroupId(){
-	taskGroupId=$("#taskGroupId").val();
-	getDatas(taskGroupId,status,1,7);
 }
 
 function getDatas(taskGroupId,status,page,length){
@@ -61,11 +43,11 @@ function getDatas(taskGroupId,status,page,length){
 				//console.log(list[i]);
 				var task=list[i];
 				var row='<div class="adminListCell30"></div>';
-				row+='<div class="adminListCell370">'+task.name+'</div>';
+				row+='<div class="adminListCell370"><a href="/UserAdmin/taskView?taskGroupId=${taskGroupId}&status=${status}&id='+task.id+'" title="查看进度">'+task.name+'</a></div>';
 				row+='<div class="adminListCell100">';
-				row+='<div class="adminViewPic"><a href="/UserAdmin/taskView?id='+task.id+'" title="查看进度"><img src="/public/images/taskClient/view.png" border="0"></a></div>';
+				row+='<div class="adminViewPic"><a href="/UserAdmin/taskView?taskGroupId=${taskGroupId}&status=${status}&id='+task.id+'" title="查看进度"><img src="/public/images/taskClient/view.png" border="0"></a></div>';
 				if(userId==task.userId){
-					row+='<div class="adminEditPic"><a href="/UserAdmin/task?id='+task.id+'" title="编辑"><img src="/public/images/taskClient/edit.png" border="0"></a></div>';
+					row+='<div class="adminEditPic"><a href="/UserAdmin/task?taskGroupId=${taskGroupId}&status=${status}&id='+task.id+'" title="编辑"><img src="/public/images/taskClient/edit.png" border="0"></a></div>';
 					row+='<div class="adminEditPic"><a href="#" onclick="javascript:del('+task.id+');" title="删除"><img src="/public/images/taskClient/del.png" border="0"></a></div>';
 				}
 				row+='</div>';
@@ -111,12 +93,12 @@ function del(id){
 
 
 function goAdd(){
-	window.location.href='/UserAdmin/task?id=0';
+	window.location.href='/UserAdmin/task?taskGroupId=${taskGroupId}&status=${status}&id=0';
 }
 </script>
 
 <div id="add" class="adminAddCon">
-<div id="adminTaskGroupCon" class="adminTaskGroupConNone"></div>
+<div id="taskGroupName" class="adminTaskGroupCon"></div>
 <div class="adminAddPng"></div>
 <div class="adminAddTxt"><a href="#" onclick="javascript:goAdd();"><font class="addTxt">添加</font></a></div>
 </div>

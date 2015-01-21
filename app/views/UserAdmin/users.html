@@ -3,12 +3,10 @@
 <script>
 var userId=${userInfo.userId};
 var userType=${userInfo.userType};
-var taskGroupId=0;
+var taskGroupId=${taskGroupId};
 $(document).ready(function(e) {
 	getDatas(taskGroupId,1,7);
-	if(userType==2){
-		allTaskGroupsJson();
-	}
+	getTaskGroupData(taskGroupId);
 });
 function getDatas(taskGroupId,page,length){
 	$.ajax({
@@ -68,33 +66,20 @@ function getDatas(taskGroupId,page,length){
 	});
 }
 
-
-function allTaskGroupsJson(){
+function getTaskGroupData(id){
 	$.ajax({
 		type:'POST',
-		url:'/SysAdmin/allTaskGroupsJson?userId='+userId+'&nd='+new Date().getTime(),
+		url:'/SysAdmin/taskGroupJson?id='+id+'&nd='+new Date().getTime(),
 		error:function(err){
 			////console.log(err);
 		},
 		success:function(result){
-			//console.log('groups:',result);
-			var taskGroups='<select onchange="selectByTaskGroupId();" class="adminInput250X25" id="taskGroupId">';
-			taskGroups+='<option value="0">所有客户</option>';
-			var list=result.list;
-			for(var i=0;i<list.length;i++){
-				//console.log(list[i]);
-				var taskGroup=list[i];
-				//console.log('name:'+taskGroup.name);
-				taskGroups+='<option value="'+taskGroup.id+'">'+taskGroup.name+'</option>';
-			}
-			taskGroups+='</select>';
-			$("#adminTaskGroupCon").html(taskGroups);
-			//console.log('id2:'+id);
+			//console.log(result);
+			var taskGroup=result.taskGroup;
+			$("#taskGroupName").html('<strong>'+taskGroup.name+'</strong>&nbsp;的通信录.');
 		}
 	});
-	$("#adminTaskGroupCon").attr("class","adminTaskGroupCon");
 }
-
 function selectByTaskGroupId(){
 	taskGroupId=$("#taskGroupId").val();
 	getDatas(taskGroupId,1,7);
@@ -103,7 +88,7 @@ function selectByTaskGroupId(){
 </script>
 
 <div id="add" class="adminAddCon">
-<div id="adminTaskGroupCon" class="adminTaskGroupConNone"></div>
+<div id="taskGroupName" class="adminTaskGroupCon"></div>
 </div>
 
 <div id="list" class="adminListCon">

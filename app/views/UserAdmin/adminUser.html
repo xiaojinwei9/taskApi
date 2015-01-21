@@ -148,7 +148,7 @@ function changeType(){
 }
 </script>
 <div class="adminEditCon">
-<form id="formA" action="/SysAdmin/userSaveJson" method="post" enctype="multipart/form-data">
+<form id="formA" action="/UserAdmin/adminUserSaveJson" method="post" enctype="multipart/form-data">
 <input type="hidden" id="id" name="id" value="${id}">
 <input type="hidden" id="taskGroupIds" name="taskGroupIds">
 	<div class="adminEditRow">
@@ -201,7 +201,7 @@ function changeType(){
 		<div class="adminEditInput"><input class="adminInput250X20" type="text" name="des" id="des"></div>
 	</div>	
 	<div class="adminEditRow">
-		<a href="#" onclick="javascript:save();">保存</a>&nbsp;&nbsp;&nbsp;<a href="/SysAdmin/users">返回</a>&nbsp;&nbsp;<span id="tips"></span>
+		<a href="#" onclick="javascript:save();">保存</a>&nbsp;&nbsp;&nbsp;<a href="/UserAdmin/adminUsers">返回</a>&nbsp;&nbsp;<span id="tips"></span>
 	</div>
 </form>
 </div>

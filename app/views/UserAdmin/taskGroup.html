@@ -1,4 +1,4 @@
-#{extends 'SysAdminMain.html' /}
+#{extends 'UserAdminMain.html' /}
 #{set title:'网站后台'/}
 <script>
 var id=${id};
@@ -12,7 +12,7 @@ $(document).ready(function(e) {
 		$("#tips").html(msg);
 	}
 });
-function getData(page,length){
+function getData(id){
 	$.ajax({
 		type:'POST',
 		url:'/SysAdmin/taskGroupJson?id='+id+'&nd='+new Date().getTime(),
@@ -51,7 +51,7 @@ function save(){
 
 </script>
 <div class="adminEditCon">
-<form id="formA" action="/SysAdmin/taskGroupSaveJson" method="post" enctype="multipart/form-data">
+<form id="formA" action="/UserAdmin/taskGroupSaveJson" method="post" enctype="multipart/form-data">
 <input type="hidden" id="id" name="id" value="${id}">
 	<div class="adminEditRow">
 		<div class="adminEditLable">项目名称:</div>
@@ -64,7 +64,7 @@ function save(){
 	<div class="adminEditRowFileNone" id="fileView">
 	</div>
 	<div class="adminEditRow">
-		<a href="#" onclick="javascript:save();">保存</a>&nbsp;&nbsp;&nbsp;<a href="/SysAdmin/taskGroups">返回</a>&nbsp;&nbsp;<span class="tips" id="tips"></span>
+		<a href="#" onclick="javascript:save();">保存</a>&nbsp;&nbsp;&nbsp;<a href="/UserAdmin/taskGroups">返回</a>&nbsp;&nbsp;<span class="tips" id="tips"></span>
 	</div>
 </form>
 </div>

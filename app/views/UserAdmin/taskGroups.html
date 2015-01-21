@@ -1,0 +1,81 @@
+#{extends 'UserAdminMain.html' /}
+#{set title:'网站后台'/}
+<script>
+$(document).ready(function(e) {
+	getDatas(1,7);
+});
+function getDatas(page,length){
+	$.ajax({
+		type:'POST',
+		url:'/SysAdmin/taskGroupsJson?page='+page+'&length='+length+'&nd='+new Date().getTime(),
+		error:function(err){
+			////console.log(err);
+		},
+		success:function(result){
+			////console.log(result);
+			var list=result.list;
+			var listStr='';
+			for(var i=0;i<list.length;i++){
+				//console.log(list[i]);
+				var taskGroup=list[i];
+				var row='<div class="adminListCell30C"></div>';
+				row+='<div class="adminListCell370"><a href="/UserAdmin/tasks?taskGroupId='+taskGroup.id+'&status=1" title="查看任务">'+taskGroup.name+'</a></div>';
+				row+='<div class="adminListCell100">';
+				row+='<div class="adminViewPic"><a href="/UserAdmin/tasks?taskGroupId='+taskGroup.id+'&status=1" title="查看任务"><img src="/public/images/taskClient/view.png" border="0"></a></div>';
+				row+='<div class="adminEditPic"><a href="/UserAdmin/taskGroup?id='+taskGroup.id+'" title="编辑"><img src="/public/images/taskClient/edit.png" border="0"></a></div>';
+				row+='<div class="adminEditPic"><a href="#" onclick="javascript:del('+taskGroup.id+');" title="删除"><img src="/public/images/taskClient/del.png" border="0"></a></div>';
+				row+='</div>';
+				listStr+='<div class="adminListRow">'+row+'</div>';
+			}
+			$("#list").html(listStr);
+			//
+			var total=result.total;
+			var length=result.length;
+			var page=result.page;
+			var pages='记录数:'+total+'&nbsp;分页:';
+			////console.log(total/length);
+			for(var i=1;i<total/length+1;i++){
+				if(i!=page){
+					pages+='&nbsp;<a href="#" onclick="javascript:getDatas('+i+','+length+');">'+i+'</a>&nbsp;';
+				}else{
+					pages+='<span class="current">'+i+'</span>';
+				}
+			}
+			$("#pages").html(pages);
+		}
+	});
+}
+
+function del(id){
+	//console.log('del:',id);
+	var conf = confirm("您确定要删除？");
+  	if(conf == true) {
+		$.ajax({
+			type:'POST',
+			url:'/SysAdmin/taskGroupDelJson?id='+id+'&nd='+new Date().getTime(),
+			error:function(err){
+				////console.log(err);
+			},
+			success:function(result){
+				//alert(result.msg);
+				getDatas(1,7);
+			}
+		});
+  	}
+}
+
+function goAdd(){
+	window.location.href='/UserAdmin/taskGroup?id=0';
+}
+</script>
+<div id="add" class="adminAddCon">
+<div class="adminAddPng"></div>
+<div class="adminAddTxt"><a href="#" onclick="javascript:goAdd();"><font class="addTxt">添加</font></a></div>
+</div>
+
+<div id="list" class="adminListCon">
+</div>
+
+<div id="pages" class="adminPages">
+</div>
+

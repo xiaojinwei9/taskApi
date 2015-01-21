@@ -13,30 +13,37 @@
    <body>
    <div class="skyConAdminTop">
 	   <div class="skyConAdminTopText">
-	   		用户后台
+	   		用户后台${userInfo.userType}
 	   </div>
    </div>
    <div class="skyCon">
 	 		 	<div class="skyConLeft">
 		 	<div class="skyConLeftMenu">
 		 		<ul>
+		 			#{if userInfo.userType=='1'||userInfo.userType=='2'}
+		 			<li>
+			 			<a href="/UserAdmin/taskGroups">项目列表</a>
+			 		</li>
+		 			#{/if}
+		 			#{if taskGroupId!=null}
 			 		<li>
-			 			<a href="/UserAdmin/tasks?status=1">#{if status=='1'}[#{/if}待初稿#{if status=='1'}]#{/if}</a>
+			 			<a href="/UserAdmin/tasks?taskGroupId=${taskGroupId}&status=1">#{if status=='1'}[#{/if}待初稿#{if status=='1'}]#{/if}</a>
 			 		</li>
 			 		<li>
-			 			<a href="/UserAdmin/tasks?status=2">#{if status=='2'}[#{/if}待审核#{if status=='2'}]#{/if}</a>
+			 			<a href="/UserAdmin/tasks?taskGroupId=${taskGroupId}&status=2">#{if status=='2'}[#{/if}待审核#{if status=='2'}]#{/if}</a>
 			 		</li>
 			 		<li>
-			 			<a href="/UserAdmin/tasks?status=3">#{if status=='3'}[#{/if}待确稿#{if status=='3'}]#{/if}</a>
+			 			<a href="/UserAdmin/tasks?taskGroupId=${taskGroupId}&status=3">#{if status=='3'}[#{/if}待确稿#{if status=='3'}]#{/if}</a>
 			 		</li>
 			 		<li>
-			 			<a href="/UserAdmin/tasks?status=4">#{if status=='4'}[#{/if}待评价#{if status=='4'}]#{/if}</a>
+			 			<a href="/UserAdmin/tasks?taskGroupId=${taskGroupId}&status=4">#{if status=='4'}[#{/if}待评价#{if status=='4'}]#{/if}</a>
 			 		</li>
 			 		<li>
-			 			<a href="/UserAdmin/tasks?status=5">#{if status=='5'}[#{/if}已完成#{if status=='5'}]#{/if}</a>
+			 			<a href="/UserAdmin/users?taskGroupId=${taskGroupId}">通信录</a>
 			 		</li>
+			 		#{/if}
 			 		<li>
-			 			<a href="/UserAdmin/users">通信录</a>
+			 			<a href="/UserAdmin/adminUsers">用户管理</a>
 			 		</li>
 			 		<li>
 			 			<a href="/UserAdmin/user">个人设置</a>

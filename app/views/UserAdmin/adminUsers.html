@@ -1,4 +1,4 @@
-#{extends 'SysAdminMain.html' /}
+#{extends 'UserAdminMain.html' /}
 #{set title:'网站后台'/}
 <script>
 var taskGroupId=0;
@@ -44,7 +44,7 @@ function getDatas(taskGroupId,page,length){
 				row+='<div class="adminListCell150">'+user.mobile+'</div>';
 				row+='<div class="adminListCell250"><div id="taskGroup'+user.id+'">-</div></div>';
 				row+='<div class="adminListCell80">';
-				row+='<div class="adminEditPic"><a href="/SysAdmin/user?id='+user.id+'" title="编辑"><img src="/public/images/taskClient/edit.png" border="0"></a></div>';
+				row+='<div class="adminEditPic"><a href="/SysAdmin/adminUser?id='+user.id+'" title="编辑"><img src="/public/images/taskClient/edit.png" border="0"></a></div>';
 				row+='<div class="adminEditPic"><a href="#" onclick="javascript:del('+user.id+');" title="删除"><img src="/public/images/taskClient/del.png" border="0"></a></div>';
 				row+='</div>';
 				listStr+='<div class="adminListRow750">'+row+'</div>';
@@ -161,7 +161,7 @@ function selectByTaskGroupId(){
 
 
 function goAdd(){
-	window.location.href='/SysAdmin/user?id=0';
+	window.location.href='/UserAdmin/adminUser?id=0';
 }
 </script>
 

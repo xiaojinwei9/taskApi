@@ -146,7 +146,7 @@ function save(){
 }
 
 function goBack(){
-	window.location.href='/UserAdmin/tasks?status='+status;
+	window.location.href='/UserAdmin/tasks?taskGroupId=${taskGroupId}&status='+status;
 }
 
 function formatTime(cellvalue){
@@ -224,6 +224,8 @@ function delFile(i){
 
 <div class="adminEditCon">
 	<form id="formA" action="/UserAdmin/taskLogSaveJson" method="post" enctype="multipart/form-data">
+	<input type="hidden" id="taskGroupId" name="taskGroupId" value="${taskGroupId}">
+	<input type="hidden" id="taskStatus" name="taskStatus" value="${status}">
 	<input type="hidden" id="taskId" name="taskId" value="${id}">
 		<div class="adminEditRow">
 			<div class="adminEditLable">处理:</div>
@@ -231,7 +233,7 @@ function delFile(i){
 		</div>
 		<div class="adminEditRow">
 			<div class="adminEditLable">附件:</div>
-			<div class="adminEditInput"><input class="adminInput250X20" type="file" name="files" id="file"/>&nbsp;&nbsp;<a href="#" onclick="addFile();">+增加</a></div>
+			<div class="adminEditInput"><input class="adminInput250X20" type="file" name="files" id="file"/>&nbsp;&nbsp;<a href="#" onclick="addFile();">&nbsp;</a></div>
 		</div>
 		<div class="adminEditRowFiles" id="fileRows">
 		</div>

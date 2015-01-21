@@ -40,8 +40,8 @@ public class SysAdmin extends BasicClientController {
 		renderJSON(jsonStr);
 	}
 	
-	public static void taskGroup(String id){
-		render(id);
+	public static void taskGroup(String id,String msg){
+		render(id,msg);
 	}
 	
 	public static void taskGroupJson(String id){
@@ -86,7 +86,8 @@ public class SysAdmin extends BasicClientController {
 		}else{
 			jsonStr=paramsConstruction("/TaskGroups/update",paramsMap);
 		}
-		taskGroup(id);
+		Map<String,Object> resultMap=GsonUtils.toMapObj(jsonStr);
+		taskGroup(id,resultMap.get("msg")+"");
 		//renderJSON(jsonStr);
 	}
 	
@@ -152,7 +153,7 @@ public class SysAdmin extends BasicClientController {
 		renderJSON(jsonStr);
 	}
 	
-	public static void userSaveJson(String id,String mobile,String password,String type,String name,String email,String phone,String taskGroupIds,String des,File file){
+	public static void userSaveJson(String id,String mobile,String password,String type,String name,String email,String phone,String taskGroupIds,String des,File file,String isComment){
 		Map<String,Object> result=new HashMap<String,Object>();
 		if(!(StrUtils.isNotEmpty(id))){
 			SysTools.setResultParamsErr(result);
@@ -177,6 +178,7 @@ public class SysAdmin extends BasicClientController {
 			paramsMap.put("image", files);
 		}
 		paramsMap.put("taskGroupIds", taskGroupIds);
+		paramsMap.put("isComment", isComment);
 		paramsMap.put("des", des);
 		String jsonStr="";
 		if("0".equals(id)){
