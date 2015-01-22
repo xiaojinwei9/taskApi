@@ -60,16 +60,31 @@ public class TaskLogs extends BasicController {
 		renderJSON(result);
 	}
 	
-	public static void list(String taskId,String page,String length){
+	public static void list(String comments,String taskId,String page,String length){
 		Map<String,Object> result=new HashMap<String,Object>();
 		if(!(StrUtils.isNotEmpty(page)&&StrUtils.isNumeric(page)&&StrUtils.isNotEmpty(length)&&StrUtils.isNumeric(length)&&StrUtils.isNotEmpty(taskId)&&StrUtils.isNumeric(taskId))){
 			SysTools.setResultParamsErr(result);
 			renderJSON(result);
 		}
 		Long total=0L;
-		List<TaskLog> list=TaskLog.find("available=1 and taskId=? order by id desc", Integer.valueOf(taskId)).fetch(Integer.valueOf(page), Integer.valueOf(length));
+		String commentUserIds="0";
+		String needComments="N";
+		if(StrUtils.isEmpty(comments)||"0".equals(comments)){
+			needComments="Y";
+		}
+		if("Y".equals(needComments)){
+			List userList=new ArrayList<User>();
+			userList=User.find("available=1 and type=3").fetch(1, 10000);
+			if(userList!=null&&userList.size()>0){
+				for(int i=0;i<userList.size();i++){
+					User uTemp=(User)userList.get(i);
+					commentUserIds+=","+uTemp.getId();
+				}
+			}
+		}
+		List<TaskLog> list=TaskLog.find("available=1 and taskId=? and userId not in ("+commentUserIds+") order by id desc", Integer.valueOf(taskId)).fetch(Integer.valueOf(page), Integer.valueOf(length));
 		if(list!=null&&list.size()>0){
-			total=TaskLog.count("available=1 and taskId=?",Integer.valueOf(taskId));
+			total=TaskLog.count("available=1 and taskId=? and userId not in ("+commentUserIds+")",Integer.valueOf(taskId));
 		}
 		
 		result.put("list", list);

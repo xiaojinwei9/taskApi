@@ -60,6 +60,9 @@ public class BasicClientController extends Controller {
 		if(session.get("userTaskGroupIds")!=null){
 			userInfo.put("userTaskGroupIds", session.get("userTaskGroupIds")+"");
 		}
+		if(session.get("isComment")!=null){
+			userInfo.put("isComment", session.get("isComment")+"");
+		}
 		return userInfo;
 	}
 	

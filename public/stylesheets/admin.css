@@ -111,7 +111,7 @@ border-color: #0398db;
 
 .skyConAdminTopText{
 	float:left;
-	margin-left:50px;
+	margin-left:35px;
 	padding-top:36px;
 	height:70px;
 	width:200px;
@@ -142,7 +142,7 @@ margin-top:10px;
 margin-left:0px;
 overflow:hidden;
 width:900px;
-height:30px;
+height:25px;
 }
 .adminAddPng{
 float:left;
@@ -191,8 +191,8 @@ float:left;
 margin-left:5px;
 margin-top:5px;
 overflow:hidden;
-width:30px;
-height:50px;
+width:60px;
+height:25px;
 }
 .adminTitleTxt{
 float:left;
@@ -209,7 +209,7 @@ height:50px;
 .adminListCon{
 float:left;
 overflow:hidden;
-margin-top:0px;
+margin-top:10px;
 margin-left:0px;
 width:900px;
 }
@@ -377,6 +377,14 @@ margin-top:10px;
 margin-left:0px;
 width:900px;
 }
+.adminEditConNone{
+float:left;
+overflow:hidden;
+margin-top:10px;
+margin-left:0px;
+width:900px;
+display:none;
+}
 .adminEditRow{
 float:left;
 overflow:hidden;
@@ -413,7 +421,6 @@ float:left;
 margin-top:10px;
 margin-left:0px;
 width:900px;
-height:30px;
 }
 .adminEditRowFile{
 float:left;
@@ -461,7 +468,6 @@ float:left;
 margin-top:0px;
 margin-left:0px;
 width:500px;
-height:30px;
 }
 
 /*****adminView*****/
@@ -473,10 +479,22 @@ margin-top:10px;
 margin-left:0px;
 width:900px;
 }
+.adminViewConLog{
+float:left;
+overflow:hidden;
+margin-top:10px;
+margin-left:0px;
+width:500px;
+}
 .adminViewRow{
 float:left;
 margin-left:0px;
 width:900px;
+}
+.adminViewRowTimeName{
+float:left;
+margin-left:0px;
+width:350px;
 }
 .adminViewRowLine{
 float:left;
@@ -513,14 +531,15 @@ color:red;
 }
 .adminViewTaskLogTime{
 float:left;
-margin-left:0px;
+margin-left:130px;
 width:150px;
 color:#aaaaaa;
 }
 .adminViewTaskLogUserName{
-float:left;
-margin-left:0px;
-width:100px;
+float:right;
+margin-right:0px;
+width:70px;
+text-align:right;
 }
 .adminViewDes{
 float:left;
@@ -532,13 +551,20 @@ width:300px;
 float:left;
 overflow:hidden;
 margin-left:0px;
-width:80px;
+width:100px;
 }
 .adminViewUpdateStatusLable{
 float:left;
 overflow:hidden;
 margin-left:0px;
 width:60px;
+}
+.adminViewUpdateStatusLableNone{
+float:left;
+overflow:hidden;
+margin-left:0px;
+width:60px;
+display:none;
 }
 .adminViewUpdateStatus{
 float:left;

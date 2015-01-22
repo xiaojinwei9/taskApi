@@ -1,13 +1,17 @@
-#{extends 'SysAdminMain.html' /}
+#{extends 'UserAdminMain.html' /}
 #{set title:'网站后台'/}
 <script>
 var id=${id};
 //console.log('id:',id);
+var msg='${msg}';
 $(document).ready(function(e) {
 	if(id!=0){
 		getData(id);
 	}
 	allTaskGroupsJson();
+	if(msg!=null&&msg!=''){
+		$("#tips").html(msg);
+	}
 });
 
 function getData(id){
@@ -201,7 +205,7 @@ function changeType(){
 		<div class="adminEditInput"><input class="adminInput250X20" type="text" name="des" id="des"></div>
 	</div>	
 	<div class="adminEditRow">
-		<a href="#" onclick="javascript:save();">保存</a>&nbsp;&nbsp;&nbsp;<a href="/UserAdmin/adminUsers">返回</a>&nbsp;&nbsp;<span id="tips"></span>
+		<a href="#" onclick="javascript:save();">保存</a>&nbsp;&nbsp;&nbsp;<a href="/UserAdmin/adminUsers">返回</a>&nbsp;&nbsp;<span id="tips" class="tips"></span>
 	</div>
 </form>
 </div>

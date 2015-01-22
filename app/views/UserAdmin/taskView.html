@@ -2,7 +2,9 @@
 #{set title:'网站后台'/}
 <script>
 var id=${id};
-var status="1";
+var status=1;
+var isComment='${userInfo.isComment}';
+var userType=${userInfo.userType};
 var msg='${msg}';
 //console.log('id:',id);
 $(document).ready(function(e) {
@@ -26,6 +28,13 @@ function getData(id){
 			$("#des").html(task.des);
 			//$("#image").html(task.image);
 			$("#status").val(task.status);
+			if(task.status!=4&&userType!=3){
+				$("#updateStatus").attr("class","adminViewUpdateStatusLable");
+				$("#addTaskLog").attr("class","adminEditCon");
+			}
+			if(userType==3&&isComment=='1'&&task.status==4){
+				$("#addTaskLog").attr("class","adminEditCon");
+			}
 			$("#statusView").html($("#status").find("option:selected").text());
 			status=task.status;
 		}
@@ -55,9 +64,6 @@ function getTaskLogsDatas(taskId,page,length){
 					row+='<div class="adminViewTaskLogCont">'+taskLog.cont+'</div>';
 				}
 				row+='</div>';
-				row+='<div class="adminViewRow">';
-				row+='<div class="adminViewTaskLogTime">'+formatTime(taskLog.time)+'</div><div class="adminViewTaskLogUserName" id="taskLogUserName'+taskLog.id+'">...</div>';
-				row+='</div>';
 				var filesStr='';
 				if(taskLog.files!=null&&taskLog.files.indexOf("|")!=-1){
 					var filesArr=taskLog.files.split("|");
@@ -81,9 +87,12 @@ function getTaskLogsDatas(taskId,page,length){
 				
 				if(filesStr!=''){
 					row+='<div class="adminViewRow">';
-					row+='<div class="adminViewTaskLogCont">附件:'+filesStr+'</div>';
+					row+='<div class="adminViewTaskLogCont"><img src="/public/images/taskClient/file_rar.gif" width="20" height="20">附件:&nbsp;'+filesStr+'</div>';
 					row+='</div>';
 				}
+				row+='<div class="adminViewRowTimeName">';
+				row+='<div class="adminViewTaskLogTime">'+formatTime(taskLog.time)+'</div><div class="adminViewTaskLogUserName" id="taskLogUserName'+taskLog.id+'">...</div>';
+				row+='</div>';
 				row+='<div class="adminViewRowLine"></div>';
 				listStr+=row;
 				getUserData(taskLog.id,taskLog.userId);
@@ -193,7 +202,7 @@ function delFile(i){
 <div class="adminViewCon">
 	<div class="adminViewRow">
 		<div class="adminViewName" id="name"></div>
-		<div class="adminViewStatus" id="statusView"></div>
+		<div class="adminViewStatus" id="statusView"></div><a href="#" onclick="javascript:goBack();">返回</a>
 	</div>
 	<div class="adminViewRow">
 		<div class="adminViewDes" id="des"></div>
@@ -203,9 +212,9 @@ function delFile(i){
 <div class="adminViewCon">
 	<div class="adminViewRow">
 		<div class="adminViewFiles">
-			<a href="/UserAdmin/files?taskId=${id}">查看文件</a>
+			<img src="/public/images/taskClient/file_rar.gif" width="20" height="20">&nbsp;<a href="/UserAdmin/files?taskGroupId=${taskGroupId}&status=${status}&taskId=${id}">查看文件</a>
 		</div>
-		<div class="adminViewUpdateStatusLable">
+		<div id="updateStatus" class="adminViewUpdateStatusLableNone">
 			<a href="#" onclick="javascript:showUpdateStatus();">更改状态</a>
 		</div>
 		<div class="adminViewUpdateStatusNone" id="adminViewUpdateStatus">
@@ -214,7 +223,6 @@ function delFile(i){
 				<option value="2">待审核</option>
 				<option value="3">待确稿</option>
 				<option value="4">待评价</option>
-				<option value="5">已完成</option>
 			</select>
 		</div>
 		<div class="adminViewUpdateStatusTips" id="statusTips"></div>
@@ -222,7 +230,7 @@ function delFile(i){
 </div>	
 <br>
 
-<div class="adminEditCon">
+<div class=adminEditConNone id="addTaskLog">
 	<form id="formA" action="/UserAdmin/taskLogSaveJson" method="post" enctype="multipart/form-data">
 	<input type="hidden" id="taskGroupId" name="taskGroupId" value="${taskGroupId}">
 	<input type="hidden" id="taskStatus" name="taskStatus" value="${status}">
@@ -238,11 +246,11 @@ function delFile(i){
 		<div class="adminEditRowFiles" id="fileRows">
 		</div>
 		<div class="adminEditRow">
-			<a href="#" onclick="javascript:save();">保存</a>&nbsp;&nbsp;&nbsp;<a href="#" onclick="javascript:goBack();">返回</a>&nbsp;&nbsp;<span class="tips" id="tips"></span>
+			<a href="#" onclick="javascript:save();">保存</a>&nbsp;&nbsp;&nbsp;<span class="tips" id="tips"></span>
 		</div>
 	</form>
 </div>
-<div class="adminViewCon" id="list">
+<div class="adminViewConLog" id="list">
 </div>
 <div id="pages" class="adminPages">
 </div>

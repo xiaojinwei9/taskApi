@@ -27,13 +27,16 @@ public class SysAdmin extends BasicClientController {
 		render();
 	}
 	
-	public static void taskGroupsJson(String page,String length){
+	public static void taskGroupsJson(String userId,String page,String length){
 		Map<String,Object> result=new HashMap<String,Object>();
 		if(!(StrUtils.isNotEmpty(page)&&StrUtils.isNotEmpty(length))){
 			SysTools.setResultParamsErr(result);
 			renderJSON(GsonUtils.mapToString(result));
 		}
 		Map<String, String> paramsMap = new HashMap<String, String>();
+		if(StrUtils.isNotEmpty(userId)&&!"0".equals(userId)){
+		paramsMap.put("userId", userId);
+		}
 		paramsMap.put("page", page);
 		paramsMap.put("length", length);
 		String jsonStr=paramsConstruction("/TaskGroups/list",paramsMap);

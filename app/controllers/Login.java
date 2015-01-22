@@ -34,6 +34,17 @@ public class Login extends BasicClientController {
     		session.put("userType", userObj.get("type")+"");
     		session.put("userName", userObj.get("name")+"");
     		session.put("userTaskGroupIds", userObj.get("taskGroupIds")+"");
+    		session.put("isComment", userObj.get("isComment")+"");
+    		if("3".equals(userObj.get("type")+"")){
+    			String userTaskGroupIds=userObj.get("taskGroupIds")+"";
+    			if(userTaskGroupIds.indexOf(",")!=-1){
+    				userTaskGroupIds=userTaskGroupIds.substring(userTaskGroupIds.indexOf(",")+1, userTaskGroupIds.length());
+    				String userTaskGroupId=userTaskGroupIds.substring(0, userTaskGroupIds.indexOf(","));
+    				session.put("userTaskGroupIds", userTaskGroupId);
+    			}else{
+    				session.put("userTaskGroupIds", "");
+    			}
+    		}
 		}
 		renderJSON(jsonStr);
 	}

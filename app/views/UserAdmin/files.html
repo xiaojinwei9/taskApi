@@ -17,7 +17,7 @@ function getTaskData(id){
 		success:function(result){
 			//console.log(result);
 			var task=result.task;
-			$("#taskName").html(task.name);
+			$("#taskName").html(task.name+'&nbsp;的文件列表.');
 		}
 	});
 }
@@ -33,11 +33,13 @@ function getDatas(taskId){
 			////console.log(result);
 			var list=result.list;
 			var listStr='<div class="adminListRow">';
-			listStr+='<div class="adminListCell220">文件列表[点击下载]</div>';
+			listStr+='<div class="adminListCell220">文件下载:右健另存为...</div>';
 			listStr+='<div class="adminListCell180">上传时间</div>';
 			listStr+='<div class="adminListCell80">上传者</div>';
 			listStr+='</div>';
+			var ii=0;
 			for(var i=0;i<list.length;i++){
+				ii++;
 				//console.log(list[i]);
 				var file=list[i];
 				var row='';
@@ -46,6 +48,9 @@ function getDatas(taskId){
 				row+='<div class="adminListCell80" id="userName'+i+'">...</div>';
 				listStr+='<div class="adminListRow">'+row+'</div>';
 				getUserData(i,file.userId);
+			}
+			if(ii==0){
+				listStr+='<div class="adminListRow">暂无文件</div>';
 			}
 			$("#list").html(listStr);
 		}
@@ -76,7 +81,7 @@ function formatTime(cellvalue){
 </script>
 <div id="add" class="adminAddCon">
 <div class="adminTitleTxt" id="taskName"></div>
-<div class="adminAddTxt"><a href="/UserAdmin/taskView?id=${taskId}">返回</a></div>
+<div class="adminAddTxt"><a href="/UserAdmin/taskView?taskGroupId=${taskGroupId}&status=${status}&id=${taskId}">返回</a></div>
 </div>
 
 <div id="list" class="adminListCon">

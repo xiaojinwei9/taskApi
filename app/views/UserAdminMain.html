@@ -22,7 +22,7 @@
 		 		<ul>
 		 			#{if userInfo.userType=='1'||userInfo.userType=='2'}
 		 			<li>
-			 			<a href="/UserAdmin/taskGroups">项目列表</a>
+			 			<a href="/UserAdmin/taskGroups">项目管理</a>
 			 		</li>
 		 			#{/if}
 		 			#{if taskGroupId!=null}
@@ -42,9 +42,11 @@
 			 			<a href="/UserAdmin/users?taskGroupId=${taskGroupId}">通信录</a>
 			 		</li>
 			 		#{/if}
+			 		#{if userInfo.userType=='1'}
 			 		<li>
 			 			<a href="/UserAdmin/adminUsers">用户管理</a>
 			 		</li>
+			 		#{/if}
 			 		<li>
 			 			<a href="/UserAdmin/user">个人设置</a>
 			 		</li>

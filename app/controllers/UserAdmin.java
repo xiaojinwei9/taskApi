@@ -25,6 +25,11 @@ public class UserAdmin extends BasicClientController {
 	public static void index(){
 		Map<String,String> userInfo=getUserInfo();
 		Logger.info("userInfo:"+userInfo);
+		if(userInfo.get("userType").equals("3")){
+    		if(StrUtils.isNotEmpty(userInfo.get("userTaskGroupIds")+"")){
+    			tasks("1", userInfo.get("userTaskGroupIds")+"");
+    		}
+		}
 		render(userInfo);
 	}
 	
@@ -206,8 +211,14 @@ public class UserAdmin extends BasicClientController {
 			SysTools.setResultParamsErr(result);
 			renderJSON(GsonUtils.mapToString(result));
 		}
+		String comments="0";
+		Map<String,String> userInfo=getUserInfo();
+		if("1".equals(userInfo.get("userType")+"")){
+			comments="1";
+		}
 		Map<String, String> paramsMap = new HashMap<String, String>();
 		paramsMap.put("taskId", taskId);
+		paramsMap.put("comments", comments);
 		paramsMap.put("page", page);
 		paramsMap.put("length", length);
 		String jsonStr=paramsConstruction("/TaskLogs/list",paramsMap);
@@ -250,7 +261,14 @@ public class UserAdmin extends BasicClientController {
 	public static void user(){
 		Map<String,String> userInfo=getUserInfo();
 		String id=userInfo.get("userId");
-		render(id,userInfo);
+		if(userInfo.get("userType").equals("3")){
+    		if(StrUtils.isNotEmpty(userInfo.get("userTaskGroupIds")+"")){
+    			String taskGroupId=userInfo.get("userTaskGroupIds")+"";
+    			render(id,userInfo,taskGroupId);
+    		}
+		}else{
+			render(id,userInfo);
+		}
 	}
 	
 	public static void userJson(){
@@ -323,8 +341,10 @@ public class UserAdmin extends BasicClientController {
 		renderJSON(jsonStr);
 	}
 	
-	public static void files(String taskId){
-		render(taskId);
+	public static void files(String taskGroupId,String status,String taskId){
+		Map<String,String> userInfo=getUserInfo();
+		Logger.info("userInfo:"+userInfo);
+		render(taskGroupId,status,taskId,userInfo);
 	}
 	
 	public static void filesJson(String taskId){
@@ -372,22 +392,26 @@ public class UserAdmin extends BasicClientController {
 		paramsMap.put("isComment", isComment);
 		paramsMap.put("des", des);
 		String jsonStr="";
+		String msg="";
 		if("0".equals(id)){
 			jsonStr=paramsConstruction("/Users/add",paramsMap);
-			Gson gson = new Gson();
-	    	Type typeMap=(Type) new TypeToken<Map<String, Object>>() {}.getType();   
-	    	Map<String,Object> map=gson.fromJson(jsonStr,typeMap);
-	    	Map<String,Object> user=(Map<String,Object>)map.get("user");
-	    	id=user.get("id")+"";
+	    	Map<String,Object> map=GsonUtils.toMapObj(jsonStr);
+	    	if("100".equals(map.get("code"))){
+	    		Map<String,Object> user=(Map<String,Object>)map.get("user");
+	    		id=user.get("id")+"";
+	    	}
+	    	msg=map.get("msg")+"";
 		}else{
 			jsonStr=paramsConstruction("/Users/update",paramsMap);
+			Map<String,Object> map=GsonUtils.toMapObj(jsonStr);
+			msg=map.get("msg")+"";
 		}
 		//renderJSON(jsonStr);
-		adminUser(id);
+		adminUser(id,msg);
 	}
 	
-	public static void adminUser(String id){
+	public static void adminUser(String id,String msg){
 		Map<String,String> userInfo=getUserInfo();
-		render(id,userInfo);
+		render(id,userInfo,msg);
 	}
 }
