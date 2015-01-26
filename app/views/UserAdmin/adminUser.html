@@ -17,7 +17,7 @@ $(document).ready(function(e) {
 function getData(id){
 	$.ajax({
 		type:'POST',
-		url:'/SysAdmin/userJson?id='+id+'&nd='+new Date().getTime(),
+		url:'/UserAdmin/userJson?id='+id+'&nd='+new Date().getTime(),
 		error:function(err){
 			////console.log(err);
 		},
@@ -57,7 +57,7 @@ function getData(id){
 function getTaskGroupByUserId(userId){
 	$.ajax({
 		type:'POST',
-		url:'/SysAdmin/taskGroupsByUserIdJson?userId='+userId+'&nd='+new Date().getTime(),
+		url:'/UserAdmin/taskGroupsByUserIdJson?userId='+userId+'&nd='+new Date().getTime(),
 		error:function(err){
 			////console.log(err);
 		},
@@ -78,7 +78,7 @@ function getTaskGroupByUserId(userId){
 function allTaskGroupsJson(){
 	$.ajax({
 		type:'POST',
-		url:'/SysAdmin/allTaskGroupsJson?nd='+new Date().getTime(),
+		url:'/UserAdmin/allTaskGroupsJson?nd='+new Date().getTime(),
 		error:function(err){
 			////console.log(err);
 		},

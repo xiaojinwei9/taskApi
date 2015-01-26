@@ -31,11 +31,7 @@ function login(){
 				////console.log(result);
 				if(result.code==100){
 					$("#msg").html("登录成功,正在跳转...");
-					//if(result.user.type==1){
-					//	window.location.href='/SysAdmin/index';
-					//}else{
-						window.location.href='/UserAdmin/index';
-					//}
+					window.location.href='/UserAdmin/index';
 				}else{
 					$("#msg").html(result.msg);
 				}

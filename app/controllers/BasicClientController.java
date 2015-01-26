@@ -95,7 +95,7 @@ public class BasicClientController extends Controller {
 		Map<String, String> fileMap = new HashMap<String, String>();
 		
 		//fileMap.put("userfile", filepath);
-		String url="http://www.recb.com.cn"+method;
+		String url=Cons.api_url+method;
 		//String url="http://localhost"+method;
 		String ret = formUpload(url, paramsMap, fileMap);
 		Logger.info("ret:"+ret);
@@ -237,7 +237,7 @@ public class BasicClientController extends Controller {
 		String fileNameB=nowTimeStr+"_"+rannum+fileType;
 		
 		fileNameB="/public/uploads/"+fileNameB;
-		String url=Cons.www_url+fileNameB;
+		String url=Cons.client_url+fileNameB;
 		String filePath=Play.applicationPath.getAbsoluteFile()+fileNameB;
 		Logger.info("filePath:"+filePath);
 		Logger.info("fileUrl:"+url);

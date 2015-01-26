@@ -61,7 +61,7 @@ function getDatas(taskId){
 function getUserData(id,userId){
 	$.ajax({
 		type:'POST',
-		url:'/SysAdmin/userJson?id='+userId+'&nd='+new Date().getTime(),
+		url:'/UserAdmin/userJson?id='+userId+'&nd='+new Date().getTime(),
 		error:function(err){
 			////console.log(err);
 		},

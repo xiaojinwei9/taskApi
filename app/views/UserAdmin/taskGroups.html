@@ -12,7 +12,7 @@ $(document).ready(function(e) {
 function getDatas(page,length){
 	$.ajax({
 		type:'POST',
-		url:'/SysAdmin/taskGroupsJson?userId='+userId+'&page='+page+'&length='+length+'&nd='+new Date().getTime(),
+		url:'/UserAdmin/taskGroupsJson?userId='+userId+'&page='+page+'&length='+length+'&nd='+new Date().getTime(),
 		error:function(err){
 			////console.log(err);
 		},
@@ -59,7 +59,7 @@ function del(id){
   	if(conf == true) {
 		$.ajax({
 			type:'POST',
-			url:'/SysAdmin/taskGroupDelJson?id='+id+'&nd='+new Date().getTime(),
+			url:'/UserAdmin/taskGroupDelJson?id='+id+'&nd='+new Date().getTime(),
 			error:function(err){
 				////console.log(err);
 			},

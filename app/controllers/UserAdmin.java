@@ -273,6 +273,7 @@ public class UserAdmin extends BasicClientController {
 	
 	public static void userJson(){
 		Map<String,String> userInfo=getUserInfo();
+		Logger.info("userInfo:"+userInfo);
 		String id=userInfo.get("userId");
 		Map<String,Object> result=new HashMap<String,Object>();
 		if(!(StrUtils.isNotEmpty(id))){
@@ -413,5 +414,112 @@ public class UserAdmin extends BasicClientController {
 	public static void adminUser(String id,String msg){
 		Map<String,String> userInfo=getUserInfo();
 		render(id,userInfo,msg);
+	}
+	
+	/////////////////////
+	public static void taskGroupDelJson(String id){
+		Map<String,Object> result=new HashMap<String,Object>();
+		if(!(StrUtils.isNotEmpty(id))){
+			SysTools.setResultParamsErr(result);
+			renderJSON(GsonUtils.mapToString(result));
+		}
+		Map<String, String> paramsMap = new HashMap<String, String>();
+		paramsMap.put("id", id);
+		String jsonStr=paramsConstruction("/TaskGroups/del",paramsMap);
+		renderJSON(jsonStr);
+	}
+	
+	
+	public static void taskGroupsJson(String userId,String page,String length){
+		Map<String,Object> result=new HashMap<String,Object>();
+		if(!(StrUtils.isNotEmpty(page)&&StrUtils.isNotEmpty(length))){
+			SysTools.setResultParamsErr(result);
+			renderJSON(GsonUtils.mapToString(result));
+		}
+		Map<String, String> paramsMap = new HashMap<String, String>();
+		if(StrUtils.isNotEmpty(userId)&&!"0".equals(userId)){
+		paramsMap.put("userId", userId);
+		}
+		paramsMap.put("page", page);
+		paramsMap.put("length", length);
+		String jsonStr=paramsConstruction("/TaskGroups/list",paramsMap);
+		renderJSON(jsonStr);
+	}
+	
+	public static void taskGroupJson(String id){
+		Map<String,Object> result=new HashMap<String,Object>();
+		if(!(StrUtils.isNotEmpty(id))){
+			SysTools.setResultParamsErr(result);
+			renderJSON(GsonUtils.mapToString(result));
+		}
+		Map<String, String> paramsMap = new HashMap<String, String>();
+		paramsMap.put("id", id);
+		String jsonStr=paramsConstruction("/TaskGroups/get",paramsMap);
+		renderJSON(jsonStr);
+	}
+	
+	public static void userDelJson(String id){
+		Map<String,Object> result=new HashMap<String,Object>();
+		if(!(StrUtils.isNotEmpty(id))){
+			SysTools.setResultParamsErr(result);
+			renderJSON(GsonUtils.mapToString(result));
+		}
+		Map<String, String> paramsMap = new HashMap<String, String>();
+		paramsMap.put("id", id);
+		String jsonStr=paramsConstruction("/Users/del",paramsMap);
+		renderJSON(jsonStr);
+	}
+	
+	public static void userJson(String id){
+		Map<String,Object> result=new HashMap<String,Object>();
+		if(!(StrUtils.isNotEmpty(id))){
+			SysTools.setResultParamsErr(result);
+			renderJSON(GsonUtils.mapToString(result));
+		}
+		Map<String, String> paramsMap = new HashMap<String, String>();
+		paramsMap.put("id", id);
+		String jsonStr=paramsConstruction("/Users/get",paramsMap);
+		renderJSON(jsonStr);
+	}
+	
+	public static void taskGroupsByUserIdJson(String userId){
+		Map<String,Object> result=new HashMap<String,Object>();
+		if(!(StrUtils.isNotEmpty(userId))){
+			SysTools.setResultParamsErr(result);
+			renderJSON(GsonUtils.mapToString(result));
+		}
+		Map<String, String> paramsMap = new HashMap<String, String>();
+		paramsMap.put("userId", userId);
+		paramsMap.put("page", "1");
+		paramsMap.put("length", "100");
+		String jsonStr=paramsConstruction("/TaskGroups/list",paramsMap);
+		renderJSON(jsonStr);
+	}
+	
+	public static void allTaskGroupsJson(String userId){
+		Map<String, String> paramsMap = new HashMap<String, String>();
+		paramsMap.put("page", "1");
+		paramsMap.put("length", "1000");
+		if(StrUtils.isNotEmpty(userId)){
+			paramsMap.put("userId", userId);
+		}
+		String jsonStr=paramsConstruction("/TaskGroups/list",paramsMap);
+		renderJSON(jsonStr);
+	}
+	
+	public static void usersAllJson(String page,String length,String groupId){
+		Map<String,Object> result=new HashMap<String,Object>();
+		if(!(StrUtils.isNotEmpty(page)&&StrUtils.isNotEmpty(length))){
+			SysTools.setResultParamsErr(result);
+			renderJSON(GsonUtils.mapToString(result));
+		}
+		Map<String, String> paramsMap = new HashMap<String, String>();
+		paramsMap.put("page", page);
+		paramsMap.put("length", length);
+		if(StrUtils.isNotEmpty(groupId)&&!"0".equals(groupId)){
+			paramsMap.put("groupId", groupId);
+		}
+		String jsonStr=paramsConstruction("/Users/list",paramsMap);
+		renderJSON(jsonStr);
 	}
 }

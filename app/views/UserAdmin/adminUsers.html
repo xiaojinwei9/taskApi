@@ -9,7 +9,7 @@ $(document).ready(function(e) {
 function getDatas(taskGroupId,page,length){
 	$.ajax({
 		type:'POST',
-		url:'/SysAdmin/usersJson?page='+page+'&length='+length+'&groupId='+taskGroupId+'&nd='+new Date().getTime(),
+		url:'/UserAdmin/usersAllJson?page='+page+'&length='+length+'&groupId='+taskGroupId+'&nd='+new Date().getTime(),
 		error:function(err){
 			////console.log(err);
 		},
@@ -87,7 +87,7 @@ function getType(type){
 function getTaskGroupByUserId(userId){
 	$.ajax({
 		type:'POST',
-		url:'/SysAdmin/taskGroupsByUserIdJson?userId='+userId+'&nd='+new Date().getTime(),
+		url:'/UserAdmin/taskGroupsByUserIdJson?userId='+userId+'&nd='+new Date().getTime(),
 		error:function(err){
 			////console.log(err);
 		},
@@ -115,7 +115,7 @@ function del(id){
   	if(conf == true) {
 		$.ajax({
 			type:'POST',
-			url:'/SysAdmin/userDelJson?id='+id+'&nd='+new Date().getTime(),
+			url:'/UserAdmin/userDelJson?id='+id+'&nd='+new Date().getTime(),
 			error:function(err){
 				////console.log(err);
 			},
@@ -131,7 +131,7 @@ function del(id){
 function allTaskGroupsJson(){
 	$.ajax({
 		type:'POST',
-		url:'/SysAdmin/allTaskGroupsJson?nd='+new Date().getTime(),
+		url:'/UserAdmin/allTaskGroupsJson?nd='+new Date().getTime(),
 		error:function(err){
 			////console.log(err);
 		},

@@ -69,7 +69,7 @@ function getDatas(taskGroupId,page,length){
 function getTaskGroupData(id){
 	$.ajax({
 		type:'POST',
-		url:'/SysAdmin/taskGroupJson?id='+id+'&nd='+new Date().getTime(),
+		url:'/UserAdmin/taskGroupJson?id='+id+'&nd='+new Date().getTime(),
 		error:function(err){
 			////console.log(err);
 		},
