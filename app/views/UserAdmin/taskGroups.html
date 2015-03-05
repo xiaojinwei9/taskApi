@@ -23,7 +23,23 @@ function getDatas(page,length){
 			for(var i=0;i<list.length;i++){
 				//console.log(list[i]);
 				var taskGroup=list[i];
-				var row='<div class="adminListCell30C"></div>';
+				var logoStr="";
+				if(taskGroup.image!=null&&taskGroup.image.indexOf("|")!=-1){
+					var fileArr=taskGroup.image.split("|");
+					var filesStrB=fileArr[1];
+					if(filesStrB!=''&&filesStrB.indexOf("-")!=-1){
+						var fileArrB=filesStrB.split("-");
+						if(fileArrB.length==2){
+							logoStr=fileArrB[1];
+						}
+					}
+				}
+				var row='';
+				if(logoStr!=""){
+					row='<div class="adminListCell30C"><img src='+logoStr+' width="30" height="30"></div>';
+				}else{
+				  row='<div class="adminListCell30C"></div>';
+				}
 				row+='<div class="adminListCell370"><a href="/UserAdmin/tasks?taskGroupId='+taskGroup.id+'&status=1" title="查看任务">'+taskGroup.name+'</a></div>';
 				row+='<div class="adminListCell100">';
 				row+='<div class="adminViewPic"><a href="/UserAdmin/tasks?taskGroupId='+taskGroup.id+'&status=1" title="查看任务"><img src="/public/images/taskClient/view.png" border="0"></a></div>';

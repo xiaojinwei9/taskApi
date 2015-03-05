@@ -23,14 +23,30 @@ function getData(id){
 			//console.log(result);
 			var taskGroup=result.taskGroup;
 			$("#name").val(taskGroup.name);
-			if(taskGroup.image!=null&&taskGroup.image.indexOf("-")!=-1){
-				var filesStr='';
-				var fileArr=taskGroup.image.split("-");
-				if(fileArr.length==2){
-					filesStr='<a href="'+fileArr[1]+'" target=_blank">'+fileArr[0]+'</a>';
-				}
-				$("#fileView").html(filesStr);
-				$("#fileView").attr("class","adminEditRowFile");
+			
+			if(taskGroup.image!=null&&taskGroup.image.indexOf("|")!=-1){
+				var fileArr=taskGroup.image.split("|");
+					var filesStr='';
+					var filesStrA=fileArr[0];
+					if(filesStrA!=''&&filesStrA.indexOf("-")!=-1){
+						var fileArrA=filesStrA.split("-");
+						if(fileArrA.length==2){
+							filesStr='<a href="'+fileArrA[1]+'" target=_blank">'+fileArrA[0]+'</a>';
+							$("#fileStr1").val(filesStrA);
+						}
+						$("#fileView").html(filesStr);
+						$("#fileView").attr("class","adminEditRowFile");
+					}
+					var filesStrB=fileArr[1];
+					if(filesStrB!=''&&filesStrB.indexOf("-")!=-1){
+						var fileArrB=filesStrB.split("-");
+						if(fileArrB.length==2){
+							filesStr='<a href="'+fileArrB[1]+'" target=_blank">'+fileArrB[0]+'</a>';
+							$("#fileStr2").val(filesStrB);
+						}
+						$("#fileView2").html(filesStr);
+						$("#fileView2").attr("class","adminEditRowFile");
+					}
 			}
 			
 		}
@@ -53,6 +69,8 @@ function save(){
 <div class="adminEditCon">
 <form id="formA" action="/UserAdmin/taskGroupSaveJson" method="post" enctype="multipart/form-data">
 <input type="hidden" id="id" name="id" value="${id}">
+<input type="hidden" id="fileStr1" name="fileStr1" value="">
+<input type="hidden" id="fileStr2" name="fileStr2" value="">
 	<div class="adminEditRow">
 		<div class="adminEditLable">项目名称:</div>
 		<div class="adminEditInput"><input class="adminInput250X20" type="text" name="name" id="name"></div>
@@ -62,6 +80,12 @@ function save(){
 		<div class="adminEditInput"><input class="adminInput250X20" type="file" name="file" id="file"/>&nbsp;建议:长300px宽80px</div>
 	</div>
 	<div class="adminEditRowFileNone" id="fileView">
+	</div>
+	<div class="adminEditRow">
+		<div class="adminEditLable">图标:</div>
+		<div class="adminEditInput"><input class="adminInput250X20" type="file" name="file2" id="file2"/>&nbsp;建议:长30px宽30px</div>
+	</div>
+	<div class="adminEditRowFileNone" id="fileView2">
 	</div>
 	<div class="adminEditRow">
 		<a href="#" onclick="javascript:save();">保存</a>&nbsp;&nbsp;&nbsp;<a href="/UserAdmin/taskGroups">返回</a>&nbsp;&nbsp;<span class="tips" id="tips"></span>

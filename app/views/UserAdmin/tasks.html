@@ -42,7 +42,19 @@ function getDatas(taskGroupId,status,page,length){
 			for(var i=0;i<list.length;i++){
 				//console.log(list[i]);
 				var task=list[i];
-				var row='<div class="adminListCell30"></div>';
+				var filesStrB=task.image;
+				var logoStr="";
+				if(filesStrB!=undefined&&filesStrB!=''&&filesStrB.indexOf("-")!=-1){
+					var fileArrB=filesStrB.split("-");
+					if(fileArrB.length==2){
+						logoStr=fileArrB[1];
+					}
+				}
+				if(logoStr!=""){
+					row='<div class="adminListCell30C"><img src='+logoStr+' width="30" height="30"></div>';
+				}else{
+				  row='<div class="adminListCell30C"></div>';
+				}
 				row+='<div class="adminListCell370"><a href="/UserAdmin/taskView?taskGroupId=${taskGroupId}&status=${status}&id='+task.id+'" title="查看进度">'+task.name+'</a></div>';
 				row+='<div class="adminListCell100">';
 				row+='<div class="adminViewPic"><a href="/UserAdmin/taskView?taskGroupId=${taskGroupId}&status=${status}&id='+task.id+'" title="查看进度"><img src="/public/images/taskClient/view.png" border="0"></a></div>';

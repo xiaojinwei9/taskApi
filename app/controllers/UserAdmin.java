@@ -8,6 +8,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
+import org.apache.commons.lang.StringUtils;
+
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -45,7 +47,7 @@ public class UserAdmin extends BasicClientController {
 		render(id,userInfo,msg);
 	}
 	
-	public static void taskGroupSaveJson(String id,String name,File file){
+	public static void taskGroupSaveJson(String id,String name,File file,File file2,String fileStr1,String fileStr2){
 		Map<String,Object> result=new HashMap<String,Object>();
 		if(!(StrUtils.isNotEmpty(id))){
 			SysTools.setResultParamsErr(result);
@@ -55,14 +57,22 @@ public class UserAdmin extends BasicClientController {
 		String files="";
 		if(file!=null){
 			files=saveFile(file);
+		}else if(StringUtils.isNotEmpty(fileStr1)){
+			files=fileStr1;
+		}
+		String files2="";
+		if(file2!=null){
+			files2=saveFile(file2);
+		}else if(StringUtils.isNotEmpty(fileStr2)){
+			files2=fileStr2;
 		}
 		Map<String, String> paramsMap = new HashMap<String, String>();
 		paramsMap.put("id", id);
 		Map<String,String> userInfo=getUserInfo();
 		paramsMap.put("userId", userInfo.get("userId")+"");
 		paramsMap.put("name", name);
-		if(StrUtils.isNotEmpty(files)){
-			paramsMap.put("image", files);
+		if(StrUtils.isNotEmpty(files)||StrUtils.isNotEmpty(files2)){
+			paramsMap.put("image", files+"|"+files2);
 		}
 		String jsonStr="";
 		if("0".equals(id)){
@@ -110,10 +120,10 @@ public class UserAdmin extends BasicClientController {
 	
 	
 
-	public static void task(String taskGroupId,String status,String id){
+	public static void task(String taskGroupId,String status,String id,String msg){
 		Map<String,String> userInfo=getUserInfo();
 		Logger.info("userInfo:"+userInfo);
-		render(id,taskGroupId,status,userInfo);
+		render(id,taskGroupId,status,userInfo,msg);
 	}
 	
 	public static void taskView(String taskGroupId,String status,String id,String msg){
@@ -134,11 +144,17 @@ public class UserAdmin extends BasicClientController {
 		renderJSON(jsonStr);
 	}
 	
-	public static void taskSaveJson(String id,String name,String image,String taskGroupId,String des,String status){
+	public static void taskSaveJson(String id,String name,File file,String taskGroupId,String des,String status){
 		Map<String,Object> result=new HashMap<String,Object>();
 		if(!(StrUtils.isNotEmpty(id))){
 			SysTools.setResultParamsErr(result);
 			renderJSON(GsonUtils.mapToString(result));
+		}
+		
+		//文件处理
+		String files="";
+		if(file!=null){
+			files=saveFile(file);
 		}
 		Map<String, String> paramsMap = new HashMap<String, String>();
 		paramsMap.put("id", id);
@@ -147,15 +163,25 @@ public class UserAdmin extends BasicClientController {
 		paramsMap.put("taskGroupId", taskGroupId);
 		paramsMap.put("name", name);
 		paramsMap.put("status", status);
-		paramsMap.put("image", image);
+		if(StringUtils.isNotEmpty(files)){
+			paramsMap.put("image", files);
+		}
 		paramsMap.put("des", des);
 		String jsonStr="";
 		if("0".equals(id)){
 			jsonStr=paramsConstruction("/Tasks/add",paramsMap);
+			Gson gson = new Gson();
+	    	Type type=(Type) new TypeToken<Map<String, Object>>() {}.getType();   
+	    	Map<String,Object> map=gson.fromJson(jsonStr,type);
+	    	Map<String,Object> task=(Map<String,Object>)map.get("task");
+	    	id=task.get("id")+"";
 		}else{
 			jsonStr=paramsConstruction("/Tasks/update",paramsMap);
 		}
-		renderJSON(jsonStr);
+		Map<String,Object> resultMap=GsonUtils.toMapObj(jsonStr);
+		//String taskGroupId,String status,String id,String msg
+		task(taskGroupId,status,id,resultMap.get("msg")+"");
+		//renderJSON(jsonStr);
 	}
 	
 	

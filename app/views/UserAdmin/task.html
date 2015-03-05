@@ -5,10 +5,14 @@ var id=${id};
 //console.log('id:',id);
 var userId=${userInfo.userId};
 var taskGroupId=${taskGroupId};
+var msg='${msg}';
 $(document).ready(function(e) {
 	getTaskGroupData(taskGroupId);
 	if(id!='0'){
 		getData(id);
+	}
+	if(msg!=null&&msg!=''){
+		$("#tips").html(msg);
 	}
 });
 
@@ -39,15 +43,25 @@ function getData(id){
 			var task=result.task;
 			$("#name").val(task.name);
 			$("#status").val(task.status);
-			//$("#image").val(task.image);
 			$("#des").val(task.des);
+			//$("#image").val(task.image);
+			var filesStrA=task.image;
+			if(filesStrA!=undefined&&filesStrA!=''&&filesStrA.indexOf("-")!=-1){
+				var fileArrA=filesStrA.split("-");
+				if(fileArrA.length==2){
+					filesStr='<a href="'+fileArrA[1]+'" target=_blank">'+fileArrA[0]+'</a>';
+					$("#fileStr1").val(filesStrA);
+				}
+				$("#fileView").html(filesStr);
+				$("#fileView").attr("class","adminEditRowFile");
+			}
 		}
 	});
 }
 
 
 //////////
-function save(){
+/* function save(){
 	//console.log('save,id:',id);
 	var name=$("#name").val();
 	if(name==''){
@@ -70,8 +84,17 @@ function save(){
 			document.getElementById('tips').innerHTML=result.msg;
 		}
 	});
-}
+} */
 
+function save(){
+	var name=$("#name").val();
+	if(name==''){
+		alert('项目名称不能为空!');
+		return false;
+	}else{
+		$("#formA").submit();
+	}
+}
 
 function goBack(){
 	var status=$("#status").val();
@@ -79,6 +102,9 @@ function goBack(){
 }
 </script>
 <div class="adminEditCon">
+<form id="formA" action="/UserAdmin/taskSaveJson" method="post" enctype="multipart/form-data">
+<input type="text" id="id" name="id" value="${id}">
+<input type="text" id="taskGroupId" name="taskGroupId" value="${taskGroupId}">
 	<div class="adminEditRow">
 	<div class="adminEditLable">所属项目:</div>
 		<div class="adminEditInput" id="taskGroupName"></div>
@@ -89,7 +115,7 @@ function goBack(){
 	</div>
 	<div class="adminEditRowNone">
 		<div class="adminEditLable">状态:</div>
-		<div class="adminEditInput"><select class="adminInput250X25" id="status">
+		<div class="adminEditInput"><select class="adminInput250X25" id="status" name="status"">
 		<option value="1">待初稿</option>
 		<option value="2">待审核</option>
 		<option value="3">待确稿</option>
@@ -101,7 +127,14 @@ function goBack(){
 		<div class="adminEditInputH45"><textarea rows="2" cols="32" name="des" id="des"></textarea></div>
 	</div>
 	<div class="adminEditRow">
+		<div class="adminEditLable">图片:</div>
+		<div class="adminEditInput"><input class="adminInput250X20" type="file" name="file" id="file"/>&nbsp;建议:长30px宽30px</div>
+	</div>
+	<div class="adminEditRowFileNone" id="fileView">
+	</div>
+	<div class="adminEditRow">
 	<a href="#" onclick="javascript:save();" >保存</a>&nbsp;&nbsp;<a href="#" onclick="javascript:goBack();">返回</a>&nbsp;&nbsp;<span class="tips" id="tips"></span>
 	</div>
+</form>
 </div>
 
