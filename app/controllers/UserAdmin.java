@@ -457,6 +457,11 @@ public class UserAdmin extends BasicClientController {
 	
 	
 	public static void taskGroupsJson(String userId,String page,String length){
+		Logger.info("taskGroupsJsontaskGroupsJsontaskGroupsJsontaskGroupsJson");
+		Logger.info("taskGroupsJsontaskGroupsJsontaskGroupsJsontaskGroupsJson");
+		Logger.info("taskGroupsJsontaskGroupsJsontaskGroupsJsontaskGroupsJson");
+		Logger.info("taskGroupsJsontaskGroupsJsontaskGroupsJsontaskGroupsJson");
+		Logger.info("taskGroupsJsontaskGroupsJsontaskGroupsJsontaskGroupsJson");
 		Map<String,Object> result=new HashMap<String,Object>();
 		if(!(StrUtils.isNotEmpty(page)&&StrUtils.isNotEmpty(length))){
 			SysTools.setResultParamsErr(result);
@@ -470,6 +475,7 @@ public class UserAdmin extends BasicClientController {
 		paramsMap.put("length", length);
 		String jsonStr=paramsConstruction("/TaskGroups/list",paramsMap);
 		renderJSON(jsonStr);
+		Logger.info("taskGroupsJsontaskGroupsJsontaskGroupsJsontaskGroupsJson");
 	}
 	
 	public static void taskGroupJson(String id){
