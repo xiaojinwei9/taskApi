@@ -36,11 +36,11 @@ public class BasicClientController extends Controller {
 		}else if("2".equals(id)){
 			statusName="待审核";
 		}else if("3".equals(id)){
-			statusName="待确稿";
+			statusName="待修改";
 		}else if("4".equals(id)){
-			statusName="待评价";
+			statusName="待确稿";
 		}else if("5".equals(id)){
-			statusName="已完成";
+			statusName="待评价";
 		}
 		return statusName;
 		

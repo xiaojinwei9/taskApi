@@ -149,5 +149,12 @@ public class StrUtils extends StringUtils{
     }  
 	public static void main(String[] args){
 		//System.out.println(md5("aaaaaaa"));
+		String aa="aaa$bbb";
+		String[] aaArr=aa.split("/$");
+		System.out.println("len:"+aaArr.length);
+		for(int i=0;i<aaArr.length;i++){
+			System.out.println(i+":"+aaArr[i]);
+		}
+		
 	}
 }

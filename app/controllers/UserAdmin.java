@@ -297,7 +297,7 @@ public class UserAdmin extends BasicClientController {
 		}
 	}
 	
-	public static void userJson(){
+	public static void userMeJson(){
 		Map<String,String> userInfo=getUserInfo();
 		Logger.info("userInfo:"+userInfo);
 		String id=userInfo.get("userId");
@@ -457,11 +457,6 @@ public class UserAdmin extends BasicClientController {
 	
 	
 	public static void taskGroupsJson(String userId,String page,String length){
-		Logger.info("taskGroupsJsontaskGroupsJsontaskGroupsJsontaskGroupsJson");
-		Logger.info("taskGroupsJsontaskGroupsJsontaskGroupsJsontaskGroupsJson");
-		Logger.info("taskGroupsJsontaskGroupsJsontaskGroupsJsontaskGroupsJson");
-		Logger.info("taskGroupsJsontaskGroupsJsontaskGroupsJsontaskGroupsJson");
-		Logger.info("taskGroupsJsontaskGroupsJsontaskGroupsJsontaskGroupsJson");
 		Map<String,Object> result=new HashMap<String,Object>();
 		if(!(StrUtils.isNotEmpty(page)&&StrUtils.isNotEmpty(length))){
 			SysTools.setResultParamsErr(result);

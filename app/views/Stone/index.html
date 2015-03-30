@@ -1,0 +1,93 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<title>恒盛石业</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta http-equiv="Cache-Control" content="no-store"/>
+		<meta http-equiv="Pragma" content="no-cache"/>
+<style>
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,embed,figure,figcaption,footer,header,hgroup,menu,nav,output,ruby,section,summary,time,mark,audio,video{margin:0;padding:0;border:0;font-size:100%;font:inherit;vertical-align:baseline}article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section{display:block}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}table{border-collapse:collapse;border-spacing:0}
+
+</style>
+
+    <style>
+body {
+ 	background: #000; 
+}
+
+img {
+  display: block;
+	
+  margin: 0 auto;
+}
+
+canvas {
+	display: block;
+
+	margin:0 auto;
+
+  /* uncomment to test overlay */
+
+  /*
+  position: absolute;
+  left: 0;
+  opacity: .5;
+  top: 0;
+  */  
+
+}
+
+.lanrenzhijia {
+position: fixed;
+left: -100%;
+right: 100%;
+top: 120px;
+bottom: 0;
+text-align: center;
+font-size: 0;
+}
+
+.content {
+display: inline-block;
+vertical-align: middle;
+position: relative;
+right: -100%;
+background:url("/public/stone/index/hs.png");
+width: 100px;
+height: 100px;
+}
+
+.lanrenzhijia2 {
+position: fixed;
+left: -100%;
+right: 100%;
+top: 250px;
+bottom: 0;
+text-align: center;
+font-size: 0;
+}
+
+.content2 {
+display: inline-block;
+vertical-align: middle;
+position: relative;
+right: -100%;
+background:url("/public/stone/index/gd2.png");
+width: 580px;
+height: 367px;
+}
+</style>
+		<script src="@{'/public/stone/index/prefixfree.min.js'}" type="text/javascript" charset="${_response_encoding}"></script>
+	</head>
+    <body>
+    <div class="lanrenzhijia">
+  	<div class="content"></div>
+	</div>
+		<canvas id="c"></canvas>
+		<script src="@{'/public/stone/index/jquery.js'}" type="text/javascript" charset="${_response_encoding}"></script>
+		<script src="@{'/public/stone/index/index.js'}" type="text/javascript" charset="${_response_encoding}"></script>
+	<div class="lanrenzhijia2">
+  	<div class="content2"></div>
+	</div>
+    </body>
+</html>

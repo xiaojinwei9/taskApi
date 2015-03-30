@@ -8,7 +8,7 @@ $(document).ready(function(e) {
 function getData(){
 	$.ajax({
 		type:'POST',
-		url:'/UserAdmin/userJson?nd='+new Date().getTime(),
+		url:'/UserAdmin/userMeJson?nd='+new Date().getTime(),
 		error:function(err){
 			////console.log(err);
 		},

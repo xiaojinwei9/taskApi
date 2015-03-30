@@ -33,10 +33,13 @@
 			 			<a href="/UserAdmin/tasks?taskGroupId=${taskGroupId}&status=2">#{if status=='2'}[#{/if}待审核#{if status=='2'}]#{/if}</a>
 			 		</li>
 			 		<li>
-			 			<a href="/UserAdmin/tasks?taskGroupId=${taskGroupId}&status=3">#{if status=='3'}[#{/if}待确稿#{if status=='3'}]#{/if}</a>
+			 			<a href="/UserAdmin/tasks?taskGroupId=${taskGroupId}&status=3">#{if status=='3'}[#{/if}待修改#{if status=='3'}]#{/if}</a>
 			 		</li>
 			 		<li>
-			 			<a href="/UserAdmin/tasks?taskGroupId=${taskGroupId}&status=4">#{if status=='4'}[#{/if}待评价#{if status=='4'}]#{/if}</a>
+			 			<a href="/UserAdmin/tasks?taskGroupId=${taskGroupId}&status=4">#{if status=='4'}[#{/if}待确稿#{if status=='4'}]#{/if}</a>
+			 		</li>
+			 		<li>
+			 			<a href="/UserAdmin/tasks?taskGroupId=${taskGroupId}&status=5">#{if status=='5'}[#{/if}待评价#{if status=='5'}]#{/if}</a>
 			 		</li>
 			 		<li>
 			 			<a href="/UserAdmin/users?taskGroupId=${taskGroupId}">通信录</a>
