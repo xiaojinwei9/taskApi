@@ -136,6 +136,31 @@ public class Tasks extends BasicController {
 		SysTools.setResultOpSec(result);
 		renderJSON(result);
 	}
+	public static void status(String userId){
+		Map<String,Object> result=new HashMap<String,Object>();
+		if(!(StrUtils.isNotEmpty(userId)&&StrUtils.isNumeric(userId))){
+			SysTools.setResultParamsErr(result);
+			renderJSON(result);
+		}
+		String groupIds="0";
+		User user=User.findById(Long.valueOf(userId));
+		if(StrUtils.isNotEmpty(user.taskGroupIds)&&user.taskGroupIds.length()>2){
+				groupIds=user.taskGroupIds.substring(1, user.taskGroupIds.length()-1);
+		}
+		Logger.info("groupIds:"+groupIds);
+		Long status1=Task.count("available=1 and status=1 and taskGroupId in ("+groupIds+")");
+		Long status2=Task.count("available=1 and status=1 and taskGroupId in ("+groupIds+")");
+		Long status3=Task.count("available=1 and status=1 and taskGroupId in ("+groupIds+")");
+		Long status4=Task.count("available=1 and status=1 and taskGroupId in ("+groupIds+")");
+		Long status5=Task.count("available=1 and status=1 and taskGroupId in ("+groupIds+")");
+		result.put("status1", status1);
+		result.put("status2", status2);
+		result.put("status3", status3);
+		result.put("status4", status4);
+		result.put("status5", status5);
+		SysTools.setResultOpSec(result);
+		renderJSON(result);
+	}
 	
 	public static void del(String id){
 		Map<String,Object> result=new HashMap<String,Object>();
