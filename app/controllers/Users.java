@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import models.User;
+import play.Logger;
 import play.mvc.With;
 import utils.StrUtils;
 import utils.SysTools;
@@ -104,7 +105,7 @@ public class Users extends BasicController {
 		renderJSON(result);
 	}
 	
-	public static void list(String groupId,String page,String length){
+	public static void list(String userId,String groupId,String page,String length){
 		Map<String,Object> result=new HashMap<String,Object>();
 		if(!(StrUtils.isNotEmpty(page)&&StrUtils.isNumeric(page)&&StrUtils.isNotEmpty(length)&&StrUtils.isNumeric(length))){
 			SysTools.setResultParamsErr(result);
@@ -112,7 +113,36 @@ public class Users extends BasicController {
 		}
 		Long total=0L;
 		List list=new ArrayList<User>();
-		if(StrUtils.isEmpty(groupId)){
+		if(StrUtils.isNotEmpty(userId)){
+			User u=User.findById(Long.valueOf(userId));
+			String groupIds=u.taskGroupIds;
+			if(StrUtils.isNotEmpty(groupIds)&groupIds.indexOf(",")!=-1){
+				String sqlStr="";
+				String[] groupIdsArr=groupIds.split(",");
+				boolean strAnd=true;
+				if(groupIdsArr.length>0){
+					for(int i=0;i<groupIdsArr.length;i++){
+						if(StrUtils.isNotEmpty(groupIdsArr[i])&&StrUtils.isNumeric(groupIdsArr[i])){
+							if(strAnd){
+								sqlStr+=" and taskGroupIds like '%,"+groupIdsArr[i]+",%' ";
+								strAnd=false;
+							}else{
+								sqlStr+=" or taskGroupIds like '%,"+groupIdsArr[i]+",%' ";
+							}
+						}
+					}
+					String sql="available=1 "+sqlStr+"order by id asc";
+					String sql2="available=1 "+sqlStr;
+					Logger.info("sql:"+sql);
+					Logger.info("sql2:"+sql2);
+					list=User.find(sql).fetch(Integer.valueOf(page), Integer.valueOf(length));
+					if(list!=null&&list.size()>0){
+						total=User.count(sql2);
+					}
+				}
+				
+			}
+		}else if(StrUtils.isEmpty(groupId)){
 			list=User.find("available=1 order by id asc").fetch(Integer.valueOf(page), Integer.valueOf(length));
 			if(list!=null&&list.size()>0){
 				total=User.count("available=1");
