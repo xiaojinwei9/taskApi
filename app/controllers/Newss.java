@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import models.News;
+import models.NewsToUser;
 import models.Task;
 import models.User;
 import play.Logger;
@@ -55,13 +56,18 @@ public class Newss extends BasicController {
 		renderJSON(result);
 	}
 	
-	public static void get(String id){
+	public static void get(String id,String userId){
 		Map<String,Object> result=new HashMap<String,Object>();
-		if(!(StrUtils.isNotEmpty(id)&&StrUtils.isNumeric(id))){
+		if(!(StrUtils.isNotEmpty(id)&&StrUtils.isNumeric(id)&&StrUtils.isNotEmpty(userId)&&StrUtils.isNumeric(userId))){
 			SysTools.setResultParamsErr(result);
 			renderJSON(result);
 		}
 		News news=News.findById(Long.valueOf(id));
+		List<NewsToUser> nuList=NewsToUser.find("newsId=? and userId=?",Integer.valueOf(id),Integer.valueOf(userId)).fetch();
+		if(!(nuList!=null&&nuList.size()>0)){
+			NewsToUser nu=new NewsToUser(news.newsGroupId,Integer.valueOf(id),Integer.valueOf(userId));
+			nu.save();
+		}
 		SysTools.setResultOpSec(result);
 		result.put("news", news);
 		renderJSON(result);
@@ -86,13 +92,12 @@ public class Newss extends BasicController {
 				total=News.count("available=1");
 			}
 		}
-		int i=0;
 		for(News news:list){
-			i++;
-			if(i<3){
-				news.status=1;
-			}else{
+			List<NewsToUser> nuList=NewsToUser.find("newsId=? and userId=?",Integer.valueOf(news.getId()+""),Integer.valueOf(userId)).fetch();
+			if(nuList!=null&&nuList.size()>0){
 				news.status=2;
+			}else{
+				news.status=1;
 			}
 		}
 		result.put("list", list);
@@ -119,4 +124,29 @@ public class Newss extends BasicController {
 		renderJSON(result);
 	}
 	
+	
+	public static void status(String userId){
+		Map<String,Object> result=new HashMap<String,Object>();
+		if(!(StrUtils.isNotEmpty(userId)&&StrUtils.isNumeric(userId))){
+			SysTools.setResultParamsErr(result);
+			renderJSON(result);
+		}
+		Long status1=News.count("available=1 and newsGroupId=1");
+		Long status1a=NewsToUser.count("userId="+userId+" and newsGroupId=1");
+		Long status2=News.count("available=1 and newsGroupId=2");
+		Long status2a=NewsToUser.count("userId="+userId+" and newsGroupId=2");
+		Long status3=News.count("available=1 and newsGroupId=3");
+		Long status3a=NewsToUser.count("userId="+userId+"  and newsGroupId=3");
+		Long status4=News.count("available=1 and newsGroupId=4");
+		Long status4a=NewsToUser.count("userId="+userId+" and newsGroupId=4");
+		Long status5=News.count("available=1 and newsGroupId=5");
+		Long status5a=NewsToUser.count("userId="+userId+"  and newsGroupId=5");
+		result.put("status1", status1-status1a);
+		result.put("status2", status2-status2a);
+		result.put("status3", status3-status3a);
+		result.put("status4", status4-status4a);
+		result.put("status5", status5-status5a);
+		SysTools.setResultOpSec(result);
+		renderJSON(result);
+	}
 }
